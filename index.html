@@ -377,6 +377,13 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--em);display:inline-block;margin-left:4px;vertical-align:middle}
 .sync-dot.saving{background:var(--am);animation:pulse .5s infinite alternate}
 @keyframes pulse{from{opacity:1}to{opacity:.3}}
+
+.import-overlay{position:fixed;inset:0;background:rgba(11,17,32,.85);z-index:400;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;backdrop-filter:blur(4px)}
+.import-overlay.sh{display:flex}
+.import-spinner{width:40px;height:40px;border:3px solid var(--bdr);border-top:3px solid var(--em);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.import-overlay .io-text{font-size:14px;color:var(--t1);font-weight:600}
+.import-overlay .io-sub{font-size:12px;color:var(--t2)}
 </style>
 </head>
 <body>
@@ -389,12 +396,17 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G">
 Sign in with Google
 </button>
-
 <div class="login-status" id="loginStatus"></div>
 </div></div>
+
+<div class="import-overlay" id="importOverlay">
+<div class="import-spinner"></div>
+<div class="io-text" id="ioText">Importing transactions...</div>
+<div class="io-sub" id="ioSub">Please wait</div>
+</div>
+
 <div class="mob-h"><button class="ham" onclick="tSb()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button><div class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><span style="font-weight:600;font-size:15px">SpiceMoney</span></div>
 <div class="sb-ov" id="sbOv" onclick="tSb()"></div>
-
 <aside class="sidebar" id="sb">
 <div class="sb-brand"><div class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="sb-text"><h3>SpiceMoney</h3><span>Transaction Tracker</span></div></div>
 <button class="sb-toggle" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg></button>
@@ -404,6 +416,7 @@ Sign in with Google
 <div class="nav-i" onclick="quickEntry()" data-pg="newentry"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg><span class="nav-label">New Entry</span><span class="nav-tip">New Entry</span></div>
 <div class="nav-i" onclick="goPg('transactions')" data-pg="transactions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span class="nav-label">Transactions</span><span class="nav-tip">Transactions</span></div>
 <div class="nav-i" onclick="goPg('reports')" data-pg="reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg><span class="nav-label">Reports</span><span class="nav-tip">Reports</span></div>
+</nav>
 </nav>
 <div class="user-bar" id="userBar" style="display:none">
 <img id="userPhoto" src="" alt="">
@@ -618,27 +631,41 @@ function fbLoad(callback){
 if(!fbUser){if(callback)callback();return}
 fbDb.ref('users/'+fbUser.uid).once('value').then(function(snapshot){
 var data=snapshot.val();
-if(data){
-if(data.transactions&&data.transactions.length>0){
+if(data&&data.transactions&&data.transactions.length>0){
+// Firebase has data — use it
 TXS=data.transactions;
-}
-if(data.openingBalances){
-OB=data.openingBalances;
-}
-// Also update localStorage as cache
 localStorage.setItem('sm_t',JSON.stringify(TXS));
+}else{
+// Firebase is empty — keep localStorage data and push it to Firebase
+TXS=JSON.parse(localStorage.getItem('sm_t')||'[]');
+if(TXS.length>0){
+// Upload local data to Firebase
+fbSave();
+}
+}
+if(data&&data.openingBalances){
+OB=data.openingBalances;
 localStorage.setItem('sm_ob',JSON.stringify(OB));
+}else{
+OB=JSON.parse(localStorage.getItem('sm_ob')||'{}');
+if(Object.keys(OB).length>0){
+fbSave();
+}
 }
 fbInitialLoadDone=true;
 if(callback)callback();
 }).catch(function(err){
 console.error('Firebase load error:',err);
+// On error, use localStorage
+TXS=JSON.parse(localStorage.getItem('sm_t')||'[]');
+OB=JSON.parse(localStorage.getItem('sm_ob')||'{}');
 fbInitialLoadDone=true;
 if(callback)callback();
 });
 }
 
 // Auth state listener
+var _authHandled=false;
 fbAuth.onAuthStateChanged(function(user){
 if(user){
 fbUser=user;
@@ -647,17 +674,30 @@ document.getElementById('userBar').style.display='flex';
 document.getElementById('userName').textContent=user.displayName||user.email;
 document.getElementById('userPhoto').src=user.photoURL||'';
 
-// Load data from Firebase, then initialize app
+if(!_authHandled){
+_authHandled=true;
 fbLoad(function(){
 initApp();
 });
+}
 }else{
 fbUser=null;
+_authHandled=false;
 fbInitialLoadDone=false;
 document.getElementById('loginScreen').style.display='flex';
 document.getElementById('userBar').style.display='none';
 }
 });
+
+function showImportOverlay(text,sub){
+document.getElementById('ioText').textContent=text||'Importing transactions...';
+document.getElementById('ioSub').textContent=sub||'Please wait';
+document.getElementById('importOverlay').classList.add('sh');
+}
+function hideImportOverlay(){
+document.getElementById('importOverlay').classList.remove('sh');
+}
+
 var R=[{id:1,type:"Aeps-WD",from:"AEPS",to:"Cash",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:2,type:"Aeps-Deposit",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:3,type:"Aeps-Failed",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:4,type:"Aeps-Refund",from:"AEPS",to:"Cash",flow:"Inflow",biz:"Non-Business",bank:"Non-Bank"},{id:5,type:"Transfer-In",from:"Bank",to:"Cash",flow:"Inflow",biz:"Business",bank:"Bank"},{id:6,type:"Transfer-Out",from:"Cash",to:"Bank",flow:"Outflow",biz:"Business",bank:"Bank"},{id:7,type:"Transfer-In",from:"Phonepe-Wallet",to:"Cash",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:8,type:"Transfer-Out",from:"Cash",to:"Phonepe-Wallet",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:9,type:"Agent to Distributor",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:10,type:"Distributor To Agent",from:"AEPS",to:"Cash",flow:"Inflow",biz:"Non-Business",bank:"Non-Bank"},{id:11,type:"Internal-Investment",from:"Bank",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:12,type:"Internal-Settlement",from:"Phonepe-Business",to:"Bank",flow:"Inflow",biz:"Business",bank:"Bank"},{id:13,type:"Internal-Settlement",from:"AEPS",to:"Bank",flow:"Inflow",biz:"Non-Business",bank:"Bank"},{id:14,type:"Internal-Commission",from:"Bank",to:"Bank",flow:"Inflow",biz:"Non-Business",bank:"Bank"},{id:15,type:"Internal-Commission",from:"Phonepe-Wallet",to:"Phonepe-Wallet",flow:"Inflow",biz:"Non-Business",bank:"Non-Bank"},{id:16,type:"Internal-Expense",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:17,type:"Internal-Expense",from:"Phonepe-Wallet",to:"Phonepe-Wallet",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:18,type:"Internal-Expense",from:"Bank",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:19,type:"Internal-Transfer",from:"Cash",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:20,type:"Internal-Topup",from:"Bank",to:"Phonepe-Wallet",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:21,type:"Internal-Topup",from:"Bank",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:22,type:"Internal-ATM",from:"Bank",to:"Cash",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:23,type:"Service-Out",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:24,type:"Service-In",from:"Phonepe-Wallet",to:"Phonepe-Wallet",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:25,type:"Service-Out",from:"Cash",to:"Phonepe-Wallet",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:26,type:"Service-In",from:"Cash",to:"Cash",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:27,type:"Service-Out",from:"Bank",to:"Bank",flow:"Outflow",biz:"Business",bank:"Bank"},{id:28,type:"Service-In",from:"Bank",to:"Bank",flow:"Inflow",biz:"Business",bank:"Bank"},{id:29,type:"Service-Out",from:"Cash",to:"Bank",flow:"Outflow",biz:"Business",bank:"Bank"}];
 var CT=['Transfer-Out','Transfer-In','Aeps-WD','Aeps-Deposit'];
 var AN={"AEPS":"Spicemoney","Cash":"Cash","Bank":"Bank","Phonepe-Wallet":"PhonePe-Wallet","Phonepe-Business":"PhonePe-Business"};
@@ -998,20 +1038,17 @@ input.value='';
 function processImportRows(rows){
 pendingCSV=rows;
 
-// Auto-detect type
 var headers=Object.keys(rows[0]||{}).filter(function(k){return k.charAt(0)!=='_'});
 var headerStr=headers.join(' ').toLowerCase();
 var isSpicemoney=headerStr.indexOf('product')>=0&&(headerStr.indexOf('opening bal')>=0||headerStr.indexOf('closing bal')>=0);
 csvImportType=isSpicemoney?'spicemoney':'googlesheet';
 
-// Parse transactions
 if(csvImportType==='spicemoney'){
 parsedCsvTxns=parseSpicemoneyCsv(rows);
 }else{
 parsedCsvTxns=parseGoogleSheetCsv(rows);
 }
 
-// Show modal
 document.getElementById('importMsg').textContent='';
 document.getElementById('importDetect').style.display='block';
 document.getElementById('importDetectIcon').textContent=csvImportType==='spicemoney'?'🏦':'📊';
@@ -1029,11 +1066,37 @@ document.getElementById('csvTo').value=dates[dates.length-1]||'';
 document.getElementById('csvRange').style.display='flex';
 document.getElementById('csvActs').style.display='flex';
 
+// Build buttons using createElement to avoid quote escaping issues
+var actsEl=document.getElementById('csvActs');
+actsEl.innerHTML='';
+
+var cancelBtn=document.createElement('button');
+cancelBtn.className='btn btn-s btn-sm';
+cancelBtn.textContent='Cancel';
+cancelBtn.onclick=function(){closeImport()};
+actsEl.appendChild(cancelBtn);
+
 if(csvImportType==='googlesheet'){
-document.getElementById('csvActs').innerHTML='<button class="btn btn-s btn-sm" onclick="closeImport()">Cancel</button><button class="btn btn-d btn-sm" onclick="doImportFinal(\'replace\')" title="Deletes ALL existing transactions and replaces with this file">⚠ Replace All</button><button class="btn btn-p btn-sm" onclick="doImportFinal(\'merge\')">Add New</button>';
+var replaceBtn=document.createElement('button');
+replaceBtn.className='btn btn-d btn-sm';
+replaceBtn.title='Deletes ALL existing transactions and replaces with this file';
+replaceBtn.textContent='⚠ Replace All';
+replaceBtn.onclick=function(){doImportFinal('replace')};
+actsEl.appendChild(replaceBtn);
+
+var addBtn=document.createElement('button');
+addBtn.className='btn btn-p btn-sm';
+addBtn.textContent='Add New';
+addBtn.onclick=function(){doImportFinal('merge')};
+actsEl.appendChild(addBtn);
 }else{
-document.getElementById('csvActs').innerHTML='<button class="btn btn-s btn-sm" onclick="closeImport()">Cancel</button><button class="btn btn-p btn-sm" onclick="doImportFinal(\'merge\')">Import</button>';
+var importBtn=document.createElement('button');
+importBtn.className='btn btn-p btn-sm';
+importBtn.textContent='Import';
+importBtn.onclick=function(){doImportFinal('merge')};
+actsEl.appendChild(importBtn);
 }
+
 updCsvPreview();
 }
 document.getElementById('importModal').classList.add('sh');
@@ -1067,8 +1130,7 @@ return !isNaN(d)?d.toISOString().split('T')[0]:new Date().toISOString().split('T
 
 // === CSV IMPORT — process in REVERSE so bottom-most CSV row gets oldest createdAt timestamp ===
 // This way, within each date group, bottom-of-CSV rows appear at the top (descending order)
-//doImport function start here
-//doImport function ends here
+
 function showSkipModal(rows,added,total){lastSkipped=rows.slice().sort(function(a,b){var an=a.row==='?'?9999:parseInt(a.row);var bn=b.row==='?'?9999:parseInt(b.row);return an-bn});skipFilterCat='All';var cats={};lastSkipped.forEach(function(r){cats[r.category]=(cats[r.category]||0)+1});var catKeys=Object.keys(cats);var filterHTML='<button class="active" onclick="filterSkip(\'All\',this)">All ('+lastSkipped.length+')</button>';catKeys.forEach(function(c){filterHTML+='<button onclick="filterSkip(\''+c.replace(/'/g,"\\'")+'\',this)">'+eh(c)+' ('+cats[c]+')</button>'});document.getElementById('skipFilter').innerHTML=filterHTML;document.getElementById('skipSubtitle').textContent=lastSkipped.length+' row'+(lastSkipped.length>1?'s':'')+' could not be imported — review reasons below';document.getElementById('skipSummary').innerHTML='<b>'+added+'</b> imported · <b>'+lastSkipped.length+'</b> skipped · <b>'+total+'</b> total in CSV';renderSkipList();document.getElementById('skipModal').classList.add('sh')}
 function filterSkip(cat,btn){skipFilterCat=cat;var bs=document.querySelectorAll('#skipFilter button');for(var i=0;i<bs.length;i++)bs[i].classList.remove('active');btn.classList.add('active');renderSkipList()}
 function renderSkipList(){var filtered=skipFilterCat==='All'?lastSkipped:lastSkipped.filter(function(r){return r.category===skipFilterCat});var body=document.getElementById('skipBody');if(!filtered.length){body.innerHTML='<div class="empty">No rows in this category</div>';return}body.innerHTML=filtered.map(function(r){return '<div class="skip-row"><div class="sr-head"><span class="sr-num">Row '+r.row+'</span><span class="sr-reason">⚠ '+eh(r.category)+': '+eh(r.reason)+'</span></div><div class="sr-data">'+r.data+'</div></div>'}).join('')}
@@ -1705,9 +1767,31 @@ importSource:'phonepe-pdf'
 });
 added++;
 }
-sv();closePdfModal();
+localStorage.setItem('sm_t',JSON.stringify(TXS));
+closePdfModal();
+showImportOverlay('Saving '+added+' transactions...','Syncing to cloud');
+if(fbUser){
+showSyncDot(true);
+fbDb.ref('users/'+fbUser.uid).set({transactions:TXS,openingBalances:OB,savedAt:new Date().toISOString()}).then(function(){
+showSyncDot(false);
+hideImportOverlay();
+sanitizeTransactions();
+rTxns();rDash();
 toast(added+' imported, '+skipped+' duplicates skipped','success');
-setTimeout(function(){location.reload()},500);
+}).catch(function(){
+hideImportOverlay();
+sanitizeTransactions();
+rTxns();rDash();
+toast(added+' imported, '+skipped+' duplicates skipped','success');
+});
+}else{
+setTimeout(function(){
+hideImportOverlay();
+sanitizeTransactions();
+rTxns();rDash();
+toast(added+' imported, '+skipped+' duplicates skipped','success');
+},200);
+}
 }
 function closePdfModal(){document.getElementById('pdfModal').classList.remove('sh');parsedPdfTxns=[]}
 
@@ -1982,13 +2066,13 @@ prev.innerHTML='<div class="pm-stat"><span class="l">Total in range</span><span 
 }
 
 function doImportFinal(mode){
-mode=mode||'merge';
+if(!mode)mode='merge';
 var from=document.getElementById('csvFrom').value;
 var to=document.getElementById('csvTo').value;
 var filtered=parsedCsvTxns.filter(function(t){return(!from||t.date>=from)&&(!to||t.date<=to)});
-
-if(mode==='replace'&&csvImportType==='googlesheet'){
-// Replace ALL — only for Google Sheet
+var isSpicemoney=csvImportType==='spicemoney';
+// ===== REPLACE ALL MODE (Google Sheet only) =====
+if(mode==='replace'&&!isSpicemoney){
 var baseTime=Date.now();
 var totalF=filtered.length;
 TXS=[];
@@ -2001,48 +2085,65 @@ ruleId:t.ruleId,type:t.type,from:t.from,to:t.to,flow:t.flow,
 biz:t.biz,bank:t.bank,amount:t.amount,
 commission:t.commission||0,discount:0,netCommission:t.commission||0,
 date:t.date,status:t.status,txnId:t.txnId,
-note:t.note||'',createdAt:rowCreatedAt
+note:t.note||'',createdAt:rowCreatedAt,
+reviewStatus:t.reviewStatus||'',
+importSource:t.reviewStatus?'googlesheet':''
 });
 }
-sv();closeImport();
-toast(added+' added, '+skipped+' skipped','success');
-setTimeout(function(){location.reload()},500);
+
+localStorage.setItem('sm_t',JSON.stringify(TXS));
+closeImport();
+showImportOverlay('Replacing all transactions...','Syncing to cloud');
+if(fbUser){
+showSyncDot(true);
+fbDb.ref('users/'+fbUser.uid).set({transactions:TXS,openingBalances:OB,savedAt:new Date().toISOString()}).then(function(){
+showSyncDot(false);
+hideImportOverlay();
+sanitizeTransactions();
+rTxns();rDash();
+toast(TXS.length+' transactions replaced','success');
+}).catch(function(){
+hideImportOverlay();
+sanitizeTransactions();
+rTxns();rDash();
+toast(TXS.length+' transactions replaced','success');
+});
+}else{
+setTimeout(function(){
+hideImportOverlay();
+sanitizeTransactions();
+rTxns();rDash();
+toast(TXS.length+' transactions replaced','success');
+},200);
+}
 return;
 }
 
-// Merge mode — add new, skip duplicates
+// ===== MERGE MODE (Add New — for both Spicemoney and Google Sheet) =====
 var existingIds={};
-for(var x=0;x<TXS.length;x++){if(TXS[x].txnId)existingIds[TXS[x].txnId]=true}
-var existingFPs=null;
-if(csvImportType==='googlesheet'){
-existingFPs=new Set(TXS.map(function(t){return (t.date||'')+(t.txnId||'').replace(/^IMP.*/,'')+(t.amount||'')+(t.type||'')+(t.from||'')+(t.to||'')}));
+for(var x=0;x<TXS.length;x++){
+if(TXS[x].txnId)existingIds[TXS[x].txnId]=true;
 }
-
-var added=0,skipped=0,skippedRows=[];
-
+var added=0;
+var skipped=0;
+var skippedRows=[];
 var baseTime2=Date.now();
 var totalF2=filtered.length;
-var isSpicemoney=csvImportType==='spicemoney';
-
 for(var j=0;j<filtered.length;j++){
 var pt=filtered[j];
+
+// Duplicate check
 var isDup=false;
 var dupReason='';
-
-//var isStrict=!isSpicemoney;
 if(isSpicemoney){
-// Spicemoney: check original (pre-suffix) ID against existing
-// If original ID matches any existing normalized ID, it means
-// this failed/refund pair was already imported via Google Sheet
 isDup=isDuplicateOrigId(pt._origTid||pt.txnId,existingIds);
-if(isDup)dupReason='Original ID "'+( pt._origTid||pt.txnId)+'" already exists in app (imported via Google Sheet)';
+if(isDup)dupReason='Original ID "'+(pt._origTid||pt.txnId)+'" already exists';
 }else{
-// Google Sheet: exact match only
 isDup=!!existingIds[pt.txnId];
 if(isDup)dupReason='Transaction ID "'+pt.txnId+'" already exists';
 }
 
-if(isDup){          
+if(isDup){
 skipped++;
 skippedRows.push({
 row:pt._rowNum||j+2,
@@ -2054,16 +2155,24 @@ continue;
 }
 
 var rowCreatedAt2=new Date(baseTime2-(totalF2-j)).toISOString();
-
 var newTx={
 id:Date.now().toString()+j+Math.random().toString(36).substr(2,5),
-ruleId:pt.ruleId,type:pt.type,from:pt.from,to:pt.to,flow:pt.flow,
-biz:pt.biz,bank:pt.bank,amount:pt.amount,
-commission:pt.commission||0,discount:0,netCommission:pt.commission||0,
-date:pt.date,status:pt.status,txnId:pt.txnId,
-note:pt.note||'',createdAt:rowCreatedAt2,
-reviewStatus:pt.reviewStatus||'',
-importSource:pt.reviewStatus?'googlesheet':''
+ruleId:pt.ruleId,
+type:pt.type,
+from:pt.from,
+to:pt.to,
+flow:pt.flow,
+biz:pt.biz,
+bank:pt.bank,
+amount:pt.amount,
+commission:pt.commission||0,
+discount:0,
+netCommission:pt.commission||0,
+date:pt.date,
+status:pt.status,
+txnId:pt.txnId,
+note:pt.note||'',
+createdAt:rowCreatedAt2
 };
 
 // Add review tags for Spicemoney CSV imports
@@ -2073,26 +2182,51 @@ newTx.importSource='spicemoney-csv';
 newTx.note='Review - Imported from Spicemoney CSV';
 }
 
+// Preserve review status from Google Sheet export
+if(!isSpicemoney&&pt.reviewStatus){
+newTx.reviewStatus=pt.reviewStatus;
+newTx.importSource='googlesheet';
+}
+
 TXS.unshift(newTx);
 added++;
 }
 
-sv();closeImport();
-toast(TXS.length+' transactions replaced','success');
+// Save and show results
+localStorage.setItem('sm_t',JSON.stringify(TXS));
+closeImport();
+showImportOverlay('Saving '+added+' transactions...','Syncing to cloud');
+
+if(fbUser){
+showSyncDot(true);
+fbDb.ref('users/'+fbUser.uid).set({transactions:TXS,openingBalances:OB,savedAt:new Date().toISOString()}).then(function(){
+showSyncDot(false);
+hideImportOverlay();
+sanitizeTransactions();
+rTxns();rDash();
+toast(added+' added, '+skipped+' skipped','success');
 if(skippedRows.length>0)showSkipModal(skippedRows,added,filtered.length);
-setTimeout(function(){location.reload()},500);
-return;
+}).catch(function(){
+hideImportOverlay();
+sanitizeTransactions();
+rTxns();rDash();
+toast(added+' added, '+skipped+' skipped','success');
+if(skippedRows.length>0)showSkipModal(skippedRows,added,filtered.length);
+});
+}else{
+setTimeout(function(){
+hideImportOverlay();
+sanitizeTransactions();
+rTxns();rDash();
+toast(added+' added, '+skipped+' skipped','success');
+if(skippedRows.length>0)showSkipModal(skippedRows,added,filtered.length);
+},200);
+}
 }
 // App initialization is now triggered by Firebase auth state listener
 // If Firebase fails to load, fallback to local-only mode after 5 seconds
 document.addEventListener('DOMContentLoaded',function(){
-setTimeout(function(){
-if(!fbInitialLoadDone){
-console.log('Firebase timeout — starting in offline mode');
-document.getElementById('loginScreen').style.display='none';
-initApp();
-}
-},5000);
+// Nothing — Firebase auth handles everything
 });
 </script>
 </body>
