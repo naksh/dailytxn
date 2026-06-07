@@ -365,11 +365,15 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .login-btn:hover{background:var(--card-h);border-color:var(--t3)}
 .login-btn img{width:20px;height:20px}
 .login-status{font-size:12px;color:var(--t3);margin-top:8px}
-.user-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;margin:8px;background:var(--input);border-radius:8px;font-size:11px;color:var(--t2);border:1px solid var(--bdr)}
-.user-bar img{width:24px;height:24px;border-radius:50%}
+.user-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;margin:8px;background:var(--input);border-radius:10px;font-size:11px;color:var(--t2);border:1px solid var(--bdr);border-top:1px solid var(--bdr);overflow:hidden}
+.user-bar img{width:24px;height:24px;border-radius:50%;flex-shrink:0}
 .user-bar .ub-name{flex:1;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.user-bar .ub-out{background:none;border:none;color:var(--t3);cursor:pointer;font-size:10px;padding:2px 6px;border-radius:4px;transition:.2s}
+.user-bar .ub-out{background:none;border:none;color:var(--t3);cursor:pointer;font-size:10px;padding:2px 6px;border-radius:4px;transition:.2s;flex-shrink:0}
 .user-bar .ub-out:hover{color:var(--rs)}
+.sidebar.collapsed .user-bar .ub-name{display:none}
+.sidebar.collapsed .user-bar .ub-out{display:none}
+.sidebar.collapsed .user-bar .sync-dot{display:none}
+.sidebar.collapsed .user-bar{justify-content:center;padding:10px;margin:8px 4px}
 .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--em);display:inline-block;margin-left:4px;vertical-align:middle}
 .sync-dot.saving{background:var(--am);animation:pulse .5s infinite alternate}
 @keyframes pulse{from{opacity:1}to{opacity:.3}}
@@ -394,18 +398,20 @@ Sign in with Google
 <aside class="sidebar" id="sb">
 <div class="sb-brand"><div class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="sb-text"><h3>SpiceMoney</h3><span>Transaction Tracker</span></div></div>
 <button class="sb-toggle" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg></button>
-<div class="user-bar" id="userBar" style="display:none">
-<img id="userPhoto" src="" alt="">
-<span class="ub-name" id="userName"></span>
-<span class="sync-dot" id="syncDot" title="Synced"></span>
-<button class="ub-out" onclick="signOutUser()">Logout</button>
-</div>
+
 <nav class="sb-nav">
 <div class="nav-i act" onclick="goPg('dashboard')" data-pg="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span class="nav-label">Dashboard</span><span class="nav-tip">Dashboard</span></div>
 <div class="nav-i" onclick="quickEntry()" data-pg="newentry"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg><span class="nav-label">New Entry</span><span class="nav-tip">New Entry</span></div>
 <div class="nav-i" onclick="goPg('transactions')" data-pg="transactions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span class="nav-label">Transactions</span><span class="nav-tip">Transactions</span></div>
 <div class="nav-i" onclick="goPg('reports')" data-pg="reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg><span class="nav-label">Reports</span><span class="nav-tip">Reports</span></div>
 </nav>
+<div class="user-bar" id="userBar" style="display:none">
+<img id="userPhoto" src="" alt="">
+<span class="ub-name" id="userName"></span>
+<span class="sync-dot" id="syncDot" title="Synced"></span>
+<button class="ub-out" onclick="signOutUser()">Logout</button>
+</div>
+</aside>
 </aside>
 <div class="main">
 <div class="page act" id="pg-dashboard">
