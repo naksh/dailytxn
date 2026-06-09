@@ -311,11 +311,13 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 @media(max-width:768px){.sidebar{transform:translateX(-100%);width:260px!important;z-index:200}.sidebar.open{transform:translateX(0)}.sidebar.collapsed{width:260px!important}.sb-ov.sh{display:block;z-index:199}.mob-h{display:flex}.main{margin-left:0!important;padding-top:56px}.pb{padding:16px}.ph{padding:16px}.sg2,.sg3,.sg4{grid-template-columns:1fr 1fr}.sg5{grid-template-columns:1fr 1fr}.db{grid-template-columns:1fr}.fg{grid-template-columns:1fr}.ti-card{grid-template-columns:1fr 1fr}.mr-grid{grid-template-columns:1fr}.toolbar{flex-wrap:wrap}.fbar{flex-wrap:wrap}.ti-c .t-title{max-width:30vw}.sb-toggle{display:none}.sticky-tools{top:56px}.month-slider .ms-label{min-width:130px;padding:8px 10px;font-size:12px}.acc-bd-summary{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.sg2,.sg3,.sg4,.sg5{grid-template-columns:1fr}.ti-card{grid-template-columns:1fr}.ti-item{border-right:none!important;border-bottom:1px solid var(--bdr);padding:8px 16px}.ti-item:last-child{border:none}.acc-bd-summary{grid-template-columns:1fr}}
 
-.review-dot{display:inline-flex;align-items:center;margin-left:4px;vertical-align:middle}
-.review-dot.pending{color:var(--am)}
-.review-dot.pending svg{width:12px;height:12px;stroke:var(--am);fill:none;stroke-width:2.5}
-.review-dot.reviewed{color:var(--em)}
-.review-dot.reviewed svg{width:12px;height:12px;stroke:var(--em);fill:none;stroke-width:2.5}
+.td-info-sep{display:flex;gap:0;flex-wrap:wrap;margin-bottom:8px;font-size:12px;color:var(--t2)}
+.td-info-sep .tdi{display:flex;align-items:center;gap:4px;padding:0 10px}
+.td-info-sep .tdi:first-child{padding-left:0}
+.td-info-sep .tdi:not(:last-child){border-right:1px solid var(--bdr)}
+.td-info-sep .tdi-label{color:var(--t3);font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+.td-info-sep .tdi-val{font-weight:500}
+.review-dot{width:7px;height:7px;border-radius:50%;background:var(--am);display:inline-block;margin-left:5px;vertical-align:middle;flex-shrink:0}
 .dash-notice{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--am);font-weight:500}
 .dash-notice svg{width:18px;height:18px;stroke:var(--am);fill:none;stroke-width:2;flex-shrink:0}
 .dash-notice .dn-count{font-weight:800;color:var(--t1)}
@@ -384,6 +386,44 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .import-overlay .io-text{font-size:14px;color:var(--t1);font-weight:600}
 .import-overlay .io-sub{font-size:12px;color:var(--t2)}
+
+.qr-btn{color:var(--am);border-color:rgba(245,158,11,.3)}
+.qr-btn.active{color:var(--am);border-color:var(--am);background:rgba(245,158,11,.1)}
+.qr-bar{display:none;align-items:center;gap:10px;padding:10px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;margin-bottom:8px;flex-wrap:wrap}
+.qr-bar.sh{display:flex}
+.qr-bar .qr-info{font-size:13px;color:var(--am);font-weight:600;flex:1}
+.qr-bar .qr-remaining{font-size:11px;color:var(--t2)}
+.qr-group-header{display:flex;align-items:center;gap:8px;padding:10px 14px;margin:4px 0;background:var(--input);border:1px solid var(--bdr);border-radius:8px;font-size:12px;font-weight:700;color:var(--t1);cursor:pointer;user-select:none;transition:.2s}
+.qr-group-body.collapsed+.qr-group-header{margin-top:4px}
+.qr-group-header .qrg-count{color:var(--t3);font-weight:500;margin-left:auto}
+.qr-group-header .qrg-selall{font-size:11px;color:var(--am);cursor:pointer;margin-left:8px;font-weight:600;padding:2px 8px;border-radius:4px;border:1px solid rgba(245,158,11,.3);transition:.2s}
+.qr-group-header .qrg-selall:hover{background:rgba(245,158,11,.15)}
+.qr-group-header{display:flex;align-items:center;gap:8px;padding:10px 14px;margin:12px 0 6px;background:var(--input);border:1px solid var(--bdr);border-radius:8px;font-size:12px;font-weight:700;color:var(--t1);cursor:pointer;user-select:none;transition:.2s}
+.qr-group-header:hover{border-color:var(--t3)}
+.qr-group-header .qrg-arrow{transition:transform .2s;flex-shrink:0}
+.qr-group-header .qrg-arrow.collapsed{transform:rotate(-90deg)}
+.qr-group-body{overflow:hidden;transition:max-height .25s ease}
+.qr-group-body.collapsed{max-height:0!important;overflow:hidden}
+.modal-qr{max-width:520px}
+.modal-qr .mqr-count{font-size:14px;font-weight:700;color:var(--am);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.modal-qr .mqr-field{margin-bottom:12px}
+.modal-qr .mqr-field label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:4px}
+.modal-qr .mqr-field select,.modal-qr .mqr-field input,.modal-qr .mqr-field textarea{width:100%;background:var(--input);border:1px solid var(--bdr);border-radius:8px;padding:10px 12px;color:var(--t1);font-size:13px;font-family:inherit;outline:none}
+.modal-qr .mqr-field select:focus,.modal-qr .mqr-field input:focus,.modal-qr .mqr-field textarea:focus{border-color:var(--em)}
+.modal-qr .mqr-field textarea{min-height:50px;resize:vertical}
+.modal-qr .mqr-toggle{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--input);border:1px solid var(--bdr);border-radius:8px;cursor:pointer;margin-bottom:12px;transition:.2s}
+.modal-qr .mqr-toggle:hover{border-color:var(--am)}
+.modal-qr .mqr-toggle .mt-switch{width:36px;height:20px;border-radius:10px;background:var(--bdr);position:relative;transition:.2s;flex-shrink:0}
+.modal-qr .mqr-toggle .mt-switch.on{background:var(--am)}
+.modal-qr .mqr-toggle .mt-switch::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.2s}
+.modal-qr .mqr-toggle .mt-switch.on::after{left:18px}
+.modal-qr .mqr-toggle .mt-label{font-size:12px;color:var(--t2);font-weight:500}
+.modal-qr .mqr-toggle .mt-label b{color:var(--t1)}
+.modal-qr .mqr-preview{background:var(--input);border-radius:8px;padding:10px;margin-bottom:14px;font-size:11px;color:var(--t2);max-height:120px;overflow-y:auto}
+.modal-qr .mqr-preview .mp-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(42,48,80,.3)}
+.modal-qr .mqr-preview .mp-row:last-child{border:none}
+.modal-qr .mqr-preview .mp-row .mp-amt{font-weight:600;color:var(--t1)}
+.modal-qr .mqr-preview .mp-row .mp-comm{color:var(--am);font-weight:600}
 </style>
 </head>
 <body>
@@ -454,8 +494,10 @@ Sign in with Google
 <button class="tb-btn" onclick="exCSV()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span class="tip">Export XLSX</span></button>
 <div class="tb-sep"></div>
 <button class="tb-btn" id="filterToggle" onclick="tFl()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span class="tip">Filters</span></button>
-<button class="tb-btn" id="msToggle" onclick="toggleMS()"><svg width="800px" height="800px" viewBox="0 0 24 24" aria-labelledby="checkboxIconTitle" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" color="currentColor"> <title id="checkboxIconTitle">Checkbox (selected)</title> <rect x="21" y="3" width="20" height="20" rx="5" transform="rotate(90 21 3)"/> <path d="M6.66666 12.6667L9.99999 16L17.3333 8.66669"/></svg><span class="tip">Select</span></button>
+<button class="tb-btn" id="msToggle" onclick="toggleMS()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span class="tip">Select</span></button>
+<div class="tb-sep"></div>
 <button class="tb-btn" id="viewToggle" onclick="toggleView()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 6h20M2 13h20M2 20h20M2 6h.01M2 13h.01M2 20h.01M2"/></svg><span class="tip">Compact</span></button>
+<button class="tb-btn qr-btn" id="qrToggle" onclick="toggleQuickReview()" title="Quick Review"><svg viewBox="0 0 125.36 125.88" fill="currentColor"><title>Quick Review</title><path d="M60.18,2.39l1.57,0-8.1,13.53A47.08,47.08,0,0,0,34.52,102l-3.6,13.12A60.18,60.18,0,0,1,60.18,2.39Zm10,47.71H83.66a3.54,3.54,0,0,1,3.54,3.54,3.49,3.49,0,0,1-.61,2l-40,67.26-6.49-2.53L52.73,74.26l-16,.27a3.52,3.52,0,0,1-3.09-5.31L75.12,0l6.54,2.29L70.17,50.1Zm20-39.69a60.19,60.19,0,0,1-30,112.34l-1.59,0,8-13.53A47.08,47.08,0,0,0,87,23.87l3.24-13.46Z"/></svg><span class="tip">Quick Review</span></button>
 <button class="tb-btn" onclick="diagnoseData()" style="color:var(--am);border-color:rgba(245,158,11,.3)" title="Diagnose Data"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="tip">Diagnose</span></button>
 </div>
 <div class="fbar" id="fBar">
@@ -475,6 +517,16 @@ Sign in with Google
 <select id="flReview"><option value="">All</option><option value="pending">Pending</option><option value="reviewed">Reviewed</option><option value="none">No tag</option></select>
 <button class="f-reset" id="fReset" onclick="resetFilters()">✕ Reset</button>
 <span class="f-count" id="fCount"></span>
+</div>
+<div class="qr-bar" id="qrBar">
+<span class="qr-info" id="qrInfo">0 selected</span>
+<span class="qr-remaining" id="qrRemaining"></span>
+<button class="btn btn-s btn-xs" onclick="toggleAllQrGroups()" id="qrCollapseBtn" title="Collapse/Expand All">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:12px;height:12px;stroke-width:2.5;vertical-align:-1px"><polyline points="6 9 12 15 18 9"/></svg>
+<span id="qrCollapseText">Collapse All</span>
+</button>
+<button class="btn btn-p btn-xs" onclick="openQrEdit()" id="qrEditBtn" style="display:none">Edit Selected</button>
+<button class="btn btn-s btn-xs" onclick="toggleQuickReview()">Exit Review</button>
 </div>
 <div class="ms-bar" id="msBar"><div class="cbox" id="msAll" onclick="toggleSelectAll()"></div><span class="ms-info" id="msInfo">0 selected</span><button class="btn btn-d btn-xs" onclick="bulkDel()">🗑 Delete</button></div>
 <div class="date-sticky" id="dateSticky"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="dateStickyLabel">—</span><span class="ds-count" id="dateStickyCount"></span></div>
@@ -564,6 +616,41 @@ Sign in with Google
 <div class="ml-foot">
 <span class="ml-summary" id="skipSummary"></span>
 <div style="display:flex;gap:8px"><button class="btn btn-s btn-sm" onclick="copySkipped()">📋 Copy as Text</button><button class="btn btn-s btn-sm" onclick="closeSkipModal()">Close</button></div>
+</div>
+</div></div>
+
+<div class="modal-ov" id="qrModal"><div class="modal modal-qr">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<h3 style="margin:0">⚡ Quick Review</h3>
+<button onclick="closeQrModal()" style="background:none;border:1px solid var(--bdr);border-radius:6px;padding:4px 8px;color:var(--t2);cursor:pointer;font-size:16px;line-height:1">✕</button>
+</div>
+<div class="mqr-count" id="qrCount">0 transactions selected</div>
+<div id="qrTypeInfo" style="display:none;background:var(--input);border:1px solid var(--bdr);border-radius:10px;padding:10px 0;display:grid;grid-template-columns:1fr 1fr 1fr;margin-bottom:14px">
+</div>
+<div class="mqr-field">
+<label>Type</label>
+<select id="qrType" onchange="onQrTypeChange()"><option value="">— Keep existing —</option></select>
+</div>
+<div class="mqr-field" id="qrFlowC" style="display:none">
+<label>Flow</label>
+<div id="qrFlowOpts"></div>
+</div>
+<div class="mqr-toggle" onclick="toggleQrAutoComm()">
+<div class="mt-switch" id="qrAutoCommSwitch"></div>
+<div class="mt-label"><b>Auto Commission</b> — Calculate ₹10 per ₹1000 block for each transaction</div>
+</div>
+<div class="mqr-field">
+<label>Note (applied to all selected)</label>
+<textarea id="qrNote" placeholder="Enter note for all selected transactions..."></textarea>
+</div>
+<div class="mqr-field">
+<label>Status</label>
+<select id="qrStatus"><option value="">— Keep existing —</option><option value="Success">Success</option><option value="Fail">Fail</option><option value="Refund">Refund</option><option value="Pending">Pending</option></select>
+</div>
+<div class="mqr-preview" id="qrPreview" style="display:none"></div>
+<div class="m-acts">
+<button class="btn btn-s btn-sm" onclick="closeQrModal()">Cancel</button>
+<button class="btn btn-p btn-sm" onclick="applyQuickReview()">✓ Apply & Mark Reviewed</button>
 </div>
 </div></div>
 
@@ -735,7 +822,8 @@ function fd(d){if(!d)return'';return new Date(d+'T00:00:00').toLocaleDateString(
 function fdFull(d){if(!d)return'';var dt=new Date(d+'T00:00:00'),t=new Date;t.setHours(0,0,0,0);var y=new Date(t);y.setDate(y.getDate()-1);var ds=dt.toISOString().split('T')[0],ts=t.toISOString().split('T')[0],ys=y.toISOString().split('T')[0];if(ds===ts)return'Today, '+dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});if(ds===ys)return'Yesterday, '+dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});return dt.toLocaleDateString('en-IN',{weekday:'long',day:'2-digit',month:'short',year:'numeric'})}
 function eh(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML}
 function toast(m,t){t=t||'info';var e=document.createElement('div');e.className='toast '+t;e.textContent=m;document.body.appendChild(e);setTimeout(function(){e.remove()},3500)}
-function diagnoseData(){var flows={},sts={},biz={},bank={},types={},reviews={};for(var i=0;i<TXS.length;i++){var f=String(TXS[i].flow);var s=String(TXS[i].status);var b=String(TXS[i].biz);var bk=String(TXS[i].bank);var tp=String(TXS[i].type);var rv=TXS[i].reviewStatus||'none';flows[f]=(flows[f]||0)+1;sts[s]=(sts[s]||0)+1;biz[b]=(biz[b]||0)+1;bank[bk]=(bank[bk]||0)+1;types[tp]=(types[tp]||0)+1;reviews[rv]=(reviews[rv]||0)+1;}var html='<b>Total:</b> '+TXS.length+' transactions<br><br>';html+='<b>Flow values:</b><br>';for(var fk in flows)html+='"'+fk+'" → '+flows[fk]+'<br>';html+='<br><b>Status values:</b><br>';for(var sk in sts)html+='"'+sk+'" → '+sts[sk]+'<br>';html+='<br><b>Review Status:</b><br>';for(var rk in reviews)html+='"'+rk+'" → '+reviews[rk]+'<br>';html+='<br><b>Business values:</b><br>';for(var bk2 in biz)html+='"'+bk2+'" → '+biz[bk2]+'<br>';html+='<br><b>Bank values:</b><br>';for(var bnk in bank)html+='"'+bnk+'" → '+bank[bnk]+'<br>';html+='<br><b>Type values:</b><br>';var sortedTypes=Object.keys(types).sort();for(var ti=0;ti<sortedTypes.length;ti++){html+='"'+sortedTypes[ti]+'" → '+types[sortedTypes[ti]]+'<br>'}document.getElementById('diagContent').innerHTML=html;document.getElementById('diagBox').classList.add('sh');}
+function diagnoseData(){var flows={},sts={},biz={},bank={},types={},reviews={};for(var i=0;i<TXS.length;i++){var f=String(TXS[i].flow);var s=String(TXS[i].status);var b=String(TXS[i].biz);var bk=String(TXS[i].bank);var tp=String(TXS[i].type);var rv=TXS[i].reviewStatus||'none';flows[f]=(flows[f]||0)+1;sts[s]=(sts[s]||0)+1;biz[b]=(biz[b]||0)+1;bank[bk]=(bank[bk]||0)+1;types[tp]=(types[tp]||0)+1;reviews[rv]=(reviews[rv]||0)+1;}var html='<b>Total:</b> '+TXS.length+' transactions<br><br>';html+='<b>Flow values:</b><br>';for(var fk in flows)html+='"'+fk+'" → '+flows[fk]+'<br>';html+='<br><b>Status values:</b><br>';for(var sk in sts)html+='"'+sk+'" → '+sts[sk]+'<br>';html+='<br><b>Review Status:</b><br>';for(var rk in reviews)html+='"'+rk+'" → '+reviews[rk]+'<br>';html+='<br><b>Business values:</b><br>';for(var bk2 in biz)html+='"'+bk2+'" → '+biz[bk2]+'<br>';html+='<br><b>Bank values:</b><br>';for(var bnk in bank)html+='"'+bnk+'" → '+bank[bnk]+'<br>';html+='<br><b>Type values:</b><br>';var sortedTypes=Object.keys(types).sort();for(var ti=0;ti<sortedTypes.length;ti++){html+='"'+sortedTypes[ti]+'" → '+types[sortedTypes[ti]]+'<br>'}document.getElementById('diagContent').innerHTML=html;document.getElementById('diagBox').classList.add('sh');/* Close on click outside*/setTimeout(function(){document.addEventListener('click',closeDiagOnClickOutside);},100);}
+function closeDiagOnClickOutside(e){var box=document.getElementById('diagBox');if(box&&!box.contains(e.target)&&!e.target.closest('.tb-btn')){box.classList.remove('sh');document.removeEventListener('click',closeDiagOnClickOutside);}}
 function showConfirm(title,msg,btnText,cb){document.getElementById('cmTitle').textContent=title;document.getElementById('cmMsg').textContent=msg;document.getElementById('cmConfirmBtn').textContent=btnText||'Delete';_pendingConfirmAction=cb;document.getElementById('confirmModal').classList.add('sh')}
 function closeConfirm(){document.getElementById('confirmModal').classList.remove('sh');_pendingConfirmAction=null}
 function runPendingConfirm(){var cb=_pendingConfirmAction;_pendingConfirmAction=null;document.getElementById('confirmModal').classList.remove('sh');if(typeof cb==='function')cb()}
@@ -754,6 +842,52 @@ document.getElementById('cancelBtn').style.display='none';
 rstF();setDt();rTid();
 }
 function goPg(p,skipInit){
+// Auto-exit special modes when navigating away from transactions
+if(p!=='transactions'){
+// Exit Quick Review mode
+if(qrMode){
+qrMode=false;
+qrSelected.clear();
+qrLastClicked=null;
+qrAllCollapsed=false;
+var qrBtn=document.getElementById('qrToggle');
+if(qrBtn)qrBtn.classList.remove('active');
+var qrBarEl=document.getElementById('qrBar');
+if(qrBarEl)qrBarEl.classList.remove('sh');
+}
+// Exit Multi-select mode
+if(msMode){
+msMode=false;
+selected.clear();
+var msBtn=document.getElementById('msToggle');
+if(msBtn)msBtn.classList.remove('active');
+var msBarEl=document.getElementById('msBar');
+if(msBarEl)msBarEl.classList.remove('sh');
+}
+// Close filter bar
+var fBarEl=document.getElementById('fBar');
+if(fBarEl&&fBarEl.classList.contains('sh')){
+fBarEl.classList.remove('sh');
+var flBtn=document.getElementById('filterToggle');
+if(flBtn)flBtn.classList.remove('active');
+}
+// Reset filter values
+document.getElementById('flFlow').value='';
+document.getElementById('flSts').value='';
+document.getElementById('flAcc').value='';
+document.getElementById('flType').value='';
+document.getElementById('flFrom').value='';
+document.getElementById('flTo').value='';
+document.getElementById('flReview').value='';
+document.getElementById('searchQ').value='';
+var clearBtn=document.getElementById('searchClear');
+if(clearBtn)clearBtn.style.display='none';
+}
+// Close diagnose popup
+var diagBox=document.getElementById('diagBox');
+if(diagBox)diagBox.classList.remove('sh');
+document.removeEventListener('click',closeDiagOnClickOutside);
+// Update visuals
 var pages=document.querySelectorAll('.page');
 for(var i=0;i<pages.length;i++)pages[i].classList.remove('act');
 var navs=document.querySelectorAll('.nav-i');
@@ -763,7 +897,7 @@ if(el)el.classList.add('act');
 document.getElementById('pg-'+p).classList.add('act');
 if(innerWidth<768)tSb();
 localStorage.setItem('sm_page',p);
-
+// Render data
 requestAnimationFrame(function(){
 if(p==='dashboard')rDash();
 else if(p==='transactions')rTxns();
@@ -854,7 +988,7 @@ sMsg('✓ Transaction saved: '+tx.type+' • ₹'+fn(tx.amount),'s');
 
 function tFl(){document.getElementById('fBar').classList.toggle('sh');document.getElementById('filterToggle').classList.toggle('active');rTxns()}
 function resetFilters(){document.getElementById('flFlow').value='';document.getElementById('flSts').value='';document.getElementById('flAcc').value='';document.getElementById('flType').value='';document.getElementById('flFrom').value='';document.getElementById('flTo').value='';document.getElementById('flReview').value='';document.getElementById('searchQ').value='';rTxns()}
-function gFL(){var r=TXS.slice();var q=document.getElementById('searchQ').value.toLowerCase().trim();var flow=document.getElementById('flFlow').value;var sts=document.getElementById('flSts').value;var acc=document.getElementById('flAcc').value;var tp=document.getElementById('flType').value;var fr=document.getElementById('flFrom').value;var to=document.getElementById('flTo').value;if(q)r=r.filter(function(x){return (x.note||'').toLowerCase().indexOf(q)>=0||(x.type||'').toLowerCase().indexOf(q)>=0||(x.txnId||'').toLowerCase().indexOf(q)>=0});if(flow!=='')r=r.filter(function(x){return normalizeFlow(x.flow)===flow});if(sts!=='')r=r.filter(function(x){return x.status===sts});if(acc!=='')r=r.filter(function(x){return x.from===acc||x.to===acc});if(tp!=='')r=r.filter(function(x){return x.type===tp});if(fr!=='')r=r.filter(function(x){return x.date>=fr});if(to!=='')r=r.filter(function(x){return x.date<=to});var rev=document.getElementById('flReview').value;if(rev==='pending')r=r.filter(function(x){return x.reviewStatus==='pending'}); else if(rev==='reviewed')r=r.filter(function(x){return x.reviewStatus==='reviewed'}); else if(rev==='none')r=r.filter(function(x){return !x.reviewStatus}); var hasFilter=flow||sts||acc||tp||fr||to||q||rev; var barOpen=document.getElementById('fBar').classList.contains('sh');document.getElementById('fReset').classList.toggle('sh',!!hasFilter);var fc=document.getElementById('fCount');if(barOpen){if(hasFilter){fc.textContent=r.length+' • ₹'+fn(r.reduce(function(s,t){return s+t.amount},0))}else{fc.textContent='Total: '+TXS.length+' transactions'}}else{fc.textContent=''}return r.sort(function(a,b){var dc=(b.date||'').localeCompare(a.date||'');if(dc!==0)return dc;return new Date(b.createdAt||0)-new Date(a.createdAt||0)})}
+function gFL(){var r=TXS.slice();var q=document.getElementById('searchQ').value.toLowerCase().trim();var flow=document.getElementById('flFlow').value;var sts=document.getElementById('flSts').value;var acc=document.getElementById('flAcc').value;var tp=document.getElementById('flType').value;var fr=document.getElementById('flFrom').value;var to=document.getElementById('flTo').value;if(q)r=r.filter(function(x){return (x.note||'').toLowerCase().indexOf(q)>=0||(x.type||'').toLowerCase().indexOf(q)>=0||(x.txnId||'').toLowerCase().indexOf(q)>=0});if(flow!=='')r=r.filter(function(x){return normalizeFlow(x.flow)===flow});if(sts!=='')r=r.filter(function(x){return x.status===sts});if(acc!=='')r=r.filter(function(x){return x.from===acc||x.to===acc});if(tp!=='')r=r.filter(function(x){return x.type===tp});if(fr!=='')r=r.filter(function(x){return x.date>=fr});if(to!=='')r=r.filter(function(x){return x.date<=to});var rev=document.getElementById('flReview').value;if(rev==='pending')r=r.filter(function(x){return x.reviewStatus==='pending'});else if(rev==='reviewed')r=r.filter(function(x){return x.reviewStatus==='reviewed'});else if(rev==='none')r=r.filter(function(x){return !x.reviewStatus}); var hasFilter=flow||sts||acc||tp||fr||to||q||rev; var barOpen=document.getElementById('fBar').classList.contains('sh');document.getElementById('fReset').classList.toggle('sh',!!hasFilter);var fc=document.getElementById('fCount');if(barOpen){if(hasFilter){fc.textContent=r.length+' • ₹'+fn(r.reduce(function(s,t){return s+t.amount},0))}else{fc.textContent='Total: '+TXS.length+' transactions'}}else{fc.textContent=''}return r.sort(function(a,b){var dc=(b.date||'').localeCompare(a.date||'');if(dc!==0)return dc;return new Date(b.createdAt||0)-new Date(a.createdAt||0)})}
 function aFl(){rTxns()}
 function toggleSearchClear(){var btn=document.getElementById('searchClear');var q=document.getElementById('searchQ').value;if(btn)btn.style.display=q?'block':'none';}
 function clearSearch(){document.getElementById('searchQ').value='';document.getElementById('searchClear').style.display='none';aFl();}
@@ -864,14 +998,131 @@ function updMS(){document.getElementById('msInfo').textContent=selected.size+' s
 function toggleSelectAll(){var fl=gFL();if(selected.size===fl.length)selected.clear();else fl.forEach(function(t){selected.add(t.id)});updMS();rTxns()}
 function toggleSel(id,e){if(e)e.stopPropagation();if(selected.has(id))selected.delete(id);else selected.add(id);updMS();var cbs=document.querySelectorAll('.ms-cb');for(var i=0;i<cbs.length;i++){cbs[i].className='cbox ms-cb'+(selected.has(cbs[i].dataset.id)?' checked':'')}}
 function bulkDel(){if(!selected.size)return;var c=selected.size;var ids=new Set(selected);showConfirm('Delete '+c+' transaction'+(c>1?'s':'')+'?','This action cannot be undone. The selected '+c+' transaction'+(c>1?'s':'')+' will be permanently removed.','Delete '+c,function(){TXS=TXS.filter(function(t){return !ids.has(t.id)});selected.clear();sv();updMS();rTxns();rDash();toast(c+' deleted','success')})}
-function rTxns(){var list=document.getElementById('txList'),fl=gFL(),ds=document.getElementById('dateSticky');if(!fl.length){list.innerHTML='<div class="empty">No transactions found</div>';ds.classList.remove('sh');return}dateGroupCounts={};var groups={};fl.forEach(function(t){if(!groups[t.date])groups[t.date]=[];groups[t.date].push(t);dateGroupCounts[t.date]=(dateGroupCounts[t.date]||0)+1});var sd=Object.keys(groups).sort(function(a,b){return b.localeCompare(a)});var tIn=0,tOut=0;fl.forEach(function(t){var f=normalizeFlow(t.flow);if(f==='Inflow')tIn+=t.amount;else if(f==='Outflow')tOut+=t.amount});var html='';sd.forEach(function(date){var g=groups[date],gc=g.length;var gt=0;g.forEach(function(t){var f=normalizeFlow(t.flow);gt+=(f==='Inflow'?t.amount:-t.amount)});html+='<div class="date-sep" data-sep-date="'+date+'"><div class="ds-label"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'+fdFull(date)+'</div><span class="ds-cnt">'+gc+' txn'+(gc>1?'s':'')+' • <span style="color:'+(gt>=0?'var(--em)':'var(--rs)')+'">'+(gt>=0?'+':'-')+'₹'+fn(Math.abs(gt))+'</span></span><div class="ds-line"></div></div>';html+=compactView?rnC(g):rnN(g)});list.innerHTML=html+'<div class="tl-footer"><span>'+fl.length+' of '+TXS.length+'</span><div style="display:flex;gap:16px"><span style="color:var(--em)">+₹'+fn(tIn)+'</span><span style="color:var(--rs)">-₹'+fn(tOut)+'</span></div></div>';ds.classList.add('sh');setTimeout(uSD,50)}
+function rTxns(){
+var list=document.getElementById('txList'),fl=gFL(),ds=document.getElementById('dateSticky');
+if(!fl.length){list.innerHTML='<div class="empty">No transactions found</div>';ds.classList.remove('sh');return}
+dateGroupCounts={};
+var groups={};
+fl.forEach(function(t){if(!groups[t.date])groups[t.date]=[];groups[t.date].push(t);dateGroupCounts[t.date]=(dateGroupCounts[t.date]||0)+1});
+var sd=Object.keys(groups).sort(function(a,b){return b.localeCompare(a)});
+var tIn=0,tOut=0;fl.forEach(function(t){
+var f=normalizeFlow(t.flow);if(f==='Inflow')tIn+=t.amount;else if(f==='Outflow')tOut+=t.amount});
+var html='';
+
+if(qrMode){
+var typeGroups={};
+for(var tg=0;tg<fl.length;tg++){
+var tType=fl[tg].type||'Unknown';
+if(!typeGroups[tType])typeGroups[tType]=[];
+typeGroups[tType].push(fl[tg]);
+}
+var typeKeys=Object.keys(typeGroups).sort();
+for(var tk=0;tk<typeKeys.length;tk++){
+var tKey=typeKeys[tk];
+var tGroup=typeGroups[tKey];
+var tGroupAmt=0;
+for(var ta=0;ta<tGroup.length;ta++){
+var tf=normalizeFlow(tGroup[ta].flow);
+tGroupAmt+=(tf==='Inflow'?tGroup[ta].amount:-tGroup[ta].amount);
+}
+// Check if any in this group are selected
+var groupHasSelected=false;
+for(var gs=0;gs<tGroup.length;gs++){if(qrSelected.has(tGroup[gs].id)){groupHasSelected=true;break}}
+var selBtnText=groupHasSelected?'Deselect All':'Select All';
+var selBtnFn=groupHasSelected?'qrDeselectGroup':'qrSelectGroup';
+html+='<div class="qr-group-header" onclick="toggleQrGroup(\'qrg_'+tk+'\')">';
+html+='<svg class="qrg-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" id="qrga_'+tk+'"><polyline points="6 9 12 15 18 9"/></svg>';
+html+='<span>'+tKey+'</span>';
+html+='<span class="qrg-count">'+tGroup.length+' txn'+(tGroup.length>1?'s':'')+' • <span style="color:'+(tGroupAmt>=0?'var(--em)':'var(--rs)')+'">'+(tGroupAmt>=0?'+':'-')+'₹'+fn(Math.abs(tGroupAmt))+'</span></span>';
+html+='<span class="qrg-selall" data-type="'+tKey+'" onclick="event.stopPropagation();'+selBtnFn+'(\''+tKey+'\')">'+selBtnText+'</span>';
+html+='</div>';
+html+='<div class="qr-group-body" id="qrg_'+tk+'">';
+html+=compactView?rnC(tGroup):rnN(tGroup);
+html+='</div>';
+}
+}else{
+sd.forEach(function(date){var g=groups[date],gc=g.length;
+var gt=0;g.forEach(function(t){var f=normalizeFlow(t.flow);gt+=(f==='Inflow'?t.amount:-t.amount)});
+html+='<div class="date-sep" data-sep-date="'+date+'"><div class="ds-label"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'+fdFull(date)+'</div><span class="ds-cnt">'+gc+' txn'+(gc>1?'s':'')+' • <span style="color:'+(gt>=0?'var(--em)':'var(--rs)')+'">'+(gt>=0?'+':'-')+'₹'+fn(Math.abs(gt))+'</span></span><div class="ds-line"></div></div>';
+html+=compactView?rnC(g):rnN(g)});
+}
+list.innerHTML=html+'<div class="tl-footer"><span>'+fl.length+' of '+TXS.length+'</span><div style="display:flex;gap:16px"><span style="color:var(--em)">+₹'+fn(tIn)+'</span><span style="color:var(--rs)">-₹'+fn(tOut)+'</span></div></div>';
+if(qrMode){ds.classList.remove('sh')}else{ds.classList.add('sh');setTimeout(uSD,50)}
+}
 function uSD(){var pg=document.getElementById('pg-transactions');if(!pg.classList.contains('act'))return;var ds=document.getElementById('dateSticky');if(!ds.classList.contains('sh'))return;var seps=document.querySelectorAll('.date-sep[data-sep-date]');if(!seps.length)return;var sb=ds.getBoundingClientRect().bottom,cd=seps[0].dataset.sepDate;for(var i=0;i<seps.length;i++){if(seps[i].getBoundingClientRect().top<=sb+2)cd=seps[i].dataset.sepDate;else break}if(cd){document.getElementById('dateStickyLabel').textContent=fdFull(cd);var c=dateGroupCounts[cd]||0;document.getElementById('dateStickyCount').textContent=c+' transaction'+(c>1?'s':'')}}
 function toggleScrollTop(){var btn=document.getElementById('scrollTop');if(!btn)return;if(window.scrollY>400){btn.classList.add('sh')}else{btn.classList.remove('sh')}}
-function rnN(fl){return fl.map(function(tx){var f=normalizeFlow(tx.flow)||tx.flow;var fc=f==='Inflow'?'var(--em)':'var(--rs)',fp=f==='Inflow'?'+':'-',iSvg=f==='Inflow'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 7L7.8 16.2M7 7v9.2h9.2"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 17l9.2-9.2M17 17V7.8H7.8"/></svg>',chClass=getChannelClass(tx),iBg=f==='Inflow'?'rgba(16,185,129,.12)':'rgba(244,63,94,.12)',stB=tx.status==='Success'?'b-em':tx.status==='Fail'?'b-rs':tx.status==='Pending'?'b-am':'b-pu',title=tx.note||tx.type;return '<div class="ti-n '+chClass+'"><div class="tc" onclick="tExpN(event,\''+tx.id+'\')">'+(msMode?'<div class="cbox ms-cb'+(selected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="toggleSel(\''+tx.id+'\',event)"></div>':'')+'<div class="t-ic" style="background:'+iBg+';color:'+fc+'">'+iSvg+'</div><div class="t-mn"><div class="t-title">'+eh(title)+' <span class="badge '+stB+'" style="font-size:10px">'+tx.status+'</span>'+(tx.reviewStatus?'<span class="review-dot '+(tx.reviewStatus==='pending'?'pending':'reviewed')+'" title="'+(tx.reviewStatus==='pending'?'Needs review':'Reviewed')+'">'+(tx.reviewStatus==='pending'?'<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>':'<svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>')+'</span>':'')+'</div><div class="t-sub"><span>'+(AN[tx.from]||tx.from)+' <span class="ar">→</span> '+(AN[tx.to]||tx.to)+'</span></div></div><div class="t-am"><span class="t-amt" style="color:'+fc+'">'+fp+'₹'+fn(tx.amount)+'</span>'+(tx.netCommission>0?'<span class="t-cm">+₹'+fn(tx.netCommission)+'</span>':'')+'</div></div><div class="te" id="te-'+tx.id+'"><div class="td-info"><span>'+tx.type+'</span><span>'+tx.txnId+'</span>'+(tx.commission>0?'<span style="color:var(--am)">Comm: ₹'+fn(tx.commission)+'</span>':'')+(tx.discount>0?'<span style="color:var(--rs)">Disc: -₹'+fn(tx.discount)+'</span>':'')+(tx.netCommission>0&&tx.discount>0?'<span style="color:var(--em)">Net: ₹'+fn(tx.netCommission)+'</span>':'')+'</div><div class="td-row"><div class="td-tags"><span class="badge '+(tx.biz==='Business'?'b-bl':'b-gy')+'">'+tx.biz+'</span>'+(tx.bank==='Bank'?'<span class="badge b-pu">Bank</span>':'<span class="badge b-gy">Non-Bank</span>')+'<span class="badge '+(f==='Inflow'?'b-em':'b-rs')+'">'+f+'</span></div><div class="td-acts"><button class="btn-icon" onclick="event.stopPropagation();edTx(\''+tx.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-icon" onclick="event.stopPropagation();delTx(\''+tx.id+'\')" style="color:var(--rs);border-color:rgba(244,63,94,.3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></div></div>'+(tx.note?'<div class="td-note">'+eh(tx.note)+'</div>':'')+'</div></div>'}).join('')}
-function rnC(fl){return fl.map(function(tx){var f=normalizeFlow(tx.flow)||tx.flow;var fc=f==='Inflow'?'var(--em)':'var(--rs)',fp=f==='Inflow'?'+':'-',title=tx.note||tx.type,chClass=getChannelClass(tx);var flowIconHtml='<div class="t-flow-ic '+(f==='Inflow'?'inflow':'outflow')+'"><svg viewBox="0 0 24 24" fill="none" stroke="'+(f==='Inflow'?'var(--em)':'var(--rs)')+'">'+(f==='Inflow'?'<path d="M17 7L7.8 16.2M7 7v9.2h9.2"/>':'<path d="M7 17l9.2-9.2M17 17V7.8H7.8"/>')+'</svg></div>';/* Status icon: checkmark for Success, X for Fail, refresh for Refund, clock for Pending */ var stIcon='';if(tx.status==='Success'){stIcon='<span class="t-status-ic" title="Success"><svg viewBox="0 0 24 24" fill="none" stroke="var(--em)"><polyline points="20 6 9 17 4 12"/></svg></span>';}else if(tx.status==='Fail'){stIcon='<span class="t-status-ic" title="Failed"><svg viewBox="0 0 24 24" fill="none" stroke="var(--rs)"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>';}else if(tx.status==='Refund'){stIcon='<span class="t-status-ic" title="Refund"><svg viewBox="0 0 24 24" fill="none" stroke="var(--pu)"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></span>';}else if(tx.status==='Pending'){stIcon='<span class="t-status-ic" title="Pending"><svg viewBox="0 0 24 24" fill="none" stroke="var(--am)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>';}var reviewHtml='';if(tx.reviewStatus){reviewHtml='<span class="review-dot '+(tx.reviewStatus==='pending'?'pending':'reviewed')+'" title="'+(tx.reviewStatus==='pending'?'Needs review':'Reviewed')+'">'+(tx.reviewStatus==='pending'?'<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>':'<svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>')+'</span>';}return '<div class="ti-c '+chClass+'"><div class="tc" onclick="tExpC(\''+tx.id+'\')">'+(msMode?'<div class="cbox ms-cb'+(selected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="toggleSel(\''+tx.id+'\',event)"></div>':'')+flowIconHtml+'<div class="t-mn"><span class="t-title">'+eh(title)+stIcon+'</span><div class="t-tags">'+(tx.biz==='Business'?'<span class="badge b-bl" style="font-size:10px;padding:1px 6px">Biz</span>':'')+(tx.bank==='Bank'?'<span class="badge b-pu" style="font-size:10px;padding:1px 6px">Bank</span>':'')+reviewHtml+'</div></div><span class="t-amt" style="color:'+fc+'">'+fp+'₹'+fn(tx.amount)+'</span><div class="t-dots" onclick="event.stopPropagation();tDots(\''+tx.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg><div class="dots-menu" id="dm-'+tx.id+'"><button onclick="event.stopPropagation();edTx(\''+tx.id+'\')">Edit</button><button onclick="event.stopPropagation();delTx(\''+tx.id+'\')" style="color:var(--rs)">Delete</button></div></div></div><div class="te" id="te-'+tx.id+'"><span>'+(AN[tx.from]||tx.from)+'→'+(AN[tx.to]||tx.to)+'</span><span style="color:var(--t3)">•</span><span>'+tx.type+'</span><span style="color:var(--t3)">•</span><span>'+tx.txnId+'</span>'+(tx.netCommission>0?'<span style="color:var(--t3)">•</span><span style="color:var(--em)">₹'+fn(tx.netCommission)+'</span>':'')+'</div></div>'}).join('')}
+function rnN(fl){return fl.map(function(tx){var f=normalizeFlow(tx.flow)||tx.flow;var fc=f==='Inflow'?'var(--em)':'var(--rs)',fp=f==='Inflow'?'+':'-',iSvg=f==='Inflow'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 7L7.8 16.2M7 7v9.2h9.2"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 17l9.2-9.2M17 17V7.8H7.8"/></svg>',chClass=getChannelClass(tx),iBg=f==='Inflow'?'rgba(16,185,129,.12)':'rgba(244,63,94,.12)',stB=tx.status==='Success'?'b-em':tx.status==='Fail'?'b-rs':tx.status==='Pending'?'b-am':'b-pu',title=tx.note||tx.type;return '<div class="ti-n '+chClass+'"><div class="tc" onclick="tExpN(event,\''+tx.id+'\')">'+(qrMode&&tx.reviewStatus==='pending'?'<div class="cbox qr-cb'+(qrSelected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="event.stopPropagation();toggleQrSelect(\''+tx.id+'\',event)"></div>':(msMode?'<div class="cbox ms-cb'+(selected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="toggleSel(\''+tx.id+'\',event)"></div>':''))+'<div class="t-ic" style="background:'+iBg+';color:'+fc+'">'+iSvg+'</div><div class="t-mn"><div class="t-title">'+eh(title)+' <span class="badge '+stB+'" style="font-size:10px">'+tx.status+'</span>'+(tx.reviewStatus==='pending'?'<span class="review-dot" title="Needs review"></span>':'')+'</div><div class="t-sub">'+(qrMode?'<span style="color:var(--t3)">'+fd(tx.date)+'</span><span style="color:var(--bdr);margin:0 4px">|</span>':'')+'<span>'+(AN[tx.from]||tx.from)+' <span class="ar">→</span> '+(AN[tx.to]||tx.to)+'</span></div></div><div class="t-am"><span class="t-amt" style="color:'+fc+'">'+fp+'₹'+fn(tx.amount)+'</span>'+(tx.netCommission>0?'<span class="t-cm">+₹'+fn(tx.netCommission)+'</span>':'')+'</div></div><div class="te" id="te-'+tx.id+'"><div class="td-info-sep"><div class="tdi"><span class="tdi-label">Type</span><span class="tdi-val">'+tx.type+'</span></div><div class="tdi"><span class="tdi-label">ID</span><span class="tdi-val">'+tx.txnId+'</span></div>'+(tx.commission>0?'<div class="tdi"><span class="tdi-label">Comm</span><span class="tdi-val" style="color:var(--am)">₹'+fn(tx.commission)+'</span></div>':'')+(tx.discount>0?'<div class="tdi"><span class="tdi-label">Disc</span><span class="tdi-val" style="color:var(--rs)">-₹'+fn(tx.discount)+'</span></div>':'')+(tx.netCommission>0&&tx.discount>0?'<div class="tdi"><span class="tdi-label">Net</span><span class="tdi-val" style="color:var(--em)">₹'+fn(tx.netCommission)+'</span></div>':'')+'</div><div class="td-row"><div class="td-tags"><span class="badge '+(tx.biz==='Business'?'b-bl':'b-gy')+'">'+tx.biz+'</span>'+(tx.bank==='Bank'?'<span class="badge b-pu">Bank</span>':'<span class="badge b-gy">Non-Bank</span>')+'<span class="badge '+(f==='Inflow'?'b-em':'b-rs')+'">'+f+'</span></div><div class="td-acts"><button class="btn-icon" onclick="event.stopPropagation();edTx(\''+tx.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-icon" onclick="event.stopPropagation();delTx(\''+tx.id+'\')" style="color:var(--rs);border-color:rgba(244,63,94,.3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></div></div>'+(tx.note?'<div class="td-note">'+eh(tx.note)+'</div>':'')+'</div></div>'}).join('')}
+function rnC(fl){
+return fl.map(function(tx){
+var f=normalizeFlow(tx.flow)||tx.flow;
+var fc=f==='Inflow'?'var(--em)':'var(--rs)';
+var fp=f==='Inflow'?'+':'-';
+var title=tx.note||tx.type;
+var chClass=getChannelClass(tx);
+// Flow icon with circular background
+var flowIconHtml='<div class="t-flow-ic '+(f==='Inflow'?'inflow':'outflow')+'"><svg viewBox="0 0 24 24" fill="none" stroke="'+(f==='Inflow'?'var(--em)':'var(--rs)')+'">'+(f==='Inflow'?'<path d="M17 7L7.8 16.2M7 7v9.2h9.2"/>':'<path d="M7 17l9.2-9.2M17 17V7.8H7.8"/>')+'</svg></div>';
+// Status icon
+var stIcon='';
+if(tx.status==='Success'){
+stIcon='<span class="t-status-ic" title="Success"><svg viewBox="0 0 24 24" fill="none" stroke="var(--em)"><polyline points="20 6 9 17 4 12"/></svg></span>';
+}else if(tx.status==='Fail'){
+stIcon='<span class="t-status-ic" title="Failed"><svg viewBox="0 0 24 24" fill="none" stroke="var(--rs)"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>';
+}else if(tx.status==='Refund'){
+stIcon='<span class="t-status-ic" title="Refund"><svg viewBox="0 0 24 24" fill="none" stroke="var(--pu)"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></span>';
+}else if(tx.status==='Pending'){
+stIcon='<span class="t-status-ic" title="Pending"><svg viewBox="0 0 24 24" fill="none" stroke="var(--am)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>';
+}
+// Review dot — simple amber dot for pending only
+var reviewHtml=tx.reviewStatus==='pending'?'<span class="review-dot" title="Needs review"></span>':'';
+// QR mode checkbox or multi-select checkbox
+var checkboxHtml='';
+if(qrMode&&tx.reviewStatus==='pending'){
+checkboxHtml='<div class="cbox qr-cb'+(qrSelected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="event.stopPropagation();toggleQrSelect(\''+tx.id+'\',event)"></div>';
+}else if(msMode){
+checkboxHtml='<div class="cbox ms-cb'+(selected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="toggleSel(\''+tx.id+'\',event)"></div>';
+}
+// Build card
+var card='<div class="ti-c '+chClass+'">';
+card+='<div class="tc" onclick="tExpC(\''+tx.id+'\')">';
+card+=checkboxHtml;
+card+=flowIconHtml;
+card+='<div class="t-mn">';
+card+='<span class="t-title">'+eh(title)+stIcon+'</span>';
+card+='<div class="t-tags">';
+if(tx.biz==='Business')card+='<span class="badge b-bl" style="font-size:10px;padding:1px 6px">Biz</span>';
+if(tx.bank==='Bank')card+='<span class="badge b-pu" style="font-size:10px;padding:1px 6px">Bank</span>';
+card+=reviewHtml;
+card+='</div>';
+card+='</div>';
+card+='<span class="t-amt" style="color:'+fc+'">'+fp+'₹'+fn(tx.amount)+'</span>';
+card+='<div class="t-dots" onclick="event.stopPropagation();tDots(\''+tx.id+'\')">';
+card+='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>';
+card+='<div class="dots-menu" id="dm-'+tx.id+'">';
+card+='<button onclick="event.stopPropagation();edTx(\''+tx.id+'\')">Edit</button>';
+card+='<button onclick="event.stopPropagation();delTx(\''+tx.id+'\')" style="color:var(--rs)">Delete</button>';
+card+='</div>';
+card+='</div>';
+card+='</div>';
+// Expanded row
+card+='<div class="te" id="te-'+tx.id+'">';
+card+='<span>'+(AN[tx.from]||tx.from)+'→'+(AN[tx.to]||tx.to)+'</span>';
+card+='<span style="color:var(--t3)">|</span>';
+card+='<span>'+tx.type+'</span>';
+card+='<span style="color:var(--t3)">|</span>';
+card+='<span>'+tx.txnId+'</span>';
+if(tx.netCommission>0){
+card+='<span style="color:var(--t3)">|</span>';
+card+='<span style="color:var(--em)">₹'+fn(tx.netCommission)+'</span>';
+}
+card+='</div>';
+card+='</div>';
+return card;
+}).join('');
+}
 function tExpN(e,id){if(e.target.closest('.cbox')||e.target.closest('.btn-icon'))return;var els=document.querySelectorAll('.ti-n .te.sh');for(var i=0;i<els.length;i++){if(els[i].id!=='te-'+id)els[i].classList.remove('sh')}var el=document.getElementById('te-'+id);if(el)el.classList.toggle('sh')}
 function tExpC(id){var els=document.querySelectorAll('.ti-c .te.sh');for(var i=0;i<els.length;i++){if(els[i].id!=='te-'+id)els[i].classList.remove('sh')}var el=document.getElementById('te-'+id);if(el)el.classList.toggle('sh')}
 function tDots(id){event.stopPropagation();var dms=document.querySelectorAll('.dots-menu.sh');for(var i=0;i<dms.length;i++)dms[i].classList.remove('sh');var el=document.getElementById('dm-'+id);if(el)el.classList.toggle('sh')}
+
 //edTx function starts here
 var _editScrollTarget=null;
 function edTx(id){
@@ -879,14 +1130,12 @@ var tx=TXS.find(function(t){return t.id===id});
 if(!tx)return;
 _editScrollTarget=id;
 eId=id;
-// Navigate to new entry page WITHOUT resetting form
 goPg('newentry',true);
 document.getElementById('nePage').textContent='✏️ Edit Transaction';
 document.getElementById('nePage').style.color='var(--am)';
 document.getElementById('neSubtitle').textContent='Editing: '+tx.type+' • ₹'+fn(tx.amount)+' • '+(tx.date||'');
 document.getElementById('addBtn').textContent='Update';
 document.getElementById('cancelBtn').style.display='inline-flex';
-// Fill form fields AFTER navigation
 setTimeout(function(){
 document.getElementById('fType').value=tx.type;
 onTCh();
@@ -900,6 +1149,8 @@ document.getElementById('fSt').value=tx.status;
 document.getElementById('fTid').value=tx.txnId;
 document.getElementById('fNote').value=tx.note||'';
 updNetComm();
+// Recalculate commission suggestion based on THIS transaction's amount
+calcComm();
 },50);
 },20);
 window.scrollTo({top:0,behavior:'auto'});
@@ -1138,7 +1389,7 @@ function copySkipped(){var text=lastSkipped.map(function(r){var plainData=r.data
 function closeSkipModal(){document.getElementById('skipModal').classList.remove('sh')}
 
 function rDash(){
-    var pendingReview=TXS.filter(function(t){return t.reviewStatus==='pending'}).length;
+var pendingReview=TXS.filter(function(t){return t.reviewStatus==='pending'}).length;
 var noticeEl=document.getElementById('dashNotice');
 if(noticeEl){if(pendingReview>0){noticeEl.style.display='flex';document.getElementById('dashNoticeText').innerHTML='<span class="dn-count">'+pendingReview+'</span> transaction'+(pendingReview>1?'s':'')+' imported from PhonePe need'+(pendingReview===1?'s':'')+' review. Edit each to mark as reviewed.'}else{noticeEl.style.display='none'}}
 var S=TXS.filter(function(t){return t.status==='Success'});
@@ -1899,6 +2150,11 @@ status='Refund';
 }else{
 finalTid='SM'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).substr(2,4);
 }
+// Auto-calculate commission for Aeps-WD and Aeps-Deposit
+var autoComm=0;
+if(appType==='Aeps-WD'||appType==='Aeps-Deposit'){
+autoComm=Math.ceil(amt/1000)*10;
+}
 
 txns.push({
 date:date,
@@ -1913,7 +2169,9 @@ txnId:finalTid,
 ruleId:rule.id,
 note:rawRemark||'',
 status:status,
-commission:0,
+commission:autoComm,
+discount:0,
+netCommission:autoComm,
 _rowNum:row._rowNum,
 _src:'spicemoney',
 _origTid:rawTid
@@ -2179,7 +2437,7 @@ createdAt:rowCreatedAt2
 if(isSpicemoney){
 newTx.reviewStatus='pending';
 newTx.importSource='spicemoney-csv';
-newTx.note='Review - Imported from Spicemoney CSV';
+newTx.note='Review - Imported from Spicemoney XLS';
 }
 
 // Preserve review status from Google Sheet export
@@ -2223,6 +2481,366 @@ if(skippedRows.length>0)showSkipModal(skippedRows,added,filtered.length);
 },200);
 }
 }
+
+// ========== QUICK REVIEW MODE ==========
+var qrMode=false;
+var qrSelected=new Set();
+var qrLastClicked=null;
+var qrAutoComm=false;
+var qrSelectedRule=null;
+function toggleQuickReview(){
+qrMode=!qrMode;
+qrSelected.clear();
+qrLastClicked=null;
+qrAllCollapsed=false;
+document.getElementById('qrToggle').classList.toggle('active',qrMode);
+document.getElementById('qrBar').classList.toggle('sh',qrMode);
+// If entering QR mode, auto-filter to pending review
+if(qrMode){
+document.getElementById('flReview').value='pending';
+// Disable multi-select if active
+if(msMode){msMode=false;selected.clear();document.getElementById('msToggle').classList.remove('active');document.getElementById('msBar').classList.remove('sh')}
+}else{
+document.getElementById('flReview').value='';
+}
+aFl();
+updQrBar();
+}
+
+function updQrBar(){
+var count=qrSelected.size;
+document.getElementById('qrInfo').textContent=count+' selected';
+document.getElementById('qrEditBtn').style.display=count>0?'inline-flex':'none';
+var pending=TXS.filter(function(t){return t.reviewStatus==='pending'}).length;
+document.getElementById('qrRemaining').textContent=pending+' pending review';
+}
+
+function toggleQrSelect(id,e){
+if(e)e.stopPropagation();
+var clickedTx=TXS.find(function(t){return t.id===id});
+if(!clickedTx)return;
+var clickedType=clickedTx.type;
+// If selecting, clear selections from other groups
+if(!qrSelected.has(id)){
+var toRemove=[];
+qrSelected.forEach(function(selId){
+var selTx=TXS.find(function(t){return t.id===selId});
+if(selTx&&selTx.type!==clickedType)toRemove.push(selId);
+});
+for(var r=0;r<toRemove.length;r++){qrSelected.delete(toRemove[r])}
+}
+// Shift+click range selection within same group
+if(e&&e.shiftKey&&qrLastClicked){
+var fl=gFL();
+var sameType=fl.filter(function(t){return t.type===clickedType});
+var startIdx=-1,endIdx=-1;
+for(var i=0;i<sameType.length;i++){
+if(sameType[i].id===qrLastClicked)startIdx=i;
+if(sameType[i].id===id)endIdx=i;
+}
+if(startIdx>=0&&endIdx>=0){
+var lo=Math.min(startIdx,endIdx);
+var hi=Math.max(startIdx,endIdx);
+for(var j=lo;j<=hi;j++){
+qrSelected.add(sameType[j].id);
+}
+}
+}else{
+if(qrSelected.has(id)){qrSelected.delete(id)}
+else{qrSelected.add(id)}
+}
+qrLastClicked=id;
+updQrBar();
+updQrCheckboxes();
+updQrGroupButtons();
+}
+
+function toggleQrGroup(groupId){
+var body=document.getElementById(groupId);
+var arrow=document.getElementById(groupId.replace('qrg_','qrga_'));
+if(body)body.classList.toggle('collapsed');
+if(arrow)arrow.classList.toggle('collapsed');
+updCollapseBtn();
+}
+
+function updCollapseBtn(){
+var bodies=document.querySelectorAll('.qr-group-body');
+var allCollapsed=true;
+var allExpanded=true;
+for(var i=0;i<bodies.length;i++){
+if(bodies[i].classList.contains('collapsed'))allExpanded=false;
+else allCollapsed=false;
+}
+qrAllCollapsed=allCollapsed;
+var txt=document.getElementById('qrCollapseText');
+if(txt){
+if(allCollapsed)txt.textContent='Expand All';
+else if(allExpanded)txt.textContent='Collapse All';
+else txt.textContent='Collapse All';
+}
+}
+
+var qrAllCollapsed=false;
+function toggleAllQrGroups(){
+qrAllCollapsed=!qrAllCollapsed;
+var bodies=document.querySelectorAll('.qr-group-body');
+var arrows=document.querySelectorAll('.qrg-arrow');
+for(var i=0;i<bodies.length;i++){
+if(qrAllCollapsed)bodies[i].classList.add('collapsed');
+else bodies[i].classList.remove('collapsed');
+}
+for(var j=0;j<arrows.length;j++){
+if(qrAllCollapsed)arrows[j].classList.add('collapsed');
+else arrows[j].classList.remove('collapsed');
+}
+updCollapseBtn();
+}
+
+function qrSelectGroup(type){
+var fl=gFL();
+// Deselect all from other groups
+var otherIds=[];
+for(var i=0;i<fl.length;i++){
+if(fl[i].type!==type)otherIds.push(fl[i].id);
+}
+for(var j=0;j<otherIds.length;j++){
+qrSelected.delete(otherIds[j]);
+}
+// Select all from this group
+for(var k=0;k<fl.length;k++){
+if(fl[k].type===type&&fl[k].reviewStatus==='pending'){
+qrSelected.add(fl[k].id);
+}
+}
+qrLastClicked=null;
+updQrBar();
+// Update checkboxes and buttons without full re-render
+updQrCheckboxes();
+updQrGroupButtons();
+}
+
+function qrDeselectGroup(type){
+var fl=gFL();
+for(var i=0;i<fl.length;i++){
+if(fl[i].type===type){
+qrSelected.delete(fl[i].id);
+}
+}
+qrLastClicked=null;
+updQrBar();
+updQrCheckboxes();
+updQrGroupButtons();
+}
+
+function updQrCheckboxes(){
+var cbs=document.querySelectorAll('.qr-cb');
+for(var i=0;i<cbs.length;i++){
+cbs[i].className='cbox qr-cb'+(qrSelected.has(cbs[i].dataset.id)?' checked':'');
+}
+}
+
+function updQrGroupButtons(){
+var headers=document.querySelectorAll('.qr-group-header');
+for(var i=0;i<headers.length;i++){
+var selBtn=headers[i].querySelector('.qrg-selall');
+if(!selBtn)continue;
+var type=selBtn.dataset.type;
+if(!type)continue;
+// Check if any in this group are selected
+var hasSelected=false;
+TXS.forEach(function(tx){
+if(tx.type===type&&qrSelected.has(tx.id))hasSelected=true;
+});
+selBtn.textContent=hasSelected?'Deselect All':'Select All';
+selBtn.setAttribute('onclick','event.stopPropagation();'+(hasSelected?'qrDeselectGroup':'qrSelectGroup')+'(\''+type+'\')');
+}
+}
+
+/*function qrDeselectAll(){
+qrSelected.clear();
+qrLastClicked=null;
+updQrBar();
+rTxns();
+}*/
+
+function openQrEdit(){
+if(!qrSelected.size)return;
+// Find the type of selected transactions (all should be same type due to single-group selection)
+var selectedType='';
+var selectedFrom='';
+var selectedTo='';
+var selectedFlow='';
+var selectedBiz='';
+TXS.forEach(function(tx){
+if(qrSelected.has(tx.id)){
+if(!selectedType)selectedType=tx.type;
+if(!selectedFrom)selectedFrom=tx.from;
+if(!selectedTo)selectedTo=tx.to;
+if(!selectedFlow)selectedFlow=tx.flow;
+if(!selectedBiz)selectedBiz=tx.biz;
+}
+});
+// Show type/flow info card
+var infoEl=document.getElementById('qrTypeInfo');
+if(selectedType){
+var flowColor=selectedFlow==='Inflow'?'var(--em)':'var(--rs)';
+var bizColor=selectedBiz==='Business'?'var(--bl)':'var(--t2)';
+infoEl.style.display='grid';
+infoEl.innerHTML='<div style="text-align:center;padding:0 12px"><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Type</div><div style="font-size:13px;font-weight:600">'+selectedType+'</div></div>'
++'<div style="text-align:center;padding:0 12px;border-left:1px solid var(--bdr);border-right:1px solid var(--bdr)"><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Flow</div><div style="font-size:13px;font-weight:600;color:'+flowColor+'">'+(AN[selectedFrom]||selectedFrom)+' → '+(AN[selectedTo]||selectedTo)+'</div></div>'
++'<div style="text-align:center;padding:0 12px"><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Classification</div><div style="font-size:13px;font-weight:600;color:'+bizColor+'">'+selectedBiz+'</div></div>';
+}else{
+infoEl.style.display='none';
+}
+// Populate type dropdown
+var sel=document.getElementById('qrType');
+sel.innerHTML='<option value="">— Keep existing —</option>';
+var uTypes=[];
+for(var i=0;i<R.length;i++){
+if(uTypes.indexOf(R[i].type)<0)uTypes.push(R[i].type);
+}
+for(var j=0;j<uTypes.length;j++){
+var o=document.createElement('option');
+o.value=uTypes[j];o.textContent=uTypes[j];
+sel.appendChild(o);
+}
+document.getElementById('qrCount').textContent=qrSelected.size+' transactions selected';
+document.getElementById('qrNote').value='';
+document.getElementById('qrStatus').value='';
+document.getElementById('qrFlowC').style.display='none';
+qrAutoComm=false;
+document.getElementById('qrAutoCommSwitch').classList.remove('on');
+qrSelectedRule=null;
+showQrPreview();
+document.getElementById('qrModal').classList.add('sh');
+}
+
+function closeQrModal(){
+document.getElementById('qrModal').classList.remove('sh');
+}
+
+function onQrTypeChange(){
+var tp=document.getElementById('qrType').value;
+var flowC=document.getElementById('qrFlowC');
+if(!tp){
+flowC.style.display='none';
+qrSelectedRule=null;
+return;
+}
+var rules=R.filter(function(r){return r.type===tp});
+if(rules.length===1){
+qrSelectedRule=rules[0];
+flowC.style.display='none';
+}else{
+flowC.style.display='block';
+var opts=document.getElementById('qrFlowOpts');
+opts.innerHTML='';
+for(var i=0;i<rules.length;i++){
+var r=rules[i];
+var div=document.createElement('div');
+div.className='flow-opt'+(qrSelectedRule&&qrSelectedRule.id===r.id?' sel':'');
+div.style.marginBottom='6px';
+div.style.padding='8px 12px';
+div.dataset.ruleId=r.id;
+div.innerHTML='<span class="fo-route">'+(AN[r.from]||r.from)+'<span>→</span>'+(AN[r.to]||r.to)+'</span><span class="badge '+(r.biz==='Business'?'b-bl':'b-gy')+'">'+r.biz+'</span>';
+div.onclick=(function(rule){return function(){
+qrSelectedRule=rule;
+var allOpts=document.querySelectorAll('#qrFlowOpts .flow-opt');
+for(var k=0;k<allOpts.length;k++)allOpts[k].classList.remove('sel');
+this.classList.add('sel');
+}})(r);
+opts.appendChild(div);
+}
+qrSelectedRule=null;
+}
+}
+
+function toggleQrAutoComm(){
+qrAutoComm=!qrAutoComm;
+document.getElementById('qrAutoCommSwitch').classList.toggle('on',qrAutoComm);
+showQrPreview();
+}
+
+function showQrPreview(){
+var prev=document.getElementById('qrPreview');
+if(!qrAutoComm){prev.style.display='none';return}
+
+prev.style.display='block';
+var html='';
+var totalComm=0;
+TXS.forEach(function(tx){
+if(!qrSelected.has(tx.id))return;
+var comm=Math.ceil(tx.amount/1000)*10;
+totalComm+=comm;
+html+='<div class="mp-row"><span>₹'+fn(tx.amount)+'</span><span class="mp-amt">'+tx.type+'</span><span class="mp-comm">₹'+comm+'</span></div>';
+});
+html+='<div class="mp-row" style="font-weight:700;border-top:2px solid var(--bdr);padding-top:6px;margin-top:4px"><span>Total Commission</span><span></span><span class="mp-comm">₹'+fn(totalComm)+'</span></div>';
+prev.innerHTML=html;
+}
+
+function applyQuickReview(){
+var newType=document.getElementById('qrType').value;
+var newNote=document.getElementById('qrNote').value.trim();
+var newStatus=document.getElementById('qrStatus').value;
+var count=0;
+
+// Validate: if type is selected but flow not chosen (for multi-flow types)
+if(newType){
+var rules=R.filter(function(r){return r.type===newType});
+if(rules.length>1&&!qrSelectedRule){
+toast('Please select a flow for '+newType,'error');
+return;
+}
+if(rules.length===1)qrSelectedRule=rules[0];
+}
+
+for(var i=0;i<TXS.length;i++){
+var tx=TXS[i];
+if(!qrSelected.has(tx.id))continue;
+
+// Apply type and flow
+if(newType&&qrSelectedRule){
+tx.type=qrSelectedRule.type;
+tx.from=qrSelectedRule.from;
+tx.to=qrSelectedRule.to;
+tx.flow=qrSelectedRule.flow;
+tx.biz=qrSelectedRule.biz;
+tx.bank=qrSelectedRule.bank;
+tx.ruleId=qrSelectedRule.id;
+}
+
+// Apply auto commission
+if(qrAutoComm){
+var comm=Math.ceil(tx.amount/1000)*10;
+tx.commission=comm;
+tx.netCommission=Math.max(0,comm-(tx.discount||0));
+}
+
+// Apply note
+if(newNote){
+tx.note=newNote;
+}
+
+// Apply status
+if(newStatus){
+tx.status=newStatus;
+}
+
+// Mark as reviewed
+tx.reviewStatus='reviewed';
+count++;
+}
+
+sv();
+closeQrModal();
+qrSelected.clear();
+qrLastClicked=null;
+updQrBar();
+rTxns();
+rDash();
+toast(count+' transactions reviewed','success');
+}
+
 // App initialization is now triggered by Firebase auth state listener
 // If Firebase fails to load, fallback to local-only mode after 5 seconds
 document.addEventListener('DOMContentLoaded',function(){
