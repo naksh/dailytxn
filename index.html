@@ -124,14 +124,15 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .tb-btn:hover{border-color:var(--t2);color:var(--t1)}.tb-btn.active{border-color:var(--em);color:var(--em);background:rgba(16,185,129,.1)}
 .tb-btn svg{width:16px;height:16px;stroke-width:2}.tb-btn .tip{display:none;position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--bdr);padding:2px 8px;border-radius:4px;font-size:10px;white-space:nowrap;color:var(--t2);z-index:10}
 .tb-btn:hover .tip{display:block}
-.fbar{display:none;align-items:center;gap:8px;padding:10px 14px;background:var(--input);border-radius:10px;margin-bottom:8px;border:1px solid var(--bdr);flex-wrap:wrap}
+.fbar{display:none;align-items:flex-end;gap:6px;padding:8px 14px;background:var(--input);border-radius:10px;margin-bottom:8px;border:1px solid var(--bdr);flex-wrap:wrap}
 .fbar.sh{display:flex}
-.fbar select,.fbar input{padding:6px 10px;font-size:12px;background:var(--card);border:1px solid var(--bdr);border-radius:6px;color:var(--t1);font-family:inherit;outline:none;min-width:100px}
-.fbar select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%2394A3B8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:24px}
-.fbar .f-lbl{font-size:11px;color:var(--t3);margin-right:-4px}
-.fbar .f-reset{padding:5px 10px;border-radius:6px;background:rgba(244,63,94,.1);color:var(--rs);border:1px solid rgba(244,63,94,.2);font-size:11px;font-weight:600;cursor:pointer;display:none}
+.fbar select,.fbar input{padding:5px 8px;font-size:11px;background:var(--card);border:1px solid var(--bdr);border-radius:6px;color:var(--t1);font-family:inherit;outline:none;width:100%}
+.fbar select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%2394A3B8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 6px center;padding-right:20px}
+.fbar .f-grp{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.fbar .f-lbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;font-weight:600; padding-left:8px;}
+.fbar .f-reset{padding:5px 10px;border-radius:6px;background:rgba(244,63,94,.1);color:var(--rs);border:1px solid rgba(244,63,94,.2);font-size:10px;font-weight:600;cursor:pointer;display:none;white-space:nowrap;align-self:flex-end}
 .fbar .f-reset.sh{display:inline-flex}
-.fbar .f-count{font-size:11px;color:var(--em);font-weight:600;margin-left:auto}
+.fbar .f-count{font-size:12px;color:var(--em);font-weight:500;margin-left:30px;margin-bottom:5px;white-space:nowrap;align-self:flex-end}
 .ms-bar{display:none;align-items:center;gap:10px;padding:8px 14px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:10px;margin-bottom:8px}
 .ms-bar.sh{display:flex}
 .ms-bar .ms-info{font-size:13px;color:var(--bl);font-weight:600;flex:1}
@@ -148,10 +149,10 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .date-sep .ds-label{display:flex;align-items:center;gap:6px;padding:4px 10px;background:var(--input);border:1px solid var(--bdr);border-radius:6px;color:var(--t1);white-space:nowrap}
 .date-sep .ds-label svg{width:12px;height:12px;stroke:var(--em);fill:none;stroke-width:2}
 .date-sep .ds-cnt{font-size:11px;color:var(--t3);font-weight:500}
-.tl{display:flex;flex-direction:column;gap:6px;position:relative}
+.tl{display:flex;flex-direction:column;gap:0px;position:relative}
 .tl-footer{display:flex;justify-content:space-between;align-items:center;padding:10px 0;font-size:12px;color:var(--t2);border-top:1px solid var(--bdr);margin-top:6px}
 .ti-n{background:var(--card);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;transition:.2s}
-.ti-n:hover{border-color:rgba(148,163,184,.25)}
+.ti-n:hover{border-color:rgba(148,163,184,.45);box-shadow:0 0 0 1px rgba(148,163,184,.1)}
 .ti-n .tc{padding:8px 16px;display:flex;align-items:center;gap:12px;cursor:pointer}
 .ti-n .t-ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ti-n .t-ic svg{width:16px;height:16px;stroke-width:2.5}
@@ -269,7 +270,7 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .rpt-sub-title{font-size:13px;font-weight:700;color:var(--t1);margin:16px 0 8px;display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px}
 .rpt-sub-title.biz{background:rgba(59,130,246,.08);color:var(--bl)}
 .rpt-sub-title.nbiz{background:rgba(100,116,139,.08);color:var(--t2)}
-.diag{position:fixed;bottom:0px;right:380px;background:var(--card);border:1px solid var(--am);border-radius:10px;padding:12px 16px;font-size:11px;font-family:monospace;color:var(--t1);max-width:400px;z-index:600;display:none}
+.diag{position:fixed;bottom:238px;right:535px;background:var(--card);border:1px solid var(--am);border-radius:10px;padding:12px 16px;font-size:11px;font-family:monospace;color:var(--t1);max-width:360px;max-height:60vh;overflow-y:auto;z-index:600;display:none}
 .diag.sh{display:block}
 .diag .dt{color:var(--am);font-weight:700;margin-bottom:6px}
 .diag .dc{cursor:pointer;color:var(--t3);float:right}
@@ -334,16 +335,16 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .scroll-top:hover{color:var(--em);border-color:var(--em);background:var(--card-h)}
 .scroll-top.sh{display:flex}
 .scroll-top svg{width:18px;height:18px;stroke-width:2.5}
-.ti-n.ch-bank{border-left:3px solid var(--bl)}
-.ti-n.ch-spice{border-left:3px solid var(--sp)}
-.ti-n.ch-wallet{border-left:3px solid var(--pu)}
-.ti-n.ch-business{border-left:3px solid var(--cy)}
-.ti-n.ch-cash{border-left:3px solid var(--cash)}
-.ti-c.ch-bank{border-left:3px solid var(--bl)}
-.ti-c.ch-spice{border-left:3px solid var(--sp)}
-.ti-c.ch-wallet{border-left:3px solid var(--pu)}
-.ti-c.ch-business{border-left:3px solid var(--cy)}
-.ti-c.ch-cash{border-left:3px solid var(--cash)}
+.ti-n.ch-bank{border-left:3px solid var(--bl);margin: 3px 0px;}
+.ti-n.ch-spice{border-left:3px solid var(--sp);margin: 3px 0px;}
+.ti-n.ch-wallet{border-left:3px solid var(--pu);margin: 3px 0px;}
+.ti-n.ch-business{border-left:3px solid var(--cy);margin: 3px 0px;}
+.ti-n.ch-cash{border-left:3px solid var(--cash);margin: 3px 0px;}
+.ti-c.ch-bank{border-left:3px solid var(--bl);margin: 3px 0px;}
+.ti-c.ch-spice{border-left:3px solid var(--sp);margin: 3px 0px;}
+.ti-c.ch-wallet{border-left:3px solid var(--pu);margin: 3px 0px;}
+.ti-c.ch-business{border-left:3px solid var(--cy);margin: 3px 0px;}
+.ti-c.ch-cash{border-left:3px solid var(--cash);margin: 3px 0px;}
 .ti-c .t-flow-ic{width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ti-c .t-flow-ic svg{width:11px;height:11px;stroke-width:2.5}
 .ti-c .t-flow-ic.inflow{background:rgba(16,185,129,.12)}
@@ -351,6 +352,8 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .ti-c .t-status-ic{display:inline-flex;align-items:center;margin-left:4px;flex-shrink:0}
 .ti-c .t-status-ic svg{width:11px;height:11px;stroke-width:2.5}
 .ti-c .t-tags{margin-left:auto;gap:4px}
+.ti-n:hover{border-color:rgba(148,163,184,.4)}
+.ti-c:hover{background:var(--card-h);border-color:rgba(148,163,184,.25)}
 .toolbar .search-box{position:relative}
 .page{opacity:0;transition:opacity .15s ease}
 .page.act{opacity:1}
@@ -387,8 +390,8 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .import-overlay .io-text{font-size:14px;color:var(--t1);font-weight:600}
 .import-overlay .io-sub{font-size:12px;color:var(--t2)}
 
-.qr-btn{color:var(--am);border-color:rgba(245,158,11,.3)}
-.qr-btn.active{color:var(--am);border-color:var(--am);background:rgba(245,158,11,.1)}
+.qr-btn{fill:var(--t2);border:1px solid var(--bdr)}
+.qr-btn.active{fill:var(--am);border-color:var(--am);background:rgba(245,158,11,.1)}
 .qr-bar{display:none;align-items:center;gap:10px;padding:10px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;margin-bottom:8px;flex-wrap:wrap}
 .qr-bar.sh{display:flex}
 .qr-bar .qr-info{font-size:13px;color:var(--am);font-weight:600;flex:1}
@@ -402,9 +405,11 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .qr-group-header:hover{border-color:var(--t3)}
 .qr-group-header .qrg-arrow{transition:transform .2s;flex-shrink:0}
 .qr-group-header .qrg-arrow.collapsed{transform:rotate(-90deg)}
-.qr-group-body{overflow:hidden;transition:max-height .25s ease}
+.qr-group-body{overflow:hidden;transition:max-height .25s ease;display:flex;flex-direction:column;gap:0px;padding-top:6px}
+.qr-group-body.collapsed{max-height:0!important;overflow:hidden;padding-top:0;gap:0}
 .qr-group-body.collapsed{max-height:0!important;overflow:hidden}
-.modal-qr{max-width:520px}
+.modal-qr{max-width:520px;max-height:85vh;display:flex;flex-direction:column}
+.modal-qr .mqr-body{overflow-y:auto;flex:1}
 .modal-qr .mqr-count{font-size:14px;font-weight:700;color:var(--am);margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .modal-qr .mqr-field{margin-bottom:12px}
 .modal-qr .mqr-field label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:4px}
@@ -497,24 +502,18 @@ Sign in with Google
 <button class="tb-btn" id="msToggle" onclick="toggleMS()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span class="tip">Select</span></button>
 <div class="tb-sep"></div>
 <button class="tb-btn" id="viewToggle" onclick="toggleView()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 6h20M2 13h20M2 20h20M2 6h.01M2 13h.01M2 20h.01M2"/></svg><span class="tip">Compact</span></button>
-<button class="tb-btn qr-btn" id="qrToggle" onclick="toggleQuickReview()" title="Quick Review"><svg viewBox="0 0 125.36 125.88" fill="currentColor"><title>Quick Review</title><path d="M60.18,2.39l1.57,0-8.1,13.53A47.08,47.08,0,0,0,34.52,102l-3.6,13.12A60.18,60.18,0,0,1,60.18,2.39Zm10,47.71H83.66a3.54,3.54,0,0,1,3.54,3.54,3.49,3.49,0,0,1-.61,2l-40,67.26-6.49-2.53L52.73,74.26l-16,.27a3.52,3.52,0,0,1-3.09-5.31L75.12,0l6.54,2.29L70.17,50.1Zm20-39.69a60.19,60.19,0,0,1-30,112.34l-1.59,0,8-13.53A47.08,47.08,0,0,0,87,23.87l3.24-13.46Z"/></svg><span class="tip">Quick Review</span></button>
+<button class="tb-btn qr-btn" id="qrToggle" onclick="toggleQuickReview()" title="Quick Review"><svg width="512" height="512" viewBox="0 0 56 56"><path d="M6.016 30.906c0 .914.703 1.594 1.687 1.594h13.243L13.96 51.484c-.914 2.414 1.594 3.703 3.188 1.735l6.093-7.617a14.194 14.194 0 0 1-.28-2.836c0-8.11 6.538-14.813 14.577-15.07l.89-1.102c.4-.492.61-.961.61-1.5c0-.89-.68-1.594-1.664-1.594H24.11l7.007-18.984c.89-2.414-1.594-3.703-3.187-1.711L6.649 29.406c-.399.516-.633.985-.633 1.5m32.039 23.766c6.468 0 11.93-5.39 11.93-11.906c0-6.516-5.391-11.907-11.93-11.907c-6.516 0-11.906 5.391-11.906 11.907c0 6.562 5.39 11.906 11.906 11.906"/></svg>
+<span class="tip">Quick Review</span></button>
 <button class="tb-btn" onclick="diagnoseData()" style="color:var(--am);border-color:rgba(245,158,11,.3)" title="Diagnose Data"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="tip">Diagnose</span></button>
 </div>
 <div class="fbar" id="fBar">
-<span class="f-lbl">Flow</span>
-<select id="flFlow"><option value="">All</option><option value="Inflow">Inflow</option><option value="Outflow">Outflow</option></select>
-<span class="f-lbl">Status</span>
-<select id="flSts"><option value="">All</option><option value="Success">Success</option><option value="Pending">Pending</option><option value="Fail">Fail</option><option value="Refund">Refund</option></select>
-<span class="f-lbl">Channel</span>
-<select id="flAcc"><option value="">All</option><option value="Cash">Cash</option><option value="AEPS">Spicemoney</option><option value="Bank">Bank</option><option value="Phonepe-Wallet">PhonePe-Wallet</option><option value="Phonepe-Business">PhonePe-Business</option></select>
-<span class="f-lbl">Type</span>
-<select id="flType"><option value="">All</option></select>
-<span class="f-lbl">From</span>
-<input type="date" id="flFrom">
-<span class="f-lbl">To</span>
-<input type="date" id="flTo">
-<span class="f-lbl">Review</span>
-<select id="flReview"><option value="">All</option><option value="pending">Pending</option><option value="reviewed">Reviewed</option><option value="none">No tag</option></select>
+<div class="f-grp"><span class="f-lbl">Flow</span><select id="flFlow"><option value="">All</option><option value="Inflow">Inflow</option><option value="Outflow">Outflow</option></select></div>
+<div class="f-grp"><span class="f-lbl">Status</span><select id="flSts"><option value="">All</option><option value="Success">Success</option><option value="Pending">Pending</option><option value="Fail">Fail</option><option value="Refund">Refund</option></select></div>
+<div class="f-grp"><span class="f-lbl">Channel</span><select id="flAcc"><option value="">All</option><option value="Cash">Cash</option><option value="AEPS">Spicemoney</option><option value="Bank">Bank</option><option value="Phonepe-Wallet">PhonePe-Wallet</option><option value="Phonepe-Business">PhonePe-Business</option></select></div>
+<div class="f-grp"><span class="f-lbl">Type</span><select id="flType"><option value="">All</option></select></div>
+<div class="f-grp"><span class="f-lbl">From</span><input type="date" id="flFrom"></div>
+<div class="f-grp"><span class="f-lbl">To</span><input type="date" id="flTo"></div>
+<div class="f-grp"><span class="f-lbl">Review</span><select id="flReview"><option value="">All</option><option value="pending">Pending</option><option value="reviewed">Reviewed</option><option value="zero-comm">Zero Comm</option><option value="none">No tag</option></select></div>
 <button class="f-reset" id="fReset" onclick="resetFilters()">✕ Reset</button>
 <span class="f-count" id="fCount"></span>
 </div>
@@ -620,13 +619,13 @@ Sign in with Google
 </div></div>
 
 <div class="modal-ov" id="qrModal"><div class="modal modal-qr">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-shrink:0">
 <h3 style="margin:0">⚡ Quick Review</h3>
 <button onclick="closeQrModal()" style="background:none;border:1px solid var(--bdr);border-radius:6px;padding:4px 8px;color:var(--t2);cursor:pointer;font-size:16px;line-height:1">✕</button>
 </div>
+<div class="mqr-body" style="overflow-y:auto;flex:1;min-height:0">
 <div class="mqr-count" id="qrCount">0 transactions selected</div>
-<div id="qrTypeInfo" style="display:none;background:var(--input);border:1px solid var(--bdr);border-radius:10px;padding:10px 0;display:grid;grid-template-columns:1fr 1fr 1fr;margin-bottom:14px">
-</div>
+<div id="qrTypeInfo" style="display:none;background:var(--input);border:1px solid var(--bdr);border-radius:10px;padding:10px 0;display:grid;grid-template-columns:1fr 1fr 1fr;margin-bottom:14px"></div>
 <div class="mqr-field">
 <label>Type</label>
 <select id="qrType" onchange="onQrTypeChange()"><option value="">— Keep existing —</option></select>
@@ -637,18 +636,23 @@ Sign in with Google
 </div>
 <div class="mqr-toggle" onclick="toggleQrAutoComm()">
 <div class="mt-switch" id="qrAutoCommSwitch"></div>
-<div class="mt-label"><b>Auto Commission</b> — Calculate ₹10 per ₹1000 block for each transaction</div>
+<div class="mt-label"><b>Auto Commission</b> — ₹10 per ₹1000 block</div>
 </div>
 <div class="mqr-field">
-<label>Note (applied to all selected)</label>
-<textarea id="qrNote" placeholder="Enter note for all selected transactions..."></textarea>
+<label>Note</label>
+<textarea id="qrNote" placeholder="Enter note for all selected..." style="min-height:40px"></textarea>
 </div>
 <div class="mqr-field">
 <label>Status</label>
 <select id="qrStatus"><option value="">— Keep existing —</option><option value="Success">Success</option><option value="Fail">Fail</option><option value="Refund">Refund</option><option value="Pending">Pending</option></select>
 </div>
 <div class="mqr-preview" id="qrPreview" style="display:none"></div>
-<div class="m-acts">
+<div id="qrWarn" style="display:none;align-items:flex-start;gap:8px;padding:8px 10px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;margin-bottom:10px;font-size:11px;color:var(--am)">
+<svg viewBox="0 0 24 24" fill="none" stroke="var(--am)" style="width:14px;height:14px;stroke-width:2.5;flex-shrink:0;margin-top:1px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+<span id="qrWarnText"></span>
+</div>
+</div>
+<div class="m-acts" style="flex-shrink:0;padding-top:10px;border-top:1px solid var(--bdr);margin-top:8px">
 <button class="btn btn-s btn-sm" onclick="closeQrModal()">Cancel</button>
 <button class="btn btn-p btn-sm" onclick="applyQuickReview()">✓ Apply & Mark Reviewed</button>
 </div>
@@ -822,7 +826,40 @@ function fd(d){if(!d)return'';return new Date(d+'T00:00:00').toLocaleDateString(
 function fdFull(d){if(!d)return'';var dt=new Date(d+'T00:00:00'),t=new Date;t.setHours(0,0,0,0);var y=new Date(t);y.setDate(y.getDate()-1);var ds=dt.toISOString().split('T')[0],ts=t.toISOString().split('T')[0],ys=y.toISOString().split('T')[0];if(ds===ts)return'Today, '+dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});if(ds===ys)return'Yesterday, '+dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});return dt.toLocaleDateString('en-IN',{weekday:'long',day:'2-digit',month:'short',year:'numeric'})}
 function eh(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML}
 function toast(m,t){t=t||'info';var e=document.createElement('div');e.className='toast '+t;e.textContent=m;document.body.appendChild(e);setTimeout(function(){e.remove()},3500)}
-function diagnoseData(){var flows={},sts={},biz={},bank={},types={},reviews={};for(var i=0;i<TXS.length;i++){var f=String(TXS[i].flow);var s=String(TXS[i].status);var b=String(TXS[i].biz);var bk=String(TXS[i].bank);var tp=String(TXS[i].type);var rv=TXS[i].reviewStatus||'none';flows[f]=(flows[f]||0)+1;sts[s]=(sts[s]||0)+1;biz[b]=(biz[b]||0)+1;bank[bk]=(bank[bk]||0)+1;types[tp]=(types[tp]||0)+1;reviews[rv]=(reviews[rv]||0)+1;}var html='<b>Total:</b> '+TXS.length+' transactions<br><br>';html+='<b>Flow values:</b><br>';for(var fk in flows)html+='"'+fk+'" → '+flows[fk]+'<br>';html+='<br><b>Status values:</b><br>';for(var sk in sts)html+='"'+sk+'" → '+sts[sk]+'<br>';html+='<br><b>Review Status:</b><br>';for(var rk in reviews)html+='"'+rk+'" → '+reviews[rk]+'<br>';html+='<br><b>Business values:</b><br>';for(var bk2 in biz)html+='"'+bk2+'" → '+biz[bk2]+'<br>';html+='<br><b>Bank values:</b><br>';for(var bnk in bank)html+='"'+bnk+'" → '+bank[bnk]+'<br>';html+='<br><b>Type values:</b><br>';var sortedTypes=Object.keys(types).sort();for(var ti=0;ti<sortedTypes.length;ti++){html+='"'+sortedTypes[ti]+'" → '+types[sortedTypes[ti]]+'<br>'}document.getElementById('diagContent').innerHTML=html;document.getElementById('diagBox').classList.add('sh');/* Close on click outside*/setTimeout(function(){document.addEventListener('click',closeDiagOnClickOutside);},100);}
+function diagnoseData(){
+var flows={},sts={},biz={},bank={},reviews={},typeCount=0;
+for(var i=0;i<TXS.length;i++){
+var f=String(TXS[i].flow);
+var s=String(TXS[i].status);
+var b=String(TXS[i].biz);
+var bk=String(TXS[i].bank);
+var rv=TXS[i].reviewStatus||'none';
+flows[f]=(flows[f]||0)+1;
+sts[s]=(sts[s]||0)+1;
+biz[b]=(biz[b]||0)+1;
+bank[bk]=(bank[bk]||0)+1;
+reviews[rv]=(reviews[rv]||0)+1;}
+// Count unique types
+var typeSet={};
+for(var t=0;t<TXS.length;t++){typeSet[TXS[t].type]=true}
+typeCount=Object.keys(typeSet).length;
+var html='<b>Total:</b> '+TXS.length+' txns • '+typeCount+' types<br><br>';
+html+='<b>Flow:</b><br>';
+for(var fk in flows)html+=fk+': '+flows[fk]+'<br>';
+html+='<br><b>Status:</b><br>';
+for(var sk in sts)html+=sk+': '+sts[sk]+'<br>';
+html+='<br><b>Review:</b><br>';
+for(var rk in reviews)html+=rk+': '+reviews[rk]+'<br>';
+html+='<br><b>Business:</b><br>';
+for(var bk2 in biz)html+=bk2+': '+biz[bk2]+'<br>';
+html+='<br><b>Bank:</b><br>';
+for(var bnk in bank)html+=bnk+': '+bank[bnk]+'<br>';
+document.getElementById('diagContent').innerHTML=html;
+document.getElementById('diagBox').classList.add('sh');
+setTimeout(function(){
+document.addEventListener('click',closeDiagOnClickOutside);
+},100);
+}
 function closeDiagOnClickOutside(e){var box=document.getElementById('diagBox');if(box&&!box.contains(e.target)&&!e.target.closest('.tb-btn')){box.classList.remove('sh');document.removeEventListener('click',closeDiagOnClickOutside);}}
 function showConfirm(title,msg,btnText,cb){document.getElementById('cmTitle').textContent=title;document.getElementById('cmMsg').textContent=msg;document.getElementById('cmConfirmBtn').textContent=btnText||'Delete';_pendingConfirmAction=cb;document.getElementById('confirmModal').classList.add('sh')}
 function closeConfirm(){document.getElementById('confirmModal').classList.remove('sh');_pendingConfirmAction=null}
@@ -842,9 +879,14 @@ document.getElementById('cancelBtn').style.display='none';
 rstF();setDt();rTid();
 }
 function goPg(p,skipInit){
+var comingFromTxn=document.getElementById('pg-transactions').classList.contains('act');
+var goingToEdit=p==='newentry';
+var goingToTxn=p==='transactions';
+
 // Auto-exit special modes when navigating away from transactions
-if(p!=='transactions'){
-// Exit Quick Review mode
+// But preserve search when going to edit (newentry) and back
+if(p!=='transactions'&&p!=='newentry'){
+// Full reset — leaving transactions entirely
 if(qrMode){
 qrMode=false;
 qrSelected.clear();
@@ -855,7 +897,6 @@ if(qrBtn)qrBtn.classList.remove('active');
 var qrBarEl=document.getElementById('qrBar');
 if(qrBarEl)qrBarEl.classList.remove('sh');
 }
-// Exit Multi-select mode
 if(msMode){
 msMode=false;
 selected.clear();
@@ -864,14 +905,12 @@ if(msBtn)msBtn.classList.remove('active');
 var msBarEl=document.getElementById('msBar');
 if(msBarEl)msBarEl.classList.remove('sh');
 }
-// Close filter bar
 var fBarEl=document.getElementById('fBar');
 if(fBarEl&&fBarEl.classList.contains('sh')){
 fBarEl.classList.remove('sh');
 var flBtn=document.getElementById('filterToggle');
 if(flBtn)flBtn.classList.remove('active');
 }
-// Reset filter values
 document.getElementById('flFlow').value='';
 document.getElementById('flSts').value='';
 document.getElementById('flAcc').value='';
@@ -883,10 +922,12 @@ document.getElementById('searchQ').value='';
 var clearBtn=document.getElementById('searchClear');
 if(clearBtn)clearBtn.style.display='none';
 }
+
 // Close diagnose popup
 var diagBox=document.getElementById('diagBox');
 if(diagBox)diagBox.classList.remove('sh');
 document.removeEventListener('click',closeDiagOnClickOutside);
+
 // Update visuals
 var pages=document.querySelectorAll('.page');
 for(var i=0;i<pages.length;i++)pages[i].classList.remove('act');
@@ -897,6 +938,7 @@ if(el)el.classList.add('act');
 document.getElementById('pg-'+p).classList.add('act');
 if(innerWidth<768)tSb();
 localStorage.setItem('sm_page',p);
+
 // Render data
 requestAnimationFrame(function(){
 if(p==='dashboard')rDash();
@@ -988,7 +1030,7 @@ sMsg('✓ Transaction saved: '+tx.type+' • ₹'+fn(tx.amount),'s');
 
 function tFl(){document.getElementById('fBar').classList.toggle('sh');document.getElementById('filterToggle').classList.toggle('active');rTxns()}
 function resetFilters(){document.getElementById('flFlow').value='';document.getElementById('flSts').value='';document.getElementById('flAcc').value='';document.getElementById('flType').value='';document.getElementById('flFrom').value='';document.getElementById('flTo').value='';document.getElementById('flReview').value='';document.getElementById('searchQ').value='';rTxns()}
-function gFL(){var r=TXS.slice();var q=document.getElementById('searchQ').value.toLowerCase().trim();var flow=document.getElementById('flFlow').value;var sts=document.getElementById('flSts').value;var acc=document.getElementById('flAcc').value;var tp=document.getElementById('flType').value;var fr=document.getElementById('flFrom').value;var to=document.getElementById('flTo').value;if(q)r=r.filter(function(x){return (x.note||'').toLowerCase().indexOf(q)>=0||(x.type||'').toLowerCase().indexOf(q)>=0||(x.txnId||'').toLowerCase().indexOf(q)>=0});if(flow!=='')r=r.filter(function(x){return normalizeFlow(x.flow)===flow});if(sts!=='')r=r.filter(function(x){return x.status===sts});if(acc!=='')r=r.filter(function(x){return x.from===acc||x.to===acc});if(tp!=='')r=r.filter(function(x){return x.type===tp});if(fr!=='')r=r.filter(function(x){return x.date>=fr});if(to!=='')r=r.filter(function(x){return x.date<=to});var rev=document.getElementById('flReview').value;if(rev==='pending')r=r.filter(function(x){return x.reviewStatus==='pending'});else if(rev==='reviewed')r=r.filter(function(x){return x.reviewStatus==='reviewed'});else if(rev==='none')r=r.filter(function(x){return !x.reviewStatus}); var hasFilter=flow||sts||acc||tp||fr||to||q||rev; var barOpen=document.getElementById('fBar').classList.contains('sh');document.getElementById('fReset').classList.toggle('sh',!!hasFilter);var fc=document.getElementById('fCount');if(barOpen){if(hasFilter){fc.textContent=r.length+' • ₹'+fn(r.reduce(function(s,t){return s+t.amount},0))}else{fc.textContent='Total: '+TXS.length+' transactions'}}else{fc.textContent=''}return r.sort(function(a,b){var dc=(b.date||'').localeCompare(a.date||'');if(dc!==0)return dc;return new Date(b.createdAt||0)-new Date(a.createdAt||0)})}
+function gFL(){var r=TXS.slice();var q=document.getElementById('searchQ').value.toLowerCase().trim();var flow=document.getElementById('flFlow').value;var sts=document.getElementById('flSts').value;var acc=document.getElementById('flAcc').value;var tp=document.getElementById('flType').value;var fr=document.getElementById('flFrom').value;var to=document.getElementById('flTo').value;if(q)r=r.filter(function(x){return (x.note||'').toLowerCase().indexOf(q)>=0||(x.type||'').toLowerCase().indexOf(q)>=0||(x.txnId||'').toLowerCase().indexOf(q)>=0});if(flow!=='')r=r.filter(function(x){return normalizeFlow(x.flow)===flow});if(sts!=='')r=r.filter(function(x){return x.status===sts});if(acc!=='')r=r.filter(function(x){return x.from===acc||x.to===acc});if(tp!=='')r=r.filter(function(x){return x.type===tp});if(fr!=='')r=r.filter(function(x){return x.date>=fr});if(to!=='')r=r.filter(function(x){return x.date<=to});var rev=document.getElementById('flReview').value;if(rev==='pending')r=r.filter(function(x){return x.reviewStatus==='pending'});else if(rev==='reviewed')r=r.filter(function(x){return x.reviewStatus==='reviewed'});else if(rev==='zero-comm')r=r.filter(function(x){return x.biz==='Business'&&(x.commission||0)<=0});else if(rev==='none')r=r.filter(function(x){return !x.reviewStatus}); var hasFilter=flow||sts||acc||tp||fr||to||q||rev; var barOpen=document.getElementById('fBar').classList.contains('sh');document.getElementById('fReset').classList.toggle('sh',!!hasFilter);var fc=document.getElementById('fCount');if(barOpen){if(hasFilter){fc.textContent=r.length+' • ₹'+fn(r.reduce(function(s,t){return s+t.amount},0))}else{fc.textContent='Total: '+TXS.length+' transactions'}}else{fc.textContent=''}return r.sort(function(a,b){var dc=(b.date||'').localeCompare(a.date||'');if(dc!==0)return dc;return new Date(b.createdAt||0)-new Date(a.createdAt||0)})}
 function aFl(){rTxns()}
 function toggleSearchClear(){var btn=document.getElementById('searchClear');var q=document.getElementById('searchQ').value;if(btn)btn.style.display=q?'block':'none';}
 function clearSearch(){document.getElementById('searchQ').value='';document.getElementById('searchClear').style.display='none';aFl();}
@@ -1048,6 +1090,7 @@ html+=compactView?rnC(g):rnN(g)});
 }
 list.innerHTML=html+'<div class="tl-footer"><span>'+fl.length+' of '+TXS.length+'</span><div style="display:flex;gap:16px"><span style="color:var(--em)">+₹'+fn(tIn)+'</span><span style="color:var(--rs)">-₹'+fn(tOut)+'</span></div></div>';
 if(qrMode){ds.classList.remove('sh')}else{ds.classList.add('sh');setTimeout(uSD,50)}
+toggleSearchClear();
 }
 function uSD(){var pg=document.getElementById('pg-transactions');if(!pg.classList.contains('act'))return;var ds=document.getElementById('dateSticky');if(!ds.classList.contains('sh'))return;var seps=document.querySelectorAll('.date-sep[data-sep-date]');if(!seps.length)return;var sb=ds.getBoundingClientRect().bottom,cd=seps[0].dataset.sepDate;for(var i=0;i<seps.length;i++){if(seps[i].getBoundingClientRect().top<=sb+2)cd=seps[i].dataset.sepDate;else break}if(cd){document.getElementById('dateStickyLabel').textContent=fdFull(cd);var c=dateGroupCounts[cd]||0;document.getElementById('dateStickyCount').textContent=c+' transaction'+(c>1?'s':'')}}
 function toggleScrollTop(){var btn=document.getElementById('scrollTop');if(!btn)return;if(window.scrollY>400){btn.classList.add('sh')}else{btn.classList.remove('sh')}}
@@ -1149,8 +1192,13 @@ document.getElementById('fSt').value=tx.status;
 document.getElementById('fTid').value=tx.txnId;
 document.getElementById('fNote').value=tx.note||'';
 updNetComm();
-// Recalculate commission suggestion based on THIS transaction's amount
+// Show commission suggestion but don't overwrite existing commission
+var existingComm=tx.commission||0;
 calcComm();
+if(existingComm>0){
+document.getElementById('fCom').value=existingComm;
+updNetComm();
+}
 },50);
 },20);
 window.scrollTo({top:0,behavior:'auto'});
@@ -1391,7 +1439,7 @@ function closeSkipModal(){document.getElementById('skipModal').classList.remove(
 function rDash(){
 var pendingReview=TXS.filter(function(t){return t.reviewStatus==='pending'}).length;
 var noticeEl=document.getElementById('dashNotice');
-if(noticeEl){if(pendingReview>0){noticeEl.style.display='flex';document.getElementById('dashNoticeText').innerHTML='<span class="dn-count">'+pendingReview+'</span> transaction'+(pendingReview>1?'s':'')+' imported from PhonePe need'+(pendingReview===1?'s':'')+' review. Edit each to mark as reviewed.'}else{noticeEl.style.display='none'}}
+if(noticeEl){if(pendingReview>0){noticeEl.style.display='flex';document.getElementById('dashNoticeText').innerHTML='<span class="dn-count">'+pendingReview+'</span>  Transaction'+(pendingReview>1?'s':'')+' imported from PhonePe need'+(pendingReview===1?'s':'')+' review. Edit each to mark as reviewed.'}else{noticeEl.style.display='none'}}
 var S=TXS.filter(function(t){return t.status==='Success'});
 var net=0;S.forEach(function(t){var f=normalizeFlow(t.flow);if(f==='Inflow')net+=t.amount;else if(f==='Outflow')net-=t.amount;net+=t.netCommission});
 var tc=S.reduce(function(s,t){return s+t.netCommission},0);
@@ -1927,6 +1975,30 @@ fromAcc=paidByWallet?'Phonepe-Wallet':'Bank';
 toAcc=paidByWallet?'Cash':'Cash';
 }
 
+var descParts=[];
+var descStart=Math.max(0,tidLine-8);
+for(var dp=descStart;dp<tidLine;dp++){
+var dpl=cl[dp];
+if(!dpl)continue;
+if(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d/i.test(dpl))continue;
+if(/^\d{1,2}:\d{2}\s*(am|pm)$/i.test(dpl))continue;
+if(/^DEBIT$/i.test(dpl)||/^CREDIT$/i.test(dpl))continue;
+if(dpl==='₹')continue;
+if(/^[\d,]+\.?\d*$/.test(dpl))continue;
+if(/^Transaction\s*ID/i.test(dpl))continue;
+if(/^UTR\s*No/i.test(dpl))continue;
+if(/^(Paid\s+by|Credited\s+to|Debited\s+from|Page\s+\d)/i.test(dpl))continue;
+if(/X{3,}/i.test(dpl)||/\*{3,}/.test(dpl))continue;
+if(/^[X\d\*]+$/i.test(dpl))continue;
+if(/^Date\s+Transaction/i.test(dpl))continue;
+if(/^Type\s+Amount$/i.test(dpl))continue;
+if(/^Type$/i.test(dpl))continue;
+if(/^Amount$/i.test(dpl))continue;
+if(/^This is a system/i.test(dpl))continue;
+descParts.push(dpl);
+}
+var txDesc=descParts.join(' ').trim();
+
 txns.push({
 date:txDate,
 type:txType==='DEBIT'?'Transfer-Out':'Transfer-In',
@@ -1936,7 +2008,7 @@ flow:txType==='DEBIT'?'Outflow':'Inflow',
 amount:txAmount,
 txnId:entry.id,
 utr:utr,
-desc:'',
+desc:txDesc,
 status:isFailed?'Fail':'Success',
 isWallet:paidByWallet
 });
@@ -2003,15 +2075,41 @@ for(var j=0;j<filtered.length;j++){
 var pt=filtered[j];
 if(isDuplicateOrigId(pt._origTid||pt.txnId,existingIds)){skipped++;continue}
 var rowCreatedAt=new Date(baseTime-j).toISOString();
+var pdfSmart=getSmartTitleAndComm(pt.txnId,pt.amount,'phonepe',pt.desc||'');
+var pdfFrom=pt.from;
+var pdfTo=pt.to;
+var pdfFlow=pt.flow;
+var pdfBiz='Unknown';
+var pdfBank='Bank';
+var pdfType=pt.type;
+var pdfRuleId=pt.type==='Transfer-Out'?6:5;
+var pdfComm=pdfSmart.commission||0;
+// Apply route override if smart detection found one
+if(pdfSmart.route){
+if(pdfSmart.route.from)pdfFrom=pdfSmart.route.from;
+if(pdfSmart.route.to)pdfTo=pdfSmart.route.to;
+if(pdfSmart.route.bank)pdfBank=pdfSmart.route.bank;
+if(pdfSmart.route.biz)pdfBiz=pdfSmart.route.biz;
+if(pdfSmart.route.type)pdfType=pdfSmart.route.type;
+if(pdfSmart.route.ruleId)pdfRuleId=pdfSmart.route.ruleId;
+if(pdfSmart.route.flow)pdfFlow=pdfSmart.route.flow;
+}
+// Determine title
+var pdfNote='';
+if(pdfSmart.title){
+pdfNote=pdfSmart.title;
+}else{
+pdfNote='Review - Imported from PhonePe Statement';
+}
 TXS.unshift({
 id:Date.now().toString()+j+Math.random().toString(36).substr(2,5),
-ruleId:pt.isWallet?(pt.type==='Transfer-Out'?8:7):(pt.type==='Transfer-Out'?6:5),
-type:pt.type,from:pt.from,to:pt.to,flow:pt.flow,
-biz:'Unknown',bank:pt.isWallet?'Non-Bank':'Bank',
-amount:pt.amount,commission:0,discount:0,netCommission:0,
+ruleId:pdfRuleId,
+type:pdfType,from:pdfFrom,to:pdfTo,flow:pdfFlow,
+biz:pdfBiz,bank:pdfBank,
+amount:pt.amount,commission:pdfComm,discount:0,netCommission:pdfComm,
 date:pt.date,status:pt.status,
 txnId:pt.txnId,
-note:'Review - Imported from PhonePe Statement',
+note:pdfNote,
 createdAt:rowCreatedAt,
 reviewStatus:'pending',
 importSource:'phonepe-pdf'
@@ -2076,7 +2174,6 @@ var SM_RULE_MAP={
 function parseSpicemoneyCsv(rows){
 var txns=[];
 var idOccurrences={};
-
 // First pass: count how many times each Transaction ID appears (among non-skipped rows)
 for(var p=0;p<rows.length;p++){
 var row=rows[p];
@@ -2091,7 +2188,6 @@ if(!idOccurrences[tid])idOccurrences[tid]=0;
 idOccurrences[tid]++;
 }
 }
-
 // Second pass: build transactions with proper ID suffixing
 var idSuffixCounter={};
 for(var i=0;i<rows.length;i++){
@@ -2102,32 +2198,24 @@ var kProduct=Object.keys(row).find(function(k){return k.toLowerCase().indexOf('p
 var kTT=Object.keys(row).find(function(k){return k.toLowerCase().indexOf('transaction type')>=0&&k.charAt(0)!=='_'});
 var kAmt=Object.keys(row).find(function(k){return k.toLowerCase().indexOf('amount')>=0&&k.charAt(0)!=='_'});
 var kRemark=Object.keys(row).find(function(k){return k.toLowerCase().indexOf('remark')>=0&&k.charAt(0)!=='_'});
-
 var rawTT=(kTT?row[kTT]:'').trim().toLowerCase();
 if(SM_SKIP_TYPES.indexOf(rawTT)>=0)continue;
-
 var rawDate=kDate?row[kDate]:'';
 var rawTid=(kTid?row[kTid]:'').trim();
 var rawProduct=(kProduct?row[kProduct]:'').trim();
 var rawAmt=kAmt?row[kAmt]:'';
 var rawRemark=kRemark?row[kRemark]:'';
 var amt=parseFloat(String(rawAmt).replace(/[^\d.-]/g,''))||0;
-
 if(amt<=0||!rawProduct||(kTT&&!row[kTT].trim()))continue;
-
 var mapKey=(rawProduct+'|'+row[kTT].trim()).toLowerCase();
 var appType=SM_TYPE_MAP[mapKey];
 if(!appType)continue;
-
 var rule=SM_RULE_MAP[appType];
 if(!rule)continue;
-
 var date=pD(rawDate.split('|')[0].trim());
-
 // Set default status FIRST
 var status='Success';
 if(rawTT==='refund')status='Refund';
-
 // Handle Transaction ID
 var finalTid=rawTid;
 if(rawTid){
@@ -2155,6 +2243,22 @@ var autoComm=0;
 if(appType==='Aeps-WD'||appType==='Aeps-Deposit'){
 autoComm=Math.ceil(amt/1000)*10;
 }
+// Smart title and commission based on Transaction ID
+var smart=getSmartTitleAndComm(finalTid,amt,'spicemoney','');
+if(smart.commission>0&&autoComm===0){
+autoComm=smart.commission;
+}
+// Determine note/title
+var smartNote='';
+if(smart.title){
+smartNote=smart.title;
+}else if(appType==='Aeps-WD'){
+smartNote='Aeps Cash Withdrawal';
+}else if(appType==='Aeps-Deposit'){
+smartNote='Aeps Cash Deposit';
+}else{
+smartNote='Review - Imported from Spicemoney XLS';
+}
 
 txns.push({
 date:date,
@@ -2167,7 +2271,7 @@ bank:rule.bank,
 amount:amt,
 txnId:finalTid,
 ruleId:rule.id,
-note:rawRemark||'',
+note:smartNote,
 status:status,
 commission:autoComm,
 discount:0,
@@ -2323,6 +2427,45 @@ prev.innerHTML='<div class="pm-stat"><span class="l">Total in range</span><span 
 +'<div class="pm-stat"><span class="l">Outflow</span><span class="v" style="color:var(--rs)">'+outCount+' • ₹'+fn(outAmt)+'</span></div>';
 }
 
+function getSmartTitleAndComm(txnId,amount,source,desc){
+var id=(txnId||'').trim().toUpperCase();
+var result={title:'',commission:0,route:null};
+if(source==='spicemoney'){
+if(id.indexOf('SD')===0){
+result.title='Bill Payment via Spicemoney';
+result.commission=10;
+return result;
+}
+if(id.indexOf('MPS')===0||id.indexOf('TW')===0||id.indexOf('JIO')===0||id.indexOf('NJRI')===0){
+result.title='Mobile Recharge via Spicemoney';
+result.commission=Math.ceil(amount/5)*5-amount;
+if(result.commission<0)result.commission=0;
+return result;
+}
+return result;
+}
+if(source==='phonepe'){
+if(id.indexOf('NX')===0){
+result.title='Redeem Code';
+result.commission=Math.ceil(amount/100)*10;
+result.route={from:'Cash',to:'Phonepe-Wallet',bank:'Non-Bank',ruleId:8,biz:'Business',type:'Service-Out',flow:'Outflow'};
+return result;
+}
+if(id.indexOf('OMO')===0&&id.length>0&&id.charAt(id.length-1)==='V'){
+result.title='Daily Investment - Jar Gold';
+result.commission=0;
+result.route={from:'Bank',to:'Bank',bank:'Bank',biz:'Non-Business',type:'Internal-Investment',ruleId:11,flow:'Outflow'};
+return result;
+}
+// For remaining PDF transactions, use original description
+if(desc&&desc.trim()){
+result.title=desc.trim();
+}
+return result;
+}
+return result;
+}
+
 function doImportFinal(mode){
 if(!mode)mode='merge';
 var from=document.getElementById('csvFrom').value;
@@ -2437,7 +2580,6 @@ createdAt:rowCreatedAt2
 if(isSpicemoney){
 newTx.reviewStatus='pending';
 newTx.importSource='spicemoney-csv';
-newTx.note='Review - Imported from Spicemoney XLS';
 }
 
 // Preserve review status from Google Sheet export
@@ -2711,6 +2853,8 @@ document.getElementById('qrFlowC').style.display='none';
 qrAutoComm=false;
 document.getElementById('qrAutoCommSwitch').classList.remove('on');
 qrSelectedRule=null;
+window._qrWarnShown=false;
+document.getElementById('qrWarn').style.display='none';
 showQrPreview();
 document.getElementById('qrModal').classList.add('sh');
 }
@@ -2783,8 +2927,6 @@ var newType=document.getElementById('qrType').value;
 var newNote=document.getElementById('qrNote').value.trim();
 var newStatus=document.getElementById('qrStatus').value;
 var count=0;
-
-// Validate: if type is selected but flow not chosen (for multi-flow types)
 if(newType){
 var rules=R.filter(function(r){return r.type===newType});
 if(rules.length>1&&!qrSelectedRule){
@@ -2793,12 +2935,26 @@ return;
 }
 if(rules.length===1)qrSelectedRule=rules[0];
 }
-
+// Check for zero-commission business transactions warning
+if(!qrAutoComm){
+var bizZeroComm=0;
+TXS.forEach(function(tx){
+if(!qrSelected.has(tx.id))return;
+var txBiz=newType&&qrSelectedRule?qrSelectedRule.biz:tx.biz;
+if(txBiz==='Business'&&(tx.commission||0)<=0)bizZeroComm++;
+});
+if(bizZeroComm>0&&!window._qrWarnShown){
+window._qrWarnShown=true;
+document.getElementById('qrWarn').style.display='flex';
+document.getElementById('qrWarnText').textContent=bizZeroComm+' business transaction'+(bizZeroComm>1?'s':'')+' will have ₹0 commission. You can fix them later using the "Zero Commission" filter.';
+return;
+}
+}
+window._qrWarnShown=false;
+document.getElementById('qrWarn').style.display='none';
 for(var i=0;i<TXS.length;i++){
 var tx=TXS[i];
 if(!qrSelected.has(tx.id))continue;
-
-// Apply type and flow
 if(newType&&qrSelectedRule){
 tx.type=qrSelectedRule.type;
 tx.from=qrSelectedRule.from;
@@ -2808,29 +2964,20 @@ tx.biz=qrSelectedRule.biz;
 tx.bank=qrSelectedRule.bank;
 tx.ruleId=qrSelectedRule.id;
 }
-
-// Apply auto commission
 if(qrAutoComm){
 var comm=Math.ceil(tx.amount/1000)*10;
 tx.commission=comm;
 tx.netCommission=Math.max(0,comm-(tx.discount||0));
 }
-
-// Apply note
 if(newNote){
 tx.note=newNote;
 }
-
-// Apply status
 if(newStatus){
 tx.status=newStatus;
 }
-
-// Mark as reviewed
 tx.reviewStatus='reviewed';
 count++;
 }
-
 sv();
 closeQrModal();
 qrSelected.clear();
