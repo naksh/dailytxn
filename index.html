@@ -429,6 +429,10 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .modal-qr .mqr-preview .mp-row:last-child{border:none}
 .modal-qr .mqr-preview .mp-row .mp-amt{font-weight:600;color:var(--t1)}
 .modal-qr .mqr-preview .mp-row .mp-comm{color:var(--am);font-weight:600}
+.undo-btn{padding:5px;border-radius:6px;background:transparent;border:1px solid var(--bdr);cursor:pointer;color:var(--t2);display:inline-flex;align-items:center;justify-content:center;transition:.2s}
+.undo-btn:hover:not(:disabled){border-color:var(--t2);color:var(--t1)}
+.undo-btn:disabled{opacity:.25;cursor:not-allowed}
+.undo-btn svg{width:14px;height:14px;stroke-width:2.5}
 </style>
 </head>
 <body>
@@ -491,6 +495,8 @@ Sign in with Google
 <div class="toolbar">
 
 <div class="search-box"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" id="searchQ" placeholder="Search..." oninput="aFl();toggleSearchClear()" style="padding-right:26px"></div>
+<button class="undo-btn" id="undoBtn" onclick="doUndo()" disabled title="Undo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></button>
+<button class="undo-btn" id="redoBtn" onclick="doRedo()" disabled title="Redo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.13-9.36L23 10"/></svg></button>
 <div class="tb-sep"></div>
 <input type="file" id="csvFile" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleXLS(this)">
 <button class="tb-btn" onclick="document.getElementById('csvFile').click()" style="color:var(--em);border-color:rgba(85, 247, 153, 0.3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg><span class="tip">Import XLS</span></button>
@@ -527,7 +533,7 @@ Sign in with Google
 <button class="btn btn-p btn-xs" onclick="openQrEdit()" id="qrEditBtn" style="display:none">Edit Selected</button>
 <button class="btn btn-s btn-xs" onclick="toggleQuickReview()">Exit Review</button>
 </div>
-<div class="ms-bar" id="msBar"><div class="cbox" id="msAll" onclick="toggleSelectAll()"></div><span class="ms-info" id="msInfo">0 selected</span><button class="btn btn-d btn-xs" onclick="bulkDel()">🗑 Delete</button></div>
+<div class="ms-bar" id="msBar"><div class="cbox" id="msAll" onclick="toggleSelectAll()"></div><span class="ms-info" id="msInfo">0 selected</span><button class="btn btn-p btn-xs" onclick="bulkQuickEdit()">⚡ Edit Selected</button><button class="btn btn-d btn-xs" onclick="bulkDel()">🗑 Delete</button></div>
 <div class="date-sticky" id="dateSticky"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="dateStickyLabel">—</span><span class="ds-count" id="dateStickyCount"></span></div>
 </div>
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="18 15 12 9 6 15"/></svg></button>
@@ -815,12 +821,84 @@ function deriveFlowFromTransaction(tx){var key=tx.type+'|'+tx.from+'|'+tx.to;var
 function sanitizeTransactions(){var fixed=0;for(var i=0;i<TXS.length;i++){var tx=TXS[i];if(tx.type){var normalizedType=normalizeType(tx.type);if(normalizedType!==tx.type){tx.type=normalizedType;fixed++}}var normalized=normalizeFlow(tx.flow);if(!normalized){normalized=deriveFlowFromTransaction(tx)}if(normalized&&tx.flow!==normalized){tx.flow=normalized;fixed++}if(tx.biz){var bizLower=String(tx.biz).trim().toLowerCase();if(bizLower==='business')tx.biz='Business';else if(bizLower==='non-business'||bizLower==='nonbusiness'||bizLower==='non business')tx.biz='Non-Business'}if(tx.bank){var bankLower=String(tx.bank).trim().toLowerCase();if(bankLower==='bank')tx.bank='Bank';else if(bankLower==='non-bank'||bankLower==='nonbank'||bankLower==='non bank')tx.bank='Non-Bank'}if(!tx.biz||!tx.bank){var key2=tx.type+'|'+tx.from+'|'+tx.to;var rule2=RULES_BY_TYPE_ROUTE[key2]||RULES_BY_TYPE[tx.type];if(rule2){if(!tx.biz){tx.biz=rule2.biz;fixed++}if(!tx.bank){tx.bank=rule2.bank;fixed++}}}
 // Fix old Spicemoney imports where -A suffix should be Failed
 if(tx.txnId&&tx.txnId.match(/-A$/i)&&tx.importSource==='spicemoney-csv'&&tx.status==='Success'){tx.status='Fail';fixed++;}}if(fixed>0){sv();console.log('Sanitized '+fixed+' field(s)')}return fixed}
+
+// ========== UNDO / REDO SYSTEM ==========
+var undoStack=[];
+var redoStack=[];
+var MAX_UNDO=15;
+var lastAction='';
+function pushUndo(actionName){
+// Save current state before change
+var snapshot={
+txs:JSON.parse(JSON.stringify(TXS)),
+ob:JSON.parse(JSON.stringify(OB)),
+action:actionName||'Action'
+};
+undoStack.push(snapshot);
+if(undoStack.length>MAX_UNDO)undoStack.shift();
+// Any new action clears redo
+redoStack=[];
+updUndoButtons();
+}
+function doUndo(){
+if(!undoStack.length)return;
+// Save current state to redo
+redoStack.push({
+txs:JSON.parse(JSON.stringify(TXS)),
+ob:JSON.parse(JSON.stringify(OB)),
+action:lastAction||'Action'
+});
+// Restore previous state
+var snapshot=undoStack.pop();
+TXS=snapshot.txs;
+OB=snapshot.ob;
+localStorage.setItem('sm_t',JSON.stringify(TXS));
+localStorage.setItem('sm_ob',JSON.stringify(OB));
+fbSave();
+rTxns();
+rDash();
+toast('Undo: '+snapshot.action,'info');
+updUndoButtons();
+}
+function doRedo(){
+if(!redoStack.length)return;
+// Save current state to undo
+undoStack.push({
+txs:JSON.parse(JSON.stringify(TXS)),
+ob:JSON.parse(JSON.stringify(OB)),
+action:lastAction||'Action'
+});
+// Restore redo state
+var snapshot=redoStack.pop();
+TXS=snapshot.txs;
+OB=snapshot.ob;
+localStorage.setItem('sm_t',JSON.stringify(TXS));
+localStorage.setItem('sm_ob',JSON.stringify(OB));
+fbSave();
+rTxns();
+rDash();
+toast('Redo: '+snapshot.action,'info');
+updUndoButtons();
+}
+function updUndoButtons(){
+var ub=document.getElementById('undoBtn');
+var rb=document.getElementById('redoBtn');
+if(ub){
+ub.disabled=!undoStack.length;
+ub.title=undoStack.length?'Undo: '+undoStack[undoStack.length-1].action:'Nothing to undo';
+}
+if(rb){
+rb.disabled=!redoStack.length;
+rb.title=redoStack.length?'Redo: '+redoStack[redoStack.length-1].action:'Nothing to redo';
+}
+}
+
 var TXS=JSON.parse(localStorage.getItem('sm_t')||'[]'),OB=JSON.parse(localStorage.getItem('sm_ob')||'{}');
 var eId=null,selRule=null,compactView=false,msMode=false,selected=new Set(),pendingCSV=null,dateGroupCounts={},sbCollapsed=localStorage.getItem('sb_col')==='1';
 var monthList=[],monthIdx=0;
 var lastSkipped=[],skipFilterCat='All',_pendingConfirmAction=null;
-function sv(){localStorage.setItem('sm_t',JSON.stringify(TXS));fbSave()}
-function svOB(){localStorage.setItem('sm_ob',JSON.stringify(OB));fbSave()}
+function sv(actionName){if(actionName){pushUndo(actionName);lastAction=actionName;}localStorage.setItem('sm_t',JSON.stringify(TXS));fbSave();}
+function svOB(actionName){if(actionName){pushUndo(actionName);lastAction=actionName;}localStorage.setItem('sm_ob',JSON.stringify(OB));fbSave();}
 function fn(n){return n==null?'0':Number(n).toLocaleString('en-IN',{maximumFractionDigits:2})}
 function fd(d){if(!d)return'';return new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'})}
 function fdFull(d){if(!d)return'';var dt=new Date(d+'T00:00:00'),t=new Date;t.setHours(0,0,0,0);var y=new Date(t);y.setDate(y.getDate()-1);var ds=dt.toISOString().split('T')[0],ts=t.toISOString().split('T')[0],ys=y.toISOString().split('T')[0];if(ds===ts)return'Today, '+dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});if(ds===ys)return'Yesterday, '+dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});return dt.toLocaleDateString('en-IN',{weekday:'long',day:'2-digit',month:'short',year:'numeric'})}
@@ -952,7 +1030,7 @@ function isC(t){return CT.indexOf(t)>=0}
 function calcComm(){var a=parseFloat(document.getElementById('fAmt').value)||0,bar=document.getElementById('commBar');if(!selRule||a<=0){bar.style.display='none';return}if(isC(selRule.type)){var s=calcC(a),b=Math.ceil(a/1000);document.getElementById('cbText').innerHTML='Suggested: <span class="cs-val">₹'+s+'</span>';document.getElementById('cbForm').textContent='('+b+' × ₹10)';bar.classList.remove('no-comm');bar.style.display='flex';document.getElementById('fCom').value=s;updNetComm()}else{document.getElementById('cbText').innerHTML='Commission: <span class="cs-val">₹0</span>';document.getElementById('cbForm').textContent='(N/A)';bar.classList.add('no-comm');bar.style.display='flex';document.getElementById('fCom').value=0;updNetComm()}}
 function applyCS(){if(!selRule||!isC(selRule.type))return;var a=parseFloat(document.getElementById('fAmt').value)||0;if(a>0){document.getElementById('fCom').value=calcC(a);updNetComm()}}
 function updNetComm(){var c=parseFloat(document.getElementById('fCom').value)||0,d=parseFloat(document.getElementById('fDisc').value)||0,n=Math.max(0,c-d);document.getElementById('fNetComm').textContent='₹'+fn(n);document.getElementById('fNetComm').style.color=n>0?'var(--em)':'var(--t3)'}
-function initApp(){if(window._appInitialized)return;window._appInitialized=true;applySidebar();var fixed=sanitizeTransactions();if(fixed>0){setTimeout(function(){toast('Fixed '+fixed+' data field(s)','info')},500)}document.getElementById('cmConfirmBtn').addEventListener('click',runPendingConfirm);var ts=document.getElementById('fType'),uT=[];for(var i=0;i<R.length;i++){if(uT.indexOf(R[i].type)<0)uT.push(R[i].type)}for(var j=0;j<uT.length;j++){var o=document.createElement('option');o.value=uT[j];o.textContent=uT[j];ts.appendChild(o)}var ft=document.getElementById('flType');for(var k=0;k<uT.length;k++){var o2=document.createElement('option');o2.value=uT[k];o2.textContent=uT[k];ft.appendChild(o2)}var fy=document.getElementById('rFY');var fys=['2026-27','2025-26','2024-25','2023-24'];for(var f=0;f<fys.length;f++){var o3=document.createElement('option');o3.value=fys[f];o3.textContent='FY '+fys[f];fy.appendChild(o3)}document.getElementById('flFlow').addEventListener('change',aFl);document.getElementById('flSts').addEventListener('change',aFl);document.getElementById('flAcc').addEventListener('change',aFl);document.getElementById('flType').addEventListener('change',aFl);document.getElementById('flFrom').addEventListener('change',aFl);document.getElementById('flTo').addEventListener('change',aFl);document.getElementById('flReview').addEventListener('change',aFl);setDt();rTid();var savedPage=localStorage.getItem('sm_page')||'dashboard';/* If saved page is newentry, go to transactions instead (don't open form on reload)*/if(savedPage==='newentry')savedPage='transactions';goPg(savedPage);document.addEventListener('click',function(e){var dms=document.querySelectorAll('.dots-menu.sh');for(var i=0;i<dms.length;i++){if(!dms[i].parentElement.contains(e.target))dms[i].classList.remove('sh')}if(!compactView){var exs=document.querySelectorAll('.ti-n .te.sh');for(var j=0;j<exs.length;j++){var c=exs[j].closest('.ti-n');if(c&&!c.contains(e.target))exs[j].classList.remove('sh')}}});window.addEventListener('scroll',function(){uSD();toggleScrollTop()},{passive:true})}
+function initApp(){if(window._appInitialized)return;window._appInitialized=true;applySidebar();var fixed=sanitizeTransactions();if(fixed>0){setTimeout(function(){toast('Fixed '+fixed+' data field(s)','info')},500)}document.getElementById('cmConfirmBtn').addEventListener('click',runPendingConfirm);var ts=document.getElementById('fType'),uT=[];for(var i=0;i<R.length;i++){if(uT.indexOf(R[i].type)<0)uT.push(R[i].type)}for(var j=0;j<uT.length;j++){var o=document.createElement('option');o.value=uT[j];o.textContent=uT[j];ts.appendChild(o)}var ft=document.getElementById('flType');for(var k=0;k<uT.length;k++){var o2=document.createElement('option');o2.value=uT[k];o2.textContent=uT[k];ft.appendChild(o2)}var fy=document.getElementById('rFY');var fys=['2026-27','2025-26','2024-25','2023-24'];for(var f=0;f<fys.length;f++){var o3=document.createElement('option');o3.value=fys[f];o3.textContent='FY '+fys[f];fy.appendChild(o3)}document.getElementById('flFlow').addEventListener('change',aFl);document.getElementById('flSts').addEventListener('change',aFl);document.getElementById('flAcc').addEventListener('change',aFl);document.getElementById('flType').addEventListener('change',aFl);document.getElementById('flFrom').addEventListener('change',aFl);document.getElementById('flTo').addEventListener('change',aFl);document.getElementById('flReview').addEventListener('change',aFl);setDt();rTid();var savedPage=localStorage.getItem('sm_page')||'dashboard';/* If saved page is newentry, go to transactions instead (don't open form on reload)*/if(savedPage==='newentry')savedPage='transactions';goPg(savedPage);document.addEventListener('click',function(e){var dms=document.querySelectorAll('.dots-menu.sh');for(var i=0;i<dms.length;i++){if(!dms[i].parentElement.contains(e.target))dms[i].classList.remove('sh')}if(!compactView){var exs=document.querySelectorAll('.ti-n .te.sh');for(var j=0;j<exs.length;j++){var c=exs[j].closest('.ti-n');if(c&&!c.contains(e.target))exs[j].classList.remove('sh')}}});document.addEventListener('keydown',function(e){/* Ctrl+Z = Undo*/if((e.ctrlKey||e.metaKey)&&e.key==='z'&&!e.shiftKey){e.preventDefault();doUndo();}/*Ctrl+Y or Ctrl+Shift+Z = Redo*/if((e.ctrlKey||e.metaKey)&&(e.key==='y'||(e.key==='z'&&e.shiftKey))){e.preventDefault();doRedo();}});window.addEventListener('scroll',function(){uSD();toggleScrollTop()},{passive:true})}
 function setDt(){document.getElementById('fDt').value=new Date().toISOString().split('T')[0]}
 function rTid(){var c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',id='SMPMF';for(var i=0;i<10;i++)id+=c[Math.floor(Math.random()*c.length)];document.getElementById('fTid').value=id}
 function tNF(){var f=document.getElementById('nfCard');f.style.display='block';document.getElementById('nfTitle').textContent='+ New Transaction';document.getElementById('nfTitle').style.color='var(--em)';document.getElementById('addBtn').textContent='Add Transaction';document.getElementById('cancelBtn').style.display='none';eId=null;rstF();window.scrollTo({top:0,behavior:'auto'});}
@@ -995,9 +1073,10 @@ if(oldTx.reviewStatus==='pending'){tx.reviewStatus='reviewed';tx.importSource=ol
 }
 var idx=TXS.findIndex(function(t){return t.id===eId});
 if(idx!==-1)TXS[idx]=tx;
+sv('Edit transaction');
 eId=null;
 _editScrollTarget=null;
-sv();
+
 
 // Edit mode: go back to transactions page and scroll to edited transaction
 goPg('transactions');
@@ -1018,7 +1097,7 @@ break;
 }
 }else{
 TXS.unshift(tx);
-sv();
+sv('Add transaction');
 
 // New entry mode: stay on the same page, reset form for next entry
 rstF();
@@ -1039,7 +1118,7 @@ function toggleMS(){msMode=!msMode;selected.clear();document.getElementById('msT
 function updMS(){document.getElementById('msInfo').textContent=selected.size+' selected';var fl=gFL();document.getElementById('msAll').className='cbox'+(selected.size===fl.length&&fl.length>0?' checked':'')}
 function toggleSelectAll(){var fl=gFL();if(selected.size===fl.length)selected.clear();else fl.forEach(function(t){selected.add(t.id)});updMS();rTxns()}
 function toggleSel(id,e){if(e)e.stopPropagation();if(selected.has(id))selected.delete(id);else selected.add(id);updMS();var cbs=document.querySelectorAll('.ms-cb');for(var i=0;i<cbs.length;i++){cbs[i].className='cbox ms-cb'+(selected.has(cbs[i].dataset.id)?' checked':'')}}
-function bulkDel(){if(!selected.size)return;var c=selected.size;var ids=new Set(selected);showConfirm('Delete '+c+' transaction'+(c>1?'s':'')+'?','This action cannot be undone. The selected '+c+' transaction'+(c>1?'s':'')+' will be permanently removed.','Delete '+c,function(){TXS=TXS.filter(function(t){return !ids.has(t.id)});selected.clear();sv();updMS();rTxns();rDash();toast(c+' deleted','success')})}
+function bulkDel(){if(!selected.size)return;var c=selected.size;var ids=new Set(selected);showConfirm('Delete '+c+' transaction'+(c>1?'s':'')+'?','This action cannot be undone. The selected '+c+' transaction'+(c>1?'s':'')+' will be permanently removed.','Delete '+c,function(){TXS=TXS.filter(function(t){return !ids.has(t.id)});selected.clear();sv('Delete '+c+' transactions');updMS();rTxns();rDash();toast(c+' deleted','success')})}
 function rTxns(){
 var list=document.getElementById('txList'),fl=gFL(),ds=document.getElementById('dateSticky');
 if(!fl.length){list.innerHTML='<div class="empty">No transactions found</div>';ds.classList.remove('sh');return}
@@ -1204,7 +1283,7 @@ updNetComm();
 window.scrollTo({top:0,behavior:'auto'});
 }
 
-function delTx(id){var tx=TXS.find(function(t){return t.id===id});if(!tx)return;var txId=id;showConfirm('Delete this transaction?',tx.type+' • ₹'+fn(tx.amount)+' • '+fd(tx.date)+'\nThis cannot be undone.','Delete',function(){TXS=TXS.filter(function(t){return t.id!==txId});sv();rTxns();rDash();toast('Deleted','success')})}
+function delTx(id){var tx=TXS.find(function(t){return t.id===id});if(!tx)return;var txId=id;showConfirm('Delete this transaction?',tx.type+' • ₹'+fn(tx.amount)+' • '+fd(tx.date)+'\nThis cannot be undone.','Delete',function(){TXS=TXS.filter(function(t){return t.id!==txId});sv('Delete transaction');rTxns();rDash();toast('Deleted','success')})}
 function exCSV(){
 var fl=gFL();
 if(!fl.length)return toast('No data','error');
@@ -1822,7 +1901,7 @@ document.getElementById('mrC').innerHTML=html;
 
 function obKey(e,inp){if(e.key==='Enter'){e.preventDefault();obSave(inp);inp.blur()}}
 function obBlur(inp){obSave(inp)}
-function obSave(inp){var key=inp.dataset.key,oldVal=OB[key]||0,newVal=parseFloat(inp.value)||0;if(oldVal===newVal)return;OB[key]=newVal;svOB();var row=inp.closest('tr'),inf=parseFloat(inp.dataset.inf)||0,outf=parseFloat(inp.dataset.outf)||0,cb=newVal+inf-outf;var cbCell=row.querySelector('.cb-cell');if(cbCell){cbCell.textContent='₹'+fn(cb);cbCell.style.color=cb>=0?'var(--em)':'var(--rs)'}var table=inp.closest('table');if(table){var allInputs=table.querySelectorAll('.ob-input'),totOB=0,totCB=0;for(var ii=0;ii<allInputs.length;ii++){var v=parseFloat(allInputs[ii].value)||0,inf2=parseFloat(allInputs[ii].dataset.inf)||0,outf2=parseFloat(allInputs[ii].dataset.outf)||0;totOB+=v;totCB+=v+inf2-outf2}var obTot=table.querySelector('.ob-total'),cbTot=table.querySelector('.cb-total');if(obTot)obTot.textContent='₹'+fn(totOB);if(cbTot){cbTot.textContent='₹'+fn(totCB);cbTot.style.color=totCB>=0?'var(--em)':'var(--rs)'}}inp.classList.add('saved');setTimeout(function(){inp.classList.remove('saved')},800);if(inp.dataset.key.indexOf('_AEPS')>=0){updM()}}
+function obSave(inp){var key=inp.dataset.key,oldVal=OB[key]||0,newVal=parseFloat(inp.value)||0;if(oldVal===newVal)return;OB[key]=newVal;svOB('Edit opening balance');var row=inp.closest('tr'),inf=parseFloat(inp.dataset.inf)||0,outf=parseFloat(inp.dataset.outf)||0,cb=newVal+inf-outf;var cbCell=row.querySelector('.cb-cell');if(cbCell){cbCell.textContent='₹'+fn(cb);cbCell.style.color=cb>=0?'var(--em)':'var(--rs)'}var table=inp.closest('table');if(table){var allInputs=table.querySelectorAll('.ob-input'),totOB=0,totCB=0;for(var ii=0;ii<allInputs.length;ii++){var v=parseFloat(allInputs[ii].value)||0,inf2=parseFloat(allInputs[ii].dataset.inf)||0,outf2=parseFloat(allInputs[ii].dataset.outf)||0;totOB+=v;totCB+=v+inf2-outf2}var obTot=table.querySelector('.ob-total'),cbTot=table.querySelector('.cb-total');if(obTot)obTot.textContent='₹'+fn(totOB);if(cbTot){cbTot.textContent='₹'+fn(totCB);cbTot.style.color=totCB>=0?'var(--em)':'var(--rs)'}}inp.classList.add('saved');setTimeout(function(){inp.classList.remove('saved')},800);if(inp.dataset.key.indexOf('_AEPS')>=0){updM()}}
 function dlRpt(){var range=getFY(),ft=TXS.filter(function(t){return t.status==='Success'&&t.date>=range.start&&t.date<=range.end});var bT=ft.filter(function(t){return t.bank==='Bank'}).reduce(function(s,t){return s+t.amount},0),bI=ft.filter(function(t){return t.biz==='Business'}).reduce(function(s,t){return s+t.amount},0),cE=ft.reduce(function(s,t){return s+t.netCommission},0),mp=bT>0?cE/bT*100:0,iT=ft.filter(function(t){return t.biz==='Non-Business'&&t.bank==='Bank'}).reduce(function(s,t){return s+t.amount},0),tI=bI+cE;var txt='ITR FY '+range.label+'\nBank: ₹'+fn(bT)+'\nBusiness: ₹'+fn(bI)+'\nCommission: ₹'+fn(cE)+'\nMargin: '+mp.toFixed(2)+'%\nInternal: ₹'+fn(iT)+'\nTaxable: ₹'+fn(tI)+'\n\n'+ft.length+' TXNs\n';ft.sort(function(a,b){return a.date.localeCompare(b.date)}).forEach(function(t){txt+=t.date+'|'+t.type+'|'+t.from+'->'+t.to+'|'+t.amount+'|'+t.netCommission+'\n'});var blob=new Blob([txt],{type:'text/plain'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='ITR_FY'+range.label+'.txt';a.click();URL.revokeObjectURL(u);toast('Downloaded','success')}
 
 //parse pdf
@@ -2116,6 +2195,8 @@ importSource:'phonepe-pdf'
 });
 added++;
 }
+pushUndo('Import '+added+' PDF transactions');
+lastAction='Import '+added+' PDF transactions';
 localStorage.setItem('sm_t',JSON.stringify(TXS));
 closePdfModal();
 showImportOverlay('Saving '+added+' transactions...','Syncing to cloud');
@@ -2492,6 +2573,8 @@ importSource:t.reviewStatus?'googlesheet':''
 });
 }
 
+pushUndo('Replace all transactions');
+lastAction='Replace all transactions';
 localStorage.setItem('sm_t',JSON.stringify(TXS));
 closeImport();
 showImportOverlay('Replacing all transactions...','Syncing to cloud');
@@ -2593,6 +2676,8 @@ added++;
 }
 
 // Save and show results
+pushUndo('Import '+added+' transactions');
+lastAction='Import '+added+' transactions';
 localStorage.setItem('sm_t',JSON.stringify(TXS));
 closeImport();
 showImportOverlay('Saving '+added+' transactions...','Syncing to cloud');
@@ -2861,6 +2946,11 @@ document.getElementById('qrModal').classList.add('sh');
 
 function closeQrModal(){
 document.getElementById('qrModal').classList.remove('sh');
+if(window._bulkEditMode){
+window._bulkEditMode=false;
+window._bulkEditIds=null;
+qrSelected.clear();
+}
 }
 
 function onQrTypeChange(){
@@ -2978,14 +3068,114 @@ tx.status=newStatus;
 tx.reviewStatus='reviewed';
 count++;
 }
-sv();
+
+sv('Quick Review '+count+' transactions');
 closeQrModal();
+if(window._bulkEditMode){
+// Came from multi-select — exit back to normal mode with highlights
+window._bulkEditMode=false;
+var highlightIds=window._bulkEditIds;
+window._bulkEditIds=null;
+qrSelected.clear();
+// Exit multi-select mode
+msMode=false;
+selected.clear();
+document.getElementById('msToggle').classList.remove('active');
+document.getElementById('msBar').classList.remove('sh');
+updMS();
+rTxns();
+rDash();
+toast(count+' transactions updated','success');
+// Highlight the edited transactions
+if(highlightIds){
+setTimeout(function(){
+var cards=document.querySelectorAll('.ti-n, .ti-c');
+for(var h=0;h<cards.length;h++){
+var te=cards[h].querySelector('[id^="te-"]');
+if(te){
+var cardId=te.id.replace('te-','');
+if(highlightIds.has(cardId)){
+cards[h].style.boxShadow='0 0 0 2px var(--em)';
+}}}
+setTimeout(function(){
+for(var h2=0;h2<cards.length;h2++){cards[h2].style.boxShadow=''}
+},1500);
+},150);}}
+else{
+// Normal QR mode
 qrSelected.clear();
 qrLastClicked=null;
 updQrBar();
 rTxns();
 rDash();
 toast(count+' transactions reviewed','success');
+}
+}
+
+function bulkQuickEdit(){
+if(!selected.size)return;
+// Copy selected IDs to QR selected
+qrSelected.clear();
+selected.forEach(function(id){qrSelected.add(id)});
+// Find the type of first selected transaction for info display
+var selectedType='';
+var selectedFrom='';
+var selectedTo='';
+var selectedFlow='';
+var selectedBiz='';
+var multipleTypes=false;
+var firstType='';
+TXS.forEach(function(tx){
+if(!qrSelected.has(tx.id))return;
+if(!firstType)firstType=tx.type;
+if(tx.type!==firstType)multipleTypes=true;
+if(!selectedType)selectedType=tx.type;
+if(!selectedFrom)selectedFrom=tx.from;
+if(!selectedTo)selectedTo=tx.to;
+if(!selectedFlow)selectedFlow=tx.flow;
+if(!selectedBiz)selectedBiz=tx.biz;
+});
+// Populate type dropdown
+var sel=document.getElementById('qrType');
+sel.innerHTML='<option value="">— Keep existing —</option>';
+var uTypes=[];
+for(var i=0;i<R.length;i++){
+if(uTypes.indexOf(R[i].type)<0)uTypes.push(R[i].type);
+}
+for(var j=0;j<uTypes.length;j++){
+var o=document.createElement('option');
+o.value=uTypes[j];o.textContent=uTypes[j];
+sel.appendChild(o);
+}
+// Show type/flow info card
+var infoEl=document.getElementById('qrTypeInfo');
+if(multipleTypes){
+infoEl.style.display='grid';
+infoEl.innerHTML='<div style="text-align:center;padding:0 12px;grid-column:1/-1"><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Mixed Types</div><div style="font-size:13px;font-weight:600;color:var(--am)">Multiple transaction types selected</div></div>';
+}else if(selectedType){
+var flowColor=selectedFlow==='Inflow'?'var(--em)':'var(--rs)';
+var bizColor=selectedBiz==='Business'?'var(--bl)':'var(--t2)';
+infoEl.style.display='grid';
+infoEl.innerHTML='<div style="text-align:center;padding:0 12px"><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Type</div><div style="font-size:13px;font-weight:600">'+selectedType+'</div></div>'
++'<div style="text-align:center;padding:0 12px;border-left:1px solid var(--bdr);border-right:1px solid var(--bdr)"><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Flow</div><div style="font-size:13px;font-weight:600;color:'+flowColor+'">'+(AN[selectedFrom]||selectedFrom)+' → '+(AN[selectedTo]||selectedTo)+'</div></div>'
++'<div style="text-align:center;padding:0 12px"><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Classification</div><div style="font-size:13px;font-weight:600;color:'+bizColor+'">'+selectedBiz+'</div></div>';
+}else{
+infoEl.style.display='none';
+}
+document.getElementById('qrCount').textContent=qrSelected.size+' transactions selected';
+document.getElementById('qrNote').value='';
+document.getElementById('qrStatus').value='';
+document.getElementById('qrFlowC').style.display='none';
+qrAutoComm=false;
+document.getElementById('qrAutoCommSwitch').classList.remove('on');
+qrSelectedRule=null;
+window._qrWarnShown=false;
+document.getElementById('qrWarn').style.display='none';
+showQrPreview();
+// Store that this is a bulk edit from multi-select (not QR mode)
+window._bulkEditMode=true;
+window._bulkEditIds=new Set(selected);
+document.getElementById('qrModal').classList.add('sh');
 }
 
 // App initialization is now triggered by Firebase auth state listener
