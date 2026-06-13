@@ -151,7 +151,7 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .date-sep .ds-cnt{font-size:11px;color:var(--t3);font-weight:500}
 .tl{display:flex;flex-direction:column;gap:0px;position:relative}
 .tl-footer{display:flex;justify-content:space-between;align-items:center;padding:10px 0;font-size:12px;color:var(--t2);border-top:1px solid var(--bdr);margin-top:6px}
-.ti-n{background:var(--card);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;transition:.2s}
+.ti-n{background:var(--card);border:1px solid var(--bdr);border-radius:12px;transition:.2s;position:relative}
 .ti-n:hover{border-color:rgba(148,163,184,.45);box-shadow:0 0 0 1px rgba(148,163,184,.1)}
 .ti-n .tc{padding:8px 16px;display:flex;align-items:center;gap:12px;cursor:pointer}
 .ti-n .t-ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -170,7 +170,7 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .ti-n .te .td-info{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;font-size:12px;color:var(--t2)}
 .ti-n .te .td-info span{display:flex;align-items:center;gap:4px}
 .ti-n .te .td-note{font-size:12px;color:var(--t3);margin-top:4px;padding:6px 10px;background:var(--input);border-radius:6px}
-.ti-c{background:transparent;border-bottom:1px solid var(--bdr);transition:.2s}
+.ti-c{background:transparent;border-bottom:1px solid var(--bdr);transition:.2s;position:relative}
 .ti-c:hover{background:var(--card-h)}
 .ti-c .tc{padding:8px 12px;display:flex;align-items:center;gap:10px;cursor:pointer}
 .ti-c .t-mn{flex:1;min-width:0;display:flex;align-items:center;gap:8px;overflow:hidden}
@@ -433,6 +433,26 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .undo-btn:hover:not(:disabled){border-color:var(--t2);color:var(--t1)}
 .undo-btn:disabled{opacity:.25;cursor:not-allowed}
 .undo-btn svg{width:14px;height:14px;stroke-width:2.5}
+
+.ds-selall{font-size:11px;color:var(--bl);cursor:pointer;font-weight:600;padding:2px 8px;border-radius:4px;border:1px solid rgba(59,130,246,.3);transition:.2s;display:none}
+.ds-selall:hover{background:rgba(59,130,246,.15)}
+.ds-selall.sh{display:inline-flex}
+.ds-balance{font-size:11px;color:var(--t3);font-weight:500;white-space:nowrap}
+.ti-n .te .td-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+.ti-n .te .td-cell{background:var(--input);border-radius:6px;padding:6px 10px;}
+.ti-n .te .td-cell .tc-lbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;font-weight:600}
+.ti-n .te .td-cell .tc-val{font-size:13px;font-weight:600;color:var(--t1);margin-top: 8px;}
+.ti-dots{padding:4px;cursor:pointer;color:var(--t3);border-radius:6px;position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.2s}
+.ti-dots:hover{color:var(--t1);background:var(--input)}
+.ti-dots svg{width:16px;height:16px}
+.ti-dots{position:relative;z-index:10}
+.ti-dots .dots-menu{display:none;position:absolute;right:0;top:100%;background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:4px;z-index:200;min-width:140px;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+.ti-dots .dots-menu.sh{display:block}
+.ti-dots .dots-menu button{display:flex;align-items:center;gap:6px;width:100%;padding:6px 10px;border:none;background:none;color:var(--t1);font-size:12px;font-family:inherit;cursor:pointer;border-radius:4px;white-space:nowrap}
+.ti-dots .dots-menu button:hover{background:var(--input)}
+.ti-dots .dots-menu .dm-sep{height:1px;background:var(--bdr);margin:3px 0}
+.move-qr-btn{color:var(--am);border-color:rgba(245,158,11,.3)}
+.move-qr-btn:hover{background:rgba(245,158,11,.1)}
 </style>
 </head>
 <body>
@@ -533,7 +553,7 @@ Sign in with Google
 <button class="btn btn-p btn-xs" onclick="openQrEdit()" id="qrEditBtn" style="display:none">Edit Selected</button>
 <button class="btn btn-s btn-xs" onclick="toggleQuickReview()">Exit Review</button>
 </div>
-<div class="ms-bar" id="msBar"><div class="cbox" id="msAll" onclick="toggleSelectAll()"></div><span class="ms-info" id="msInfo">0 selected</span><button class="btn btn-p btn-xs" onclick="bulkQuickEdit()">⚡ Edit Selected</button><button class="btn btn-d btn-xs" onclick="bulkDel()">🗑 Delete</button></div>
+<div class="ms-bar" id="msBar"><div class="cbox" id="msAll" onclick="toggleSelectAll()"></div><span class="ms-info" id="msInfo">0 selected</span><button class="btn btn-xs move-qr-btn" onclick="moveToQuickReview()" id="moveQrBtn">⚡ Move to Quick Review</button><button class="btn btn-d btn-xs" onclick="bulkDel()">🗑 Delete</button></div>
 <div class="date-sticky" id="dateSticky"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="dateStickyLabel">—</span><span class="ds-count" id="dateStickyCount"></span></div>
 </div>
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="18 15 12 9 6 15"/></svg></button>
@@ -1115,7 +1135,7 @@ function toggleSearchClear(){var btn=document.getElementById('searchClear');var 
 function clearSearch(){document.getElementById('searchQ').value='';document.getElementById('searchClear').style.display='none';aFl();}
 function toggleView(){compactView=!compactView;document.getElementById('viewToggle').classList.toggle('active',compactView);rTxns()}
 function toggleMS(){msMode=!msMode;selected.clear();document.getElementById('msToggle').classList.toggle('active',msMode);document.getElementById('msBar').classList.toggle('sh',msMode);updMS();rTxns()}
-function updMS(){document.getElementById('msInfo').textContent=selected.size+' selected';var fl=gFL();document.getElementById('msAll').className='cbox'+(selected.size===fl.length&&fl.length>0?' checked':'')}
+function updMS(){document.getElementById('msInfo').textContent=selected.size+' selected';var fl=gFL();document.getElementById('msAll').className='cbox'+(selected.size===fl.length&&fl.length>0?' checked':'');updMoveQrBtn();}
 function toggleSelectAll(){var fl=gFL();if(selected.size===fl.length)selected.clear();else fl.forEach(function(t){selected.add(t.id)});updMS();rTxns()}
 function toggleSel(id,e){if(e)e.stopPropagation();if(selected.has(id))selected.delete(id);else selected.add(id);updMS();var cbs=document.querySelectorAll('.ms-cb');for(var i=0;i<cbs.length;i++){cbs[i].className='cbox ms-cb'+(selected.has(cbs[i].dataset.id)?' checked':'')}}
 function bulkDel(){if(!selected.size)return;var c=selected.size;var ids=new Set(selected);showConfirm('Delete '+c+' transaction'+(c>1?'s':'')+'?','This action cannot be undone. The selected '+c+' transaction'+(c>1?'s':'')+' will be permanently removed.','Delete '+c,function(){TXS=TXS.filter(function(t){return !ids.has(t.id)});selected.clear();sv('Delete '+c+' transactions');updMS();rTxns();rDash();toast(c+' deleted','success')})}
@@ -1164,16 +1184,97 @@ html+='</div>';
 }else{
 sd.forEach(function(date){var g=groups[date],gc=g.length;
 var gt=0;g.forEach(function(t){var f=normalizeFlow(t.flow);gt+=(f==='Inflow'?t.amount:-t.amount)});
-html+='<div class="date-sep" data-sep-date="'+date+'"><div class="ds-label"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'+fdFull(date)+'</div><span class="ds-cnt">'+gc+' txn'+(gc>1?'s':'')+' • <span style="color:'+(gt>=0?'var(--em)':'var(--rs)')+'">'+(gt>=0?'+':'-')+'₹'+fn(Math.abs(gt))+'</span></span><div class="ds-line"></div></div>';
+html+='<div class="date-sep" data-sep-date="'+date+'">';
+html+='<div class="ds-label"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'+fdFull(date)+'</div>';
+var dateAllSel=true;if(msMode){for(var ds=0;ds<g.length;ds++){if(!selected.has(g[ds].id)){dateAllSel=false;break}}}
+html+='<span class="ds-selall'+(msMode?' sh':'')+'" onclick="event.stopPropagation();selectDateGroup(\''+date+'\')">'+(msMode&&dateAllSel?'Deselect All':'Select All')+'</span>';
+html+='<div class="ds-line"></div>';
+html+='<span class="ds-balance" style="color:'+(gt>=0?'var(--em)':'var(--rs)')+'">'+(gt>=0?'+':'-')+'₹'+fn(Math.abs(gt))+'</span>';
+html+='</div>';
 html+=compactView?rnC(g):rnN(g)});
 }
 list.innerHTML=html+'<div class="tl-footer"><span>'+fl.length+' of '+TXS.length+'</span><div style="display:flex;gap:16px"><span style="color:var(--em)">+₹'+fn(tIn)+'</span><span style="color:var(--rs)">-₹'+fn(tOut)+'</span></div></div>';
 if(qrMode){ds.classList.remove('sh')}else{ds.classList.add('sh');setTimeout(uSD,50)}
 toggleSearchClear();
+updQrButton();
 }
 function uSD(){var pg=document.getElementById('pg-transactions');if(!pg.classList.contains('act'))return;var ds=document.getElementById('dateSticky');if(!ds.classList.contains('sh'))return;var seps=document.querySelectorAll('.date-sep[data-sep-date]');if(!seps.length)return;var sb=ds.getBoundingClientRect().bottom,cd=seps[0].dataset.sepDate;for(var i=0;i<seps.length;i++){if(seps[i].getBoundingClientRect().top<=sb+2)cd=seps[i].dataset.sepDate;else break}if(cd){document.getElementById('dateStickyLabel').textContent=fdFull(cd);var c=dateGroupCounts[cd]||0;document.getElementById('dateStickyCount').textContent=c+' transaction'+(c>1?'s':'')}}
 function toggleScrollTop(){var btn=document.getElementById('scrollTop');if(!btn)return;if(window.scrollY>400){btn.classList.add('sh')}else{btn.classList.remove('sh')}}
-function rnN(fl){return fl.map(function(tx){var f=normalizeFlow(tx.flow)||tx.flow;var fc=f==='Inflow'?'var(--em)':'var(--rs)',fp=f==='Inflow'?'+':'-',iSvg=f==='Inflow'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 7L7.8 16.2M7 7v9.2h9.2"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 17l9.2-9.2M17 17V7.8H7.8"/></svg>',chClass=getChannelClass(tx),iBg=f==='Inflow'?'rgba(16,185,129,.12)':'rgba(244,63,94,.12)',stB=tx.status==='Success'?'b-em':tx.status==='Fail'?'b-rs':tx.status==='Pending'?'b-am':'b-pu',title=tx.note||tx.type;return '<div class="ti-n '+chClass+'"><div class="tc" onclick="tExpN(event,\''+tx.id+'\')">'+(qrMode&&tx.reviewStatus==='pending'?'<div class="cbox qr-cb'+(qrSelected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="event.stopPropagation();toggleQrSelect(\''+tx.id+'\',event)"></div>':(msMode?'<div class="cbox ms-cb'+(selected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="toggleSel(\''+tx.id+'\',event)"></div>':''))+'<div class="t-ic" style="background:'+iBg+';color:'+fc+'">'+iSvg+'</div><div class="t-mn"><div class="t-title">'+eh(title)+' <span class="badge '+stB+'" style="font-size:10px">'+tx.status+'</span>'+(tx.reviewStatus==='pending'?'<span class="review-dot" title="Needs review"></span>':'')+'</div><div class="t-sub">'+(qrMode?'<span style="color:var(--t3)">'+fd(tx.date)+'</span><span style="color:var(--bdr);margin:0 4px">|</span>':'')+'<span>'+(AN[tx.from]||tx.from)+' <span class="ar">→</span> '+(AN[tx.to]||tx.to)+'</span></div></div><div class="t-am"><span class="t-amt" style="color:'+fc+'">'+fp+'₹'+fn(tx.amount)+'</span>'+(tx.netCommission>0?'<span class="t-cm">+₹'+fn(tx.netCommission)+'</span>':'')+'</div></div><div class="te" id="te-'+tx.id+'"><div class="td-info-sep"><div class="tdi"><span class="tdi-label">Type</span><span class="tdi-val">'+tx.type+'</span></div><div class="tdi"><span class="tdi-label">ID</span><span class="tdi-val">'+tx.txnId+'</span></div>'+(tx.commission>0?'<div class="tdi"><span class="tdi-label">Comm</span><span class="tdi-val" style="color:var(--am)">₹'+fn(tx.commission)+'</span></div>':'')+(tx.discount>0?'<div class="tdi"><span class="tdi-label">Disc</span><span class="tdi-val" style="color:var(--rs)">-₹'+fn(tx.discount)+'</span></div>':'')+(tx.netCommission>0&&tx.discount>0?'<div class="tdi"><span class="tdi-label">Net</span><span class="tdi-val" style="color:var(--em)">₹'+fn(tx.netCommission)+'</span></div>':'')+'</div><div class="td-row"><div class="td-tags"><span class="badge '+(tx.biz==='Business'?'b-bl':'b-gy')+'">'+tx.biz+'</span>'+(tx.bank==='Bank'?'<span class="badge b-pu">Bank</span>':'<span class="badge b-gy">Non-Bank</span>')+'<span class="badge '+(f==='Inflow'?'b-em':'b-rs')+'">'+f+'</span></div><div class="td-acts"><button class="btn-icon" onclick="event.stopPropagation();edTx(\''+tx.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-icon" onclick="event.stopPropagation();delTx(\''+tx.id+'\')" style="color:var(--rs);border-color:rgba(244,63,94,.3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></div></div>'+(tx.note?'<div class="td-note">'+eh(tx.note)+'</div>':'')+'</div></div>'}).join('')}
+function rnN(fl){
+return fl.map(function(tx){
+var f=normalizeFlow(tx.flow)||tx.flow;
+var fc=f==='Inflow'?'var(--em)':'var(--rs)';
+var fp=f==='Inflow'?'+':'-';
+var iSvg=f==='Inflow'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 7L7.8 16.2M7 7v9.2h9.2"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 17l9.2-9.2M17 17V7.8H7.8"/></svg>';
+var iBg=f==='Inflow'?'rgba(16,185,129,.12)':'rgba(244,63,94,.12)';
+var stB=tx.status==='Success'?'b-em':tx.status==='Fail'?'b-rs':tx.status==='Pending'?'b-am':'b-pu';
+var title=tx.note||tx.type;
+var chClass=getChannelClass(tx);
+// Review dot
+var reviewDot=tx.reviewStatus==='pending'?'<span class="review-dot" title="Needs review"></span>':'';
+// Date in QR mode
+var datePart='';
+if(qrMode){
+datePart='<span style="color:var(--t3)">'+fd(tx.date)+'</span><span style="color:var(--bdr);margin:0 4px">|</span>';
+}
+// Checkbox
+var checkboxHtml='';
+if(qrMode&&tx.reviewStatus==='pending'){
+checkboxHtml='<div class="cbox qr-cb'+(qrSelected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="event.stopPropagation();toggleQrSelect(\''+tx.id+'\',event)"></div>';
+}else if(msMode){
+checkboxHtml='<div class="cbox ms-cb'+(selected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="toggleSel(\''+tx.id+'\',event)"></div>';
+}
+// Three dot menu
+var dotsHtml='<div class="ti-dots" onclick="event.stopPropagation();tDots(\''+tx.id+'\')">';
+dotsHtml+='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>';
+dotsHtml+='<div class="dots-menu" id="dm-'+tx.id+'">';
+dotsHtml+='<button onclick="event.stopPropagation();edTx(\''+tx.id+'\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>';
+dotsHtml+='<button onclick="event.stopPropagation();delTx(\''+tx.id+'\')" style="color:var(--rs)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg> Delete</button>';
+dotsHtml+='<div class="dm-sep"></div>';
+if(tx.reviewStatus==='pending'){
+dotsHtml+='<button onclick="event.stopPropagation();markReviewed(\''+tx.id+'\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--em)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Mark Reviewed</button>';
+}else{
+dotsHtml+='<button onclick="event.stopPropagation();markPending(\''+tx.id+'\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--am)" stroke-width="2"><circle cx="12" cy="12" r="5"/></svg> Mark Pending</button>';
+}
+dotsHtml+='</div></div>';
+// Build card
+var card='<div class="ti-n '+chClass+'">';
+card+='<div class="tc" onclick="tExpN(event,\''+tx.id+'\')">';
+card+=checkboxHtml;
+card+='<div class="t-ic" style="background:'+iBg+';color:'+fc+'">'+iSvg+'</div>';
+card+='<div class="t-mn">';
+card+='<div class="t-title">'+eh(title)+' <span class="badge '+stB+'" style="font-size:10px">'+tx.status+'</span>'+reviewDot+'</div>';
+card+='<div class="t-sub">'+datePart+'<span>'+(AN[tx.from]||tx.from)+' <span class="ar">→</span> '+(AN[tx.to]||tx.to)+'</span></div>';
+card+='</div>';
+card+='<div class="t-am"><span class="t-amt" style="color:'+fc+'">'+fp+'₹'+fn(tx.amount)+'</span>';
+if(tx.netCommission>0)card+='<span class="t-cm">+₹'+fn(tx.netCommission)+'</span>';
+card+='</div>';
+card+=dotsHtml;
+card+='</div>';
+// Expanded section — grid layout
+card+='<div class="te" id="te-'+tx.id+'">';
+card+='<div class="td-grid" style="grid-template-columns:1fr 1fr 1fr 1fr">';
+card+='<div class="td-cell"><div class="tc-lbl">Type</div><div class="tc-val">'+tx.type+'</div></div>';
+card+='<div class="td-cell"><div class="tc-lbl">Transaction ID</div><div class="tc-val" style="font-size:11px;word-break:break-all">'+tx.txnId+'</div></div>';
+card+='<div class="td-cell"><div class="tc-lbl">Classification</div><div class="tc-val"><span class="badge '+(tx.biz==='Business'?'b-bl':'b-gy')+'" style="font-size:10px">'+tx.biz+'</span> <span class="badge '+(tx.bank==='Bank'?'b-pu':'b-gy')+'" style="font-size:10px">'+tx.bank+'</span></div></div>';
+card+='<div class="td-cell"><div class="tc-lbl">Commission</div><div class="tc-val">';
+if(tx.commission>0){
+card+='<span style="color:var(--am)">₹'+fn(tx.commission)+'</span>';
+if(tx.discount>0)card+=' <span style="color:var(--rs);font-size:10px">-₹'+fn(tx.discount)+'</span>';
+if(tx.discount>0)card+=' <span style="color:var(--em);font-size:10px">= ₹'+fn(tx.netCommission)+'</span>';
+}else{
+card+='<span style="color:var(--t3)">₹0</span>';
+}
+card+='</div></div>';
+card+='</div>';
+
+if(tx.note)card+='<div class="td-note">'+eh(tx.note)+'</div>';
+card+='</div>';
+card+='</div>';
+return card;
+}).join('');
+}
+
 function rnC(fl){
 return fl.map(function(tx){
 var f=normalizeFlow(tx.flow)||tx.flow;
@@ -1181,29 +1282,32 @@ var fc=f==='Inflow'?'var(--em)':'var(--rs)';
 var fp=f==='Inflow'?'+':'-';
 var title=tx.note||tx.type;
 var chClass=getChannelClass(tx);
-// Flow icon with circular background
 var flowIconHtml='<div class="t-flow-ic '+(f==='Inflow'?'inflow':'outflow')+'"><svg viewBox="0 0 24 24" fill="none" stroke="'+(f==='Inflow'?'var(--em)':'var(--rs)')+'">'+(f==='Inflow'?'<path d="M17 7L7.8 16.2M7 7v9.2h9.2"/>':'<path d="M7 17l9.2-9.2M17 17V7.8H7.8"/>')+'</svg></div>';
-// Status icon
 var stIcon='';
-if(tx.status==='Success'){
-stIcon='<span class="t-status-ic" title="Success"><svg viewBox="0 0 24 24" fill="none" stroke="var(--em)"><polyline points="20 6 9 17 4 12"/></svg></span>';
-}else if(tx.status==='Fail'){
-stIcon='<span class="t-status-ic" title="Failed"><svg viewBox="0 0 24 24" fill="none" stroke="var(--rs)"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>';
-}else if(tx.status==='Refund'){
-stIcon='<span class="t-status-ic" title="Refund"><svg viewBox="0 0 24 24" fill="none" stroke="var(--pu)"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></span>';
-}else if(tx.status==='Pending'){
-stIcon='<span class="t-status-ic" title="Pending"><svg viewBox="0 0 24 24" fill="none" stroke="var(--am)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>';
-}
-// Review dot — simple amber dot for pending only
+if(tx.status==='Success')stIcon='<span class="t-status-ic" title="Success"><svg viewBox="0 0 24 24" fill="none" stroke="var(--em)"><polyline points="20 6 9 17 4 12"/></svg></span>';
+else if(tx.status==='Fail')stIcon='<span class="t-status-ic" title="Failed"><svg viewBox="0 0 24 24" fill="none" stroke="var(--rs)"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>';
+else if(tx.status==='Refund')stIcon='<span class="t-status-ic" title="Refund"><svg viewBox="0 0 24 24" fill="none" stroke="var(--pu)"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></span>';
+else if(tx.status==='Pending')stIcon='<span class="t-status-ic" title="Pending"><svg viewBox="0 0 24 24" fill="none" stroke="var(--am)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>';
 var reviewHtml=tx.reviewStatus==='pending'?'<span class="review-dot" title="Needs review"></span>':'';
-// QR mode checkbox or multi-select checkbox
 var checkboxHtml='';
 if(qrMode&&tx.reviewStatus==='pending'){
 checkboxHtml='<div class="cbox qr-cb'+(qrSelected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="event.stopPropagation();toggleQrSelect(\''+tx.id+'\',event)"></div>';
 }else if(msMode){
 checkboxHtml='<div class="cbox ms-cb'+(selected.has(tx.id)?' checked':'')+'" data-id="'+tx.id+'" onclick="toggleSel(\''+tx.id+'\',event)"></div>';
 }
-// Build card
+// Three dot menu
+var dotsHtml='<div class="ti-dots" onclick="event.stopPropagation();tDots(\''+tx.id+'\')">';
+dotsHtml+='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>';
+dotsHtml+='<div class="dots-menu" id="dm-'+tx.id+'">';
+dotsHtml+='<button onclick="event.stopPropagation();edTx(\''+tx.id+'\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>';
+dotsHtml+='<button onclick="event.stopPropagation();delTx(\''+tx.id+'\')" style="color:var(--rs)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg> Delete</button>';
+dotsHtml+='<div class="dm-sep"></div>';
+if(tx.reviewStatus==='pending'){
+dotsHtml+='<button onclick="event.stopPropagation();markReviewed(\''+tx.id+'\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--em)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Mark Reviewed</button>';
+}else{
+dotsHtml+='<button onclick="event.stopPropagation();markPending(\''+tx.id+'\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--am)" stroke-width="2"><circle cx="12" cy="12" r="5"/></svg> Mark Pending</button>';
+}
+dotsHtml+='</div></div>';
 var card='<div class="ti-c '+chClass+'">';
 card+='<div class="tc" onclick="tExpC(\''+tx.id+'\')">';
 card+=checkboxHtml;
@@ -1214,19 +1318,13 @@ card+='<div class="t-tags">';
 if(tx.biz==='Business')card+='<span class="badge b-bl" style="font-size:10px;padding:1px 6px">Biz</span>';
 if(tx.bank==='Bank')card+='<span class="badge b-pu" style="font-size:10px;padding:1px 6px">Bank</span>';
 card+=reviewHtml;
-card+='</div>';
-card+='</div>';
+card+='</div></div>';
 card+='<span class="t-amt" style="color:'+fc+'">'+fp+'₹'+fn(tx.amount)+'</span>';
-card+='<div class="t-dots" onclick="event.stopPropagation();tDots(\''+tx.id+'\')">';
-card+='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>';
-card+='<div class="dots-menu" id="dm-'+tx.id+'">';
-card+='<button onclick="event.stopPropagation();edTx(\''+tx.id+'\')">Edit</button>';
-card+='<button onclick="event.stopPropagation();delTx(\''+tx.id+'\')" style="color:var(--rs)">Delete</button>';
+card+=dotsHtml;
 card+='</div>';
-card+='</div>';
-card+='</div>';
-// Expanded row
 card+='<div class="te" id="te-'+tx.id+'">';
+card+='<span>'+fd(tx.date)+'</span>';
+card+='<span style="color:var(--t3)">|</span>';
 card+='<span>'+(AN[tx.from]||tx.from)+'→'+(AN[tx.to]||tx.to)+'</span>';
 card+='<span style="color:var(--t3)">|</span>';
 card+='<span>'+tx.type+'</span>';
@@ -1243,7 +1341,31 @@ return card;
 }
 function tExpN(e,id){if(e.target.closest('.cbox')||e.target.closest('.btn-icon'))return;var els=document.querySelectorAll('.ti-n .te.sh');for(var i=0;i<els.length;i++){if(els[i].id!=='te-'+id)els[i].classList.remove('sh')}var el=document.getElementById('te-'+id);if(el)el.classList.toggle('sh')}
 function tExpC(id){var els=document.querySelectorAll('.ti-c .te.sh');for(var i=0;i<els.length;i++){if(els[i].id!=='te-'+id)els[i].classList.remove('sh')}var el=document.getElementById('te-'+id);if(el)el.classList.toggle('sh')}
-function tDots(id){event.stopPropagation();var dms=document.querySelectorAll('.dots-menu.sh');for(var i=0;i<dms.length;i++)dms[i].classList.remove('sh');var el=document.getElementById('dm-'+id);if(el)el.classList.toggle('sh')}
+function tDots(id){/* Close all other menus first*/var allMenus=document.querySelectorAll('.dots-menu.sh');for(var i=0;i<allMenus.length;i++){if(allMenus[i].id!=='dm-'+id)allMenus[i].classList.remove('sh');}/* Toggle this menu*/var el=document.getElementById('dm-'+id);if(el)el.classList.toggle('sh');}
+function selectDateGroup(date){
+var fl=gFL();
+var groupTxns=fl.filter(function(t){return t.date===date});
+var allSelected=true;
+for(var i=0;i<groupTxns.length;i++){
+if(!selected.has(groupTxns[i].id)){allSelected=false;break}
+}
+if(allSelected){
+for(var j=0;j<groupTxns.length;j++){selected.delete(groupTxns[j].id)}
+}else{
+for(var k=0;k<groupTxns.length;k++){selected.add(groupTxns[k].id)}
+}
+updMS();
+// Update checkboxes without full re-render
+var cbs=document.querySelectorAll('.ms-cb');
+for(var c=0;c<cbs.length;c++){
+cbs[c].className='cbox ms-cb'+(selected.has(cbs[c].dataset.id)?' checked':'');
+}
+// Update this date group's button text
+var seps=document.querySelectorAll('.date-sep[data-sep-date="'+date+'"] .ds-selall');
+for(var s=0;s<seps.length;s++){
+seps[s].textContent=allSelected?'Select All':'Deselect All';
+}
+}
 
 //edTx function starts here
 var _editScrollTarget=null;
@@ -2163,6 +2285,7 @@ var pdfBank='Bank';
 var pdfType=pt.type;
 var pdfRuleId=pt.type==='Transfer-Out'?6:5;
 var pdfComm=pdfSmart.commission||0;
+var pdfCommType=pdfSmart.commType||'standard';
 // Apply route override if smart detection found one
 if(pdfSmart.route){
 if(pdfSmart.route.from)pdfFrom=pdfSmart.route.from;
@@ -2191,7 +2314,8 @@ txnId:pt.txnId,
 note:pdfNote,
 createdAt:rowCreatedAt,
 reviewStatus:'pending',
-importSource:'phonepe-pdf'
+importSource:'phonepe-pdf',
+commType:pdfCommType
 });
 added++;
 }
@@ -2246,6 +2370,7 @@ var SM_RULE_MAP={
 'Aeps-WD':{id:1,from:'AEPS',to:'Cash',flow:'Inflow',biz:'Business',bank:'Non-Bank'},
 'Aeps-Deposit':{id:2,from:'Cash',to:'AEPS',flow:'Outflow',biz:'Business',bank:'Non-Bank'},
 'Aeps-Refund':{id:4,from:'AEPS',to:'Cash',flow:'Inflow',biz:'Non-Business',bank:'Non-Bank'},
+'Aeps-Failed':{id:3,from:'Cash',to:'AEPS',flow:'Outflow',biz:'Non-Business',bank:'Non-Bank'},
 'Service-Out':{id:23,from:'Cash',to:'AEPS',flow:'Outflow',biz:'Business',bank:'Non-Bank'},
 'Internal-Settlement':{id:13,from:'AEPS',to:'Bank',flow:'Inflow',biz:'Non-Business',bank:'Bank'},
 'Agent to Distributor':{id:9,from:'Cash',to:'AEPS',flow:'Outflow',biz:'Non-Business',bank:'Non-Bank'},
@@ -2310,7 +2435,11 @@ finalTid=rawTid+'-'+suffixChar;
 // Override status: -A is always Failed, -B is always Refund
 if(idSuffixCounter[rawTid]===1){
 status='Fail';
-//console.log('SET FAIL for: '+finalTid+' status='+status);
+// Override type for failed Aeps Deposits
+if(appType==='Aeps-Deposit'){
+appType='Aeps-Failed';
+rule=SM_RULE_MAP['Aeps-Failed']||{id:3,from:'Cash',to:'AEPS',flow:'Outflow',biz:'Non-Business',bank:'Non-Bank'};
+}
 }else{
 status='Refund';
 }
@@ -2324,12 +2453,16 @@ var autoComm=0;
 if(appType==='Aeps-WD'||appType==='Aeps-Deposit'){
 autoComm=Math.ceil(amt/1000)*10;
 }
+if(appType==='Aeps-Failed'){
+autoComm=0;
+}
 // Smart title and commission based on Transaction ID
 var smart=getSmartTitleAndComm(finalTid,amt,'spicemoney','');
 if(smart.commission>0&&autoComm===0){
 autoComm=smart.commission;
 }
 // Determine note/title
+var smartCommType=smart.commType||'';
 var smartNote='';
 if(smart.title){
 smartNote=smart.title;
@@ -2337,6 +2470,8 @@ smartNote=smart.title;
 smartNote='Aeps Cash Withdrawal';
 }else if(appType==='Aeps-Deposit'){
 smartNote='Aeps Cash Deposit';
+}else if(appType==='Aeps-Failed'){
+smartNote='Aeps Cash Deposit - Failed';
 }else{
 smartNote='Review - Imported from Spicemoney XLS';
 }
@@ -2359,7 +2494,8 @@ discount:0,
 netCommission:autoComm,
 _rowNum:row._rowNum,
 _src:'spicemoney',
-_origTid:rawTid
+_origTid:rawTid,
+commType:smartCommType
 });
 }
 return txns;
@@ -2510,38 +2646,69 @@ prev.innerHTML='<div class="pm-stat"><span class="l">Total in range</span><span 
 
 function getSmartTitleAndComm(txnId,amount,source,desc){
 var id=(txnId||'').trim().toUpperCase();
-var result={title:'',commission:0,route:null};
+var descLower=(desc||'').trim().toLowerCase();
+var result={title:'',commission:0,route:null,commType:''};
 if(source==='spicemoney'){
 if(id.indexOf('SD')===0){
 result.title='Bill Payment via Spicemoney';
 result.commission=10;
+result.commType='bill';
 return result;
 }
 if(id.indexOf('MPS')===0||id.indexOf('TW')===0||id.indexOf('JIO')===0||id.indexOf('NJRI')===0){
 result.title='Mobile Recharge via Spicemoney';
 result.commission=Math.ceil(amount/5)*5-amount;
 if(result.commission<0)result.commission=0;
+result.commType='recharge';
 return result;
 }
 return result;
 }
 if(source==='phonepe'){
-if(id.indexOf('NX')===0){
+// Wallet Topup: NX prefix + description contains "top-up wallet" or "top up wallet"
+if(id.indexOf('NX')===0&&(descLower.indexOf('top-up wallet')>=0||descLower.indexOf('top up wallet')>=0||descLower.indexOf('topup wallet')>=0||descLower.indexOf('added to wallet')>=0)){
+result.title='PhonePe Wallet Topup';
+result.commission=0;
+result.route={from:'Bank',to:'Phonepe-Wallet',bank:'Bank',biz:'Non-Business',type:'Internal-Topup',ruleId:20,flow:'Outflow'};
+result.commType='none';
+return result;
+}
+// Redeem Code: NX prefix + description contains "recharge code"
+if(id.indexOf('NX')===0&&descLower.indexOf('recharge code')>=0){
 result.title='Redeem Code';
 result.commission=Math.ceil(amount/100)*10;
-result.route={from:'Cash',to:'Phonepe-Wallet',bank:'Non-Bank',ruleId:8,biz:'Business',type:'Service-Out',flow:'Outflow'};
+result.route={from:'Cash',to:'Phonepe-Wallet',bank:'Non-Bank',biz:'Business',type:'Service-Out',ruleId:8,flow:'Outflow'};
+result.commType='redeem';
+return result;
+}
+// Remaining NX — check description for more clues
+if(id.indexOf('NX')===0){
+// Loan installments, other NX transactions → Transfer-Out with standard commission
+if(descLower.indexOf('loan')>=0||descLower.indexOf('installment')>=0||descLower.indexOf('emi')>=0){
+result.title=desc||'Loan Payment';
+result.commission=Math.ceil(amount/1000)*10;
+result.commType='standard';
+return result;
+}
+// Default NX → keep as-is with description
+if(desc&&desc.trim()){
+result.title=desc.trim();
+}
+result.commType='standard';
 return result;
 }
 if(id.indexOf('OMO')===0&&id.length>0&&id.charAt(id.length-1)==='V'){
 result.title='Daily Investment - Jar Gold';
 result.commission=0;
 result.route={from:'Bank',to:'Bank',bank:'Bank',biz:'Non-Business',type:'Internal-Investment',ruleId:11,flow:'Outflow'};
+result.commType='none';
 return result;
 }
 // For remaining PDF transactions, use original description
 if(desc&&desc.trim()){
 result.title=desc.trim();
 }
+result.commType='standard';
 return result;
 }
 return result;
@@ -2652,6 +2819,7 @@ amount:pt.amount,
 commission:pt.commission||0,
 discount:0,
 netCommission:pt.commission||0,
+commType:pt.commType||'',
 date:pt.date,
 status:pt.status,
 txnId:pt.txnId,
@@ -2937,6 +3105,31 @@ document.getElementById('qrStatus').value='';
 document.getElementById('qrFlowC').style.display='none';
 qrAutoComm=false;
 document.getElementById('qrAutoCommSwitch').classList.remove('on');
+// Update auto commission label based on selected transaction types
+var commLabel='Smart Commission — auto-calculates per transaction type';
+var allSameType=true;
+var firstCommType='';
+TXS.forEach(function(tx){
+if(!qrSelected.has(tx.id))return;
+var ct=tx.commType||(tx.note||'').toLowerCase();
+var thisType='standard';
+if(ct.indexOf('bill')>=0)thisType='bill';
+else if(ct.indexOf('recharge')>=0)thisType='recharge';
+else if(ct.indexOf('redeem')>=0)thisType='redeem';
+else if(ct.indexOf('investment')>=0||ct.indexOf('topup')>=0||ct.indexOf('top-up')>=0)thisType='none';
+if(!firstCommType)firstCommType=thisType;
+if(thisType!==firstCommType)allSameType=false;
+});
+if(allSameType&&firstCommType){
+if(firstCommType==='bill')commLabel='Flat ₹10 per transaction';
+else if(firstCommType==='recharge')commLabel='Round up to nearest ₹5 (difference is commission)';
+else if(firstCommType==='redeem')commLabel='₹10 per ₹100 block';
+else if(firstCommType==='none')commLabel='No commission (₹0)';
+else commLabel='₹10 per ₹1000 block';
+}
+var labelEl=document.querySelector('.mqr-toggle .mt-label');
+if(labelEl)labelEl.innerHTML='<b>Auto Commission</b> — '+commLabel;
+
 qrSelectedRule=null;
 window._qrWarnShown=false;
 document.getElementById('qrWarn').style.display='none';
@@ -2995,18 +3188,49 @@ document.getElementById('qrAutoCommSwitch').classList.toggle('on',qrAutoComm);
 showQrPreview();
 }
 
+function calcSmartComm(tx){
+// Check commType stored on the transaction
+var ct=(tx.commType||'').toLowerCase();
+var note=(tx.note||'').toLowerCase();
+// Bill Payment: flat ₹10
+if(ct==='bill'||note.indexOf('bill payment')>=0){
+return 10;
+}
+// Mobile Recharge: round up to ₹5
+if(ct==='recharge'||note.indexOf('mobile recharge')>=0){
+var comm=Math.ceil(tx.amount/5)*5-tx.amount;
+return comm<0?0:comm;
+}
+// Redeem Code: ₹10 per ₹100
+if(ct==='redeem'||note.indexOf('redeem code')>=0){
+return Math.ceil(tx.amount/100)*10;
+}
+// No commission types
+if(ct==='none'||note.indexOf('investment')>=0||note.indexOf('jar gold')>=0||note.indexOf('topup')>=0||note.indexOf('top-up')>=0){
+return 0;
+}
+// Standard: ₹10 per ₹1000
+return Math.ceil(tx.amount/1000)*10;
+}
+
 function showQrPreview(){
 var prev=document.getElementById('qrPreview');
 if(!qrAutoComm){prev.style.display='none';return}
-
 prev.style.display='block';
 var html='';
 var totalComm=0;
 TXS.forEach(function(tx){
 if(!qrSelected.has(tx.id))return;
-var comm=Math.ceil(tx.amount/1000)*10;
+var comm=calcSmartComm(tx);
 totalComm+=comm;
-html+='<div class="mp-row"><span>₹'+fn(tx.amount)+'</span><span class="mp-amt">'+tx.type+'</span><span class="mp-comm">₹'+comm+'</span></div>';
+var commLabel='₹10/₹1000';
+var ct=(tx.commType||'').toLowerCase();
+var note=(tx.note||'').toLowerCase();
+if(ct==='bill'||note.indexOf('bill payment')>=0)commLabel='Flat ₹10';
+else if(ct==='recharge'||note.indexOf('mobile recharge')>=0)commLabel='Round ₹5';
+else if(ct==='redeem'||note.indexOf('redeem code')>=0)commLabel='₹10/₹100';
+else if(ct==='none'||note.indexOf('investment')>=0||note.indexOf('topup')>=0||note.indexOf('top-up')>=0)commLabel='No comm';
+html+='<div class="mp-row"><span>₹'+fn(tx.amount)+'</span><span class="mp-amt" style="color:var(--t3);font-size:10px">'+commLabel+'</span><span class="mp-comm">₹'+comm+'</span></div>';
 });
 html+='<div class="mp-row" style="font-weight:700;border-top:2px solid var(--bdr);padding-top:6px;margin-top:4px"><span>Total Commission</span><span></span><span class="mp-comm">₹'+fn(totalComm)+'</span></div>';
 prev.innerHTML=html;
@@ -3055,7 +3279,7 @@ tx.bank=qrSelectedRule.bank;
 tx.ruleId=qrSelectedRule.id;
 }
 if(qrAutoComm){
-var comm=Math.ceil(tx.amount/1000)*10;
+var comm=calcSmartComm(tx);
 tx.commission=comm;
 tx.netCommission=Math.max(0,comm-(tx.discount||0));
 }
@@ -3168,6 +3392,31 @@ document.getElementById('qrStatus').value='';
 document.getElementById('qrFlowC').style.display='none';
 qrAutoComm=false;
 document.getElementById('qrAutoCommSwitch').classList.remove('on');
+// Update auto commission label based on selected transaction types
+var commLabel='Smart Commission — auto-calculates per transaction type';
+var allSameType=true;
+var firstCommType='';
+TXS.forEach(function(tx){
+if(!qrSelected.has(tx.id))return;
+var ct=tx.commType||(tx.note||'').toLowerCase();
+var thisType='standard';
+if(ct.indexOf('bill')>=0)thisType='bill';
+else if(ct.indexOf('recharge')>=0)thisType='recharge';
+else if(ct.indexOf('redeem')>=0)thisType='redeem';
+else if(ct.indexOf('investment')>=0||ct.indexOf('topup')>=0||ct.indexOf('top-up')>=0)thisType='none';
+if(!firstCommType)firstCommType=thisType;
+if(thisType!==firstCommType)allSameType=false;
+});
+if(allSameType&&firstCommType){
+if(firstCommType==='bill')commLabel='Flat ₹10 per transaction';
+else if(firstCommType==='recharge')commLabel='Round up to nearest ₹5 (difference is commission)';
+else if(firstCommType==='redeem')commLabel='₹10 per ₹100 block';
+else if(firstCommType==='none')commLabel='No commission (₹0)';
+else commLabel='₹10 per ₹1000 block';
+}
+var labelEl=document.querySelector('.mqr-toggle .mt-label');
+if(labelEl)labelEl.innerHTML='<b>Auto Commission</b> — '+commLabel;
+
 qrSelectedRule=null;
 window._qrWarnShown=false;
 document.getElementById('qrWarn').style.display='none';
@@ -3176,6 +3425,82 @@ showQrPreview();
 window._bulkEditMode=true;
 window._bulkEditIds=new Set(selected);
 document.getElementById('qrModal').classList.add('sh');
+}
+
+function markReviewed(id){
+var tx=TXS.find(function(t){return t.id===id});
+if(!tx)return;
+tx.reviewStatus='reviewed';
+sv('Mark reviewed');
+rTxns();rDash();
+toast('Marked as reviewed','success');
+}
+
+function markPending(id){
+var tx=TXS.find(function(t){return t.id===id});
+if(!tx)return;
+tx.reviewStatus='pending';
+sv('Mark pending');
+rTxns();rDash();
+toast('Marked as pending','success');
+}
+
+function moveToQuickReview(){
+if(!selected.size)return;
+var moved=0;
+var alreadyPending=0;
+selected.forEach(function(id){
+var tx=TXS.find(function(t){return t.id===id});
+if(!tx)return;
+if(tx.reviewStatus==='pending'){
+alreadyPending++;
+}else{
+tx.reviewStatus='pending';
+tx._movedToQr=true;
+moved++;
+}
+});
+if(moved>0){
+sv('Move '+moved+' to Quick Review');
+// Exit multi-select
+msMode=false;
+selected.clear();
+document.getElementById('msToggle').classList.remove('active');
+document.getElementById('msBar').classList.remove('sh');
+updMS();
+rTxns();rDash();
+updQrButton();
+}
+if(alreadyPending>0&&moved>0){
+toast(moved+' moved to review, '+alreadyPending+' already pending','info');
+}else if(moved>0){
+toast(moved+' transactions moved to Quick Review','success');
+}else{
+toast('All selected transactions are already pending review','info');
+}
+}
+
+function updQrButton(){
+var pending=TXS.filter(function(t){return t.reviewStatus==='pending'}).length;
+var btn=document.getElementById('qrToggle');
+if(btn){
+btn.disabled=pending===0;
+btn.style.opacity=pending===0?'0.3':'1';
+}
+}
+
+function updMoveQrBtn(){
+if(!msMode||!selected.size){return}
+var allPending=true;
+selected.forEach(function(id){
+var tx=TXS.find(function(t){return t.id===id});
+if(tx&&tx.reviewStatus!=='pending')allPending=false;
+});
+var btn=document.getElementById('moveQrBtn');
+if(btn){
+btn.disabled=allPending;
+btn.style.opacity=allPending?'0.3':'1';
+}
 }
 
 // App initialization is now triggered by Firebase auth state listener
