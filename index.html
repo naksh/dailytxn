@@ -575,11 +575,13 @@ Sign in with Google
 <div class="fg-f"><label>Net Commission</label><div style="padding:12px 14px;background:var(--input);border:1px solid var(--bdr);border-radius:10px;font-size:14px;font-weight:700;color:var(--em)" id="fNetComm">₹0</div></div>
 <div class="fg-f"><label>Date</label><input type="date" id="fDt"></div>
 <div class="fg-f"><label>Status</label><select id="fSt"><option>Success</option><option>Pending</option><option>Fail</option><option>Refund</option></select></div>
-<div class="fg-f full"><label>Transaction ID</label><div class="iwb"><input type="text" id="fTid"><button onclick="rTid()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg></button></div></div>
+<div class="fg-f"><label>Transaction ID</label><input type="text" id="fTid" placeholder="Enter transaction ID"></div>
+<div class="fg-f"><label>Reference ID</label><div class="iwb"><input type="text" id="fRefId" readonly><button onclick="rTid()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg></button></div></div>
 <div class="fg-f full"><label>Note (Optional)</label><textarea id="fNote" placeholder="Add notes..."></textarea></div>
 </div>
 <div style="display:flex;gap:10px;margin-top:16px">
 <button class="btn btn-p" style="flex:1;justify-content:center;padding:14px" onclick="addTx()" id="addBtn">Add Transaction</button>
+<button class="btn btn-s btn-sm" onclick="resetForm()" id="resetBtn" style="padding:10px 16px">Reset</button>
 <button class="btn btn-s btn-sm" onclick="cancelEdit()" id="cancelBtn" style="display:none;padding:10px 16px">Cancel</button>
 </div>
 <div id="fMsg" style="margin-top:10px;padding:10px 14px;border-radius:8px;font-size:13px;display:none"></div>
@@ -1006,7 +1008,10 @@ document.getElementById('nePage').style.color='var(--em)';
 document.getElementById('neSubtitle').textContent='Add a new transaction entry';
 document.getElementById('addBtn').textContent='Add Transaction';
 document.getElementById('cancelBtn').style.display='none';
-rstF();setDt();rTid();
+document.getElementById('resetBtn').style.display='inline-flex';
+rstF();
+setDt();
+rTid();
 }
 function goPg(p,skipInit){
 var comingFromTxn=document.getElementById('pg-transactions').classList.contains('act');
@@ -1084,11 +1089,36 @@ function applyCS(){if(!selRule||!isC(selRule.type))return;var a=parseFloat(docum
 function updNetComm(){var c=parseFloat(document.getElementById('fCom').value)||0,d=parseFloat(document.getElementById('fDisc').value)||0,n=Math.max(0,c-d);document.getElementById('fNetComm').textContent='₹'+fn(n);document.getElementById('fNetComm').style.color=n>0?'var(--em)':'var(--t3)'}
 function initApp(){if(window._appInitialized)return;window._appInitialized=true;applySidebar();var fixed=sanitizeTransactions();if(fixed>0){setTimeout(function(){toast('Fixed '+fixed+' data field(s)','info')},500)}document.getElementById('cmConfirmBtn').addEventListener('click',runPendingConfirm);var ts=document.getElementById('fType'),uT=[];for(var i=0;i<R.length;i++){if(uT.indexOf(R[i].type)<0)uT.push(R[i].type)}for(var j=0;j<uT.length;j++){var o=document.createElement('option');o.value=uT[j];o.textContent=uT[j];ts.appendChild(o)}var ft=document.getElementById('flType');for(var k=0;k<uT.length;k++){var o2=document.createElement('option');o2.value=uT[k];o2.textContent=uT[k];ft.appendChild(o2)}var fy=document.getElementById('rFY');var fys=['2026-27','2025-26','2024-25','2023-24'];for(var f=0;f<fys.length;f++){var o3=document.createElement('option');o3.value=fys[f];o3.textContent='FY '+fys[f];fy.appendChild(o3)}document.getElementById('flFlow').addEventListener('change',aFl);document.getElementById('flSts').addEventListener('change',aFl);document.getElementById('flAcc').addEventListener('change',aFl);document.getElementById('flType').addEventListener('change',aFl);document.getElementById('flFrom').addEventListener('change',aFl);document.getElementById('flTo').addEventListener('change',aFl);document.getElementById('flReview').addEventListener('change',aFl);setDt();rTid();var savedPage=localStorage.getItem('sm_page')||'dashboard';/* If saved page is newentry, go to transactions instead (don't open form on reload)*/if(savedPage==='newentry')savedPage='transactions';goPg(savedPage);document.addEventListener('click',function(e){var dms=document.querySelectorAll('.dots-menu.sh');for(var i=0;i<dms.length;i++){if(!dms[i].parentElement.contains(e.target)){dms[i].classList.remove('sh');dms[i].parentElement.style.zIndex='1';}}if(!compactView){var exs=document.querySelectorAll('.ti-n .te.sh');for(var j=0;j<exs.length;j++){var c=exs[j].closest('.ti-n');if(c&&!c.contains(e.target))exs[j].classList.remove('sh')}}});document.addEventListener('keydown',function(e){/* Ctrl+Z = Undo*/if((e.ctrlKey||e.metaKey)&&e.key==='z'&&!e.shiftKey){e.preventDefault();doUndo();}/*Ctrl+Y or Ctrl+Shift+Z = Redo*/if((e.ctrlKey||e.metaKey)&&(e.key==='y'||(e.key==='z'&&e.shiftKey))){e.preventDefault();doRedo();}});window.addEventListener('scroll',function(){uSD();toggleScrollTop()},{passive:true})}
 function setDt(){document.getElementById('fDt').value=new Date().toISOString().split('T')[0]}
-function rTid(){var c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',id='SMPMF';for(var i=0;i<10;i++)id+=c[Math.floor(Math.random()*c.length)];document.getElementById('fTid').value=id}
+function rTid(){
+var c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+var id='REF';
+for(var i=0;i<10;i++)id+=c[Math.floor(Math.random()*c.length)];
+document.getElementById('fRefId').value=id;
+}
 function tNF(){var f=document.getElementById('nfCard');f.style.display='block';document.getElementById('nfTitle').textContent='+ New Transaction';document.getElementById('nfTitle').style.color='var(--em)';document.getElementById('addBtn').textContent='Add Transaction';document.getElementById('cancelBtn').style.display='none';eId=null;rstF();window.scrollTo({top:0,behavior:'auto'});}
 function closeNF(){document.getElementById('nfCard').style.display='none';if(_editScrollTarget){var scrollId=_editScrollTarget;_editScrollTarget=null;setTimeout(function(){var cards=document.querySelectorAll('.ti-n, .ti-c');for(var i=0;i<cards.length;i++){var te=cards[i].querySelector('[id^="te-"]');if(te&&te.id==='te-'+scrollId){cards[i].scrollIntoView({behavior:'auto',block:'center'});cards[i].style.boxShadow='0 0 0 2px var(--am)';setTimeout(function(){for(var j=0;j<cards.length;j++)cards[j].style.boxShadow=''},1500);break;}}},100);}eId=null;rstF();}
 function cancelEdit(){var scrollId=_editScrollTarget;_editScrollTarget=null;eId=null;rstF();/* Go back to transactions page*/goPg('transactions');/* Scroll to the transaction we were editing*/if(scrollId){setTimeout(function(){var cards=document.querySelectorAll('.ti-n, .ti-c');for(var i=0;i<cards.length;i++){var te=cards[i].querySelector('[id^="te-"]');if(te&&te.id==='te-'+scrollId){cards[i].scrollIntoView({behavior:'auto',block:'center'});cards[i].style.boxShadow='0 0 0 2px var(--am)';setTimeout(function(){for(var j=0;j<cards.length;j++)cards[j].style.boxShadow=''},1500);break;}}},150);}}
-function rstF(){document.getElementById('fType').value='';document.getElementById('fAmt').value='';document.getElementById('fCom').value='';document.getElementById('fDisc').value='0';document.getElementById('fNote').value='';document.getElementById('fSt').value='Success';document.getElementById('flowC').style.display='none';document.getElementById('infoC').style.display='none';document.getElementById('commBar').style.display='none';document.getElementById('fNetComm').textContent='₹0';document.getElementById('fMsg').style.display='none';selRule=null;}
+function rstF(){
+document.getElementById('fType').value='';
+document.getElementById('fAmt').value='';
+document.getElementById('fCom').value='';
+document.getElementById('fDisc').value='0';
+document.getElementById('fTid').value='';
+document.getElementById('fNote').value='';
+document.getElementById('fSt').value='Success';
+document.getElementById('flowC').style.display='none';
+document.getElementById('infoC').style.display='none';
+document.getElementById('commBar').style.display='none';
+document.getElementById('fNetComm').textContent='₹0';
+document.getElementById('fMsg').style.display='none';
+selRule=null;
+}
+function resetForm(){
+rstF();
+setDt();
+// Don't regenerate Reference ID — keep the current one
+sMsg('✓ Form reset','s');
+}
 function onTCh(){var tp=document.getElementById('fType').value,fc=document.getElementById('flowC'),ic=document.getElementById('infoC');if(!tp){fc.style.display='none';ic.style.display='none';selRule=null;document.getElementById('commBar').style.display='none';return}var rules=R.filter(function(r){return r.type===tp});if(rules.length===1){selRule=rules[0];fc.style.display='none';showInfo()}else{fc.style.display='block';document.getElementById('flowOpts').innerHTML=rules.map(function(r){return '<div class="flow-opt'+(selRule&&selRule.id===r.id?' sel':'')+'" onclick="selFlow('+r.id+')"><span class="fo-route">'+(AN[r.from]||r.from)+'<span>→</span>'+(AN[r.to]||r.to)+'</span><span class="badge '+(r.biz==='Business'?'b-bl':'b-gy')+'">'+r.biz+'</span></div>'}).join('');if(!selRule||!rules.find(function(r){return r.id===selRule.id})){selRule=null;ic.style.display='none'}}calcComm()}
 function selFlow(id){selRule=R.find(function(r){return r.id===id});var rules=R.filter(function(r){return r.type===selRule.type});document.getElementById('flowOpts').innerHTML=rules.map(function(r){return '<div class="flow-opt'+(r.id===id?' sel':'')+'" onclick="selFlow('+r.id+')"><span class="fo-route">'+(AN[r.from]||r.from)+'<span>→</span>'+(AN[r.to]||r.to)+'</span><span class="badge '+(r.biz==='Business'?'b-bl':'b-gy')+'">'+r.biz+'</span></div>'}).join('');showInfo();calcComm()}
 function showInfo(){if(!selRule)return;var ic=document.getElementById('infoC'),cd=document.getElementById('infoCard'),fc=selRule.flow==='Inflow'?'var(--em)':'var(--rs)',bc=selRule.biz==='Business'?'var(--bl)':'var(--t2)',bk=selRule.bank==='Bank'?'var(--pu)':'var(--t2)';cd.innerHTML='<div class="ti-item"><div class="l">FLOW</div><div class="v" style="color:'+fc+'">'+selRule.flow+'</div></div><div class="ti-item"><div class="l">CLASSIFICATION</div><div class="v" style="color:'+bc+'">'+selRule.biz+'</div></div><div class="ti-item"><div class="l">BANK HIT</div><div class="v" style="color:'+bk+'">'+selRule.bank+'</div></div><div class="ti-item"><div class="l">ROUTE</div><div class="v">'+(AN[selRule.from]||selRule.from)+' → '+(AN[selRule.to]||selRule.to)+'</div></div>';ic.style.display='block'}
@@ -1102,11 +1132,15 @@ var disc=parseFloat(document.getElementById('fDisc').value)||0;
 var net=Math.max(0,com-disc);
 var dt=document.getElementById('fDt').value;
 var st=document.getElementById('fSt').value;
-var tid=document.getElementById('fTid').value;
+var tid=document.getElementById('fTid').value.trim();
+var refId=document.getElementById('fRefId').value.trim();
+// Use Transaction ID if provided, otherwise use Reference ID
+if(!tid)tid=refId;
 var note=document.getElementById('fNote').value;
 
 var tx={
 id:eId||Date.now().toString(),
+refId:refId,
 ruleId:selRule.id,type:selRule.type,from:selRule.from,to:selRule.to,
 flow:selRule.flow,biz:selRule.biz,bank:selRule.bank,
 amount:amt,commission:com,discount:disc,netCommission:net,
@@ -1444,9 +1478,10 @@ document.getElementById('fDisc').value=tx.discount||0;
 document.getElementById('fDt').value=tx.date;
 document.getElementById('fSt').value=tx.status;
 document.getElementById('fTid').value=tx.txnId;
+document.getElementById('fRefId').value=tx.id||'';
 document.getElementById('fNote').value=tx.note||'';
+document.getElementById('resetBtn').style.display='none';
 updNetComm();
-// Show commission suggestion but don't overwrite existing commission
 var existingComm=tx.commission||0;
 calcComm();
 if(existingComm>0){
