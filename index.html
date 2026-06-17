@@ -303,6 +303,8 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .acc-bd-flow-col .abc-row.no-calc .abr-cnt{background:rgba(100,116,139,.08)}
 .acc-bd-flow-col .abc-sep{height:1px;background:var(--bdr);margin:8px 0;opacity:.6}
 .acc-bd-flow-col .abc-sep-label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;text-align:center;margin:-4px 0 4px;font-weight:600;font-style:italic}
+.abc-title-badge{font-size:10px;font-weight:600;color:var(--t2);background:rgba(100,116,139,.15);padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle;letter-spacing:.3px}
+.ob-auto-tag{font-size:9px;color:var(--am);background:rgba(245,158,11,.12);padding:5px 6px;border-radius:4px;margin-right:6px;font-weight:600;letter-spacing:.3px;vertical-align:middle;display:inline-block}
 .acc-bd-flow-col .abc-row.zero-row .abr-cnt{background:rgba(100,116,139,.08)}
 .acc-bd-flow-col .abc-row.empty-row{color:var(--t3);font-style:italic;font-size:11px;justify-content:center;border:none}
 .acc-bd-closing{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
@@ -2058,14 +2060,29 @@ html+='<div class="abs-cell"><div class="l">Total Outflow</div><div class="v" st
 html+='<div class="abs-cell"><div class="l">Closing</div><div class="v" style="color:'+(closing>=0?'var(--em)':'var(--rs)')+'">₹'+fn(closing)+'</div></div>';
 html+='</div>';
 html+='<div class="acc-bd-flow">';
-html+='<div class="acc-bd-flow-col in">';
-html+='<div class="abc-title"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:-2px;margin-right:4px"><path d="M7 17l9.2-9.2M17 17V7.8H7.8"/></svg>INFLOWS</span><span class="abc-total">+₹'+fn(totalIn)+'</span></div>';
-html+='<div class="abc-sep"></div>';
 var inCalc=[],inNoCalc=[];
 for(var ie=0;ie<inflowEntries.length;ie++){
 if(SM_NO_CALC.indexOf(inflowEntries[ie].type)>=0){inNoCalc.push(inflowEntries[ie])}
 else{inCalc.push(inflowEntries[ie])}
 }
+var inCalcCount=0,inNoCalcCount=0;
+for(var icc=0;icc<inCalc.length;icc++)inCalcCount+=inCalc[icc].count;
+for(var inc2=0;inc2<inNoCalc.length;inc2++)inNoCalcCount+=inNoCalc[inc2].count;
+var inTotalCount=inCalcCount+inNoCalcCount;
+
+var outCalc=[],outNoCalc=[];
+for(var oe=0;oe<outflowEntries.length;oe++){
+if(SM_NO_CALC.indexOf(outflowEntries[oe].type)>=0){outNoCalc.push(outflowEntries[oe])}
+else{outCalc.push(outflowEntries[oe])}
+}
+var outCalcCount=0,outNoCalcCount=0;
+for(var occ=0;occ<outCalc.length;occ++)outCalcCount+=outCalc[occ].count;
+for(var onc2=0;onc2<outNoCalc.length;onc2++)outNoCalcCount+=outNoCalc[onc2].count;
+var outTotalCount=outCalcCount+outNoCalcCount;
+
+html+='<div class="acc-bd-flow-col in">';
+html+='<div class="abc-title"><span style="display:flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:-2px;margin-right:4px"><path d="M7 17l9.2-9.2M17 17V7.8H7.8"/></svg>INFLOWS<span class="abc-title-badge">'+inTotalCount+' txn'+(inTotalCount!==1?'s':'')+'</span></span><span class="abc-total">+₹'+fn(totalIn)+'</span></div>';
+html+='<div class="abc-sep"></div>';
 for(var ic=0;ic<inCalc.length;ic++){
 var en=inCalc[ic];
 var rowCls=en.isZero?' zero-row':'';
@@ -2081,13 +2098,8 @@ html+='<div class="abc-row'+rowCls3+'"><span class="abr-lbl">'+en3.type+' <span 
 html+='</div>';
 
 html+='<div class="acc-bd-flow-col out">';
-html+='<div class="abc-title"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:-2px;margin-right:4px"><path d="M17 7L7.8 16.2M7 7v9.2h9.2"/></svg>OUTFLOWS</span><span class="abc-total">-₹'+fn(totalOut)+'</span></div>';
+html+='<div class="abc-title"><span style="display:flex;align-items:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:-2px;margin-right:4px"><path d="M17 7L7.8 16.2M7 7v9.2h9.2"/></svg>OUTFLOWS<span class="abc-title-badge">'+outTotalCount+' txn'+(outTotalCount!==1?'s':'')+'</span></span><span class="abc-total">-₹'+fn(totalOut)+'</span></div>';
 html+='<div class="abc-sep"></div>';
-var outCalc=[],outNoCalc=[];
-for(var oe=0;oe<outflowEntries.length;oe++){
-if(SM_NO_CALC.indexOf(outflowEntries[oe].type)>=0){outNoCalc.push(outflowEntries[oe])}
-else{outCalc.push(outflowEntries[oe])}
-}
 for(var oc=0;oc<outCalc.length;oc++){
 var en2=outCalc[oc];
 var rowCls2=en2.isZero?' zero-row':'';
@@ -2109,8 +2121,8 @@ var formulaOut=nonZeroOutflow.length?nonZeroOutflow.map(function(e){return e.typ
 html+='<div class="acc-bd-formula">';
 html+='Closing = Adj(₹'+fn(adj)+') + Opening(₹'+fn(opening)+') + Inflow(₹'+fn(totalIn)+') - Outflow(₹'+fn(totalOut)+') = ₹'+fn(closing);
 html+='<br>Inflow = '+formulaIn;
-html+='<br>Outflow = '+formulaOut;
-html+='<br><span style="color:var(--t3)">Note: Aeps-Refund, Internal-Topup, Aeps-Failed, Internal-Expense are shown but excluded from totals (covered by Adj Amt)</span>';
+html+=' | Outflow = '+formulaOut;
+html+='<br><span style="color:var(--t3)">Note: Aeps-Refund, Internal-Topup, Aeps-Failed, Internal-Expense are shown but excluded from totals</span>';
 html+='</div>';
 html+='<div class="acc-bd-closing'+(closing<0?' neg':'')+'" style="margin-top:12px">';
 html+='<span class="abx-l"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Final Closing Balance (Adj + Opening + Inflow - Outflow)</span>';
@@ -2149,30 +2161,38 @@ var nbTotal=nbIn+nbOut;
 var bizTotal=bizIn+bizOut;
 var nbizTotal=nbizIn+nbizOut;
 var grandTotal=bankTotal+nbTotal;
-var SM_NO_CALC_TYPES=['Internal-Expense','Internal-Commission'];
+var SM_NO_CALC_TYPES=['Aeps-Refund','Internal-Topup','Aeps-Failed','Internal-Expense'];
+
 var accData=[];
 for(var ai2=0;ai2<ACCS.length;ai2++){
 var acc=ACCS[ai2];
 var aInf=0,aOut=0,aCnt=0;
 for(var ti=0;ti<ft.length;ti++){
 var t=ft[ti];
+if(t.from!==acc&&t.to!==acc)continue;
 var af=getAccountFlow(t,acc);
-if(af==='Inflow'){
-aInf+=t.amount;aCnt++;
-if(acc==='AEPS'&&SM_NO_CALC_TYPES.indexOf(normalizeType(t.type))>=0){aInf-=t.amount;aCnt--}
+if(!af)continue;
+aCnt++;
+var isExcluded=(acc==='AEPS'&&SM_NO_CALC_TYPES.indexOf(normalizeType(t.type))>=0);
+if(af==='Inflow'&&!isExcluded){
+aInf+=t.amount;
 }
-else if(af==='Outflow'){
-aOut+=t.amount;aCnt++;
-if(acc==='AEPS'&&SM_NO_CALC_TYPES.indexOf(normalizeType(t.type))>=0){aOut-=t.amount;aCnt--}
-}}
+else if(af==='Outflow'&&!isExcluded){
+aOut+=t.amount;
+}
+}
 var obKey=monthStr+'_'+acc;
-var ob=OB[obKey]||0;
+var obData=getOB(monthStr,acc);
+var ob=obData.value;
+var obIsAuto=obData.isAuto;
 var adjKey=monthStr+'_'+acc+'_adj';
-var adj=(acc==='AEPS')?(OB[adjKey]||0):0;
-accData.push({acc:acc,cnt:aCnt,ob:ob,adj:adj,inf:aInf,outf:aOut,cb:adj+ob+aInf-aOut,obKey:obKey,adjKey:adjKey});
+var adj=(acc==='AEPS'&&OB.hasOwnProperty(adjKey))?OB[adjKey]:0;
+accData.push({acc:acc,cnt:aCnt,ob:ob,obIsAuto:obIsAuto,adj:adj,inf:aInf,outf:aOut,cb:adj+ob+aInf-aOut,obKey:obKey,adjKey:adjKey});
 }
-var spicemoneyOpening=OB[monthStr+'_AEPS']||0;
-var spicemoneyAdj=OB[monthStr+'_AEPS_adj']||0;
+var spicemoneyOBData=getOB(monthStr,'AEPS');
+var spicemoneyOpening=spicemoneyOBData.value;
+var spicemoneyAdj=(OB.hasOwnProperty(monthStr+'_AEPS_adj'))?OB[monthStr+'_AEPS_adj']:0;
+
 var typeMap={};
 for(var ki=0;ki<ft.length;ki++){
 var tx2=ft[ki];
@@ -2278,8 +2298,22 @@ html+='</div>';
 // Account Balance
 html+='<div class="card" style="background:var(--input);border:1px solid var(--bdr)"><div class="ct" style="font-size:14px">Account Balance</div><div style="overflow-x:auto"><table class="rpt-table" id="obTable"><thead><tr><th>Account</th><th style="text-align:right">Count</th><th style="text-align:right">Adj Amt</th><th style="text-align:right">Opening Bal</th><th style="text-align:right">Inflow</th><th style="text-align:right">Outflow</th><th style="text-align:right">Closing Bal</th></tr></thead><tbody>';
 var totCnt=0,totOB=0,totAdj=0,totInf=0,totOut=0,totCB=0;
-for(var ad=0;ad<accData.length;ad++){var a=accData[ad];totCnt+=a.cnt;totOB+=a.ob;totAdj+=a.adj;totInf+=a.inf;totOut+=a.outf;totCB+=a.cb;var adjCell='';if(a.acc==='AEPS'){adjCell='<input class="ob-input" type="text" value="'+a.adj+'" data-key="'+a.adjKey+'" data-is-adj="1" onkeydown="obKey(event,this)" onblur="obBlur(this)">';}else{adjCell='<span style="color:var(--t3)">—</span>';}
-html+='<tr data-acc="'+a.acc+'"><td style="font-weight:600">'+AN[a.acc]+'</td><td class="num">'+a.cnt+'</td><td class="num">'+adjCell+'</td><td class="num"><input class="ob-input" type="text" value="'+a.ob+'" data-key="'+a.obKey+'" data-inf="'+a.inf+'" data-outf="'+a.outf+'" onkeydown="obKey(event,this)" onblur="obBlur(this)"></td><td class="num" style="color:var(--em)">₹'+fn(a.inf)+'</td><td class="num" style="color:var(--rs)">₹'+fn(a.outf)+'</td><td class="num cb-cell" style="color:'+(a.cb>=0?'var(--em)':'var(--rs)')+'">₹'+fn(a.cb)+'</td></tr>';}
+for(var ad=0;ad<accData.length;ad++){
+var a=accData[ad];
+totCnt+=a.cnt;
+totOB+=a.ob;
+totAdj+=a.adj;
+totInf+=a.inf;
+totOut+=a.outf;
+totCB+=a.cb;
+var adjCell='';
+if(a.acc==='AEPS'){
+adjCell='<input class="ob-input" type="text" value="'+a.adj+'" data-key="'+a.adjKey+'" data-is-adj="1" onkeydown="obKey(event,this)" onblur="obBlur(this)">';
+}else{
+adjCell='<span style="color:var(--t3)">—</span>';
+}
+var autoTag=a.obIsAuto?'<span class="ob-auto-tag">Auto</span>':'';
+html+='<tr data-acc="'+a.acc+'"><td style="font-weight:600">'+AN[a.acc]+'</td><td class="num">'+a.cnt+'</td><td class="num">'+adjCell+'</td><td class="num">'+autoTag+'<input class="ob-input" type="text" value="'+a.ob+'" data-key="'+a.obKey+'" data-inf="'+a.inf+'" data-outf="'+a.outf+'" onkeydown="obKey(event,this)" onblur="obBlur(this)"></td><td class="num" style="color:var(--em)">₹'+fn(a.inf)+'</td><td class="num" style="color:var(--rs)">₹'+fn(a.outf)+'</td><td class="num cb-cell" style="color:'+(a.cb>=0?'var(--em)':'var(--rs)')+'">₹'+fn(a.cb)+'</td></tr>';}
 html+='<tr class="total-row"><td><b>Total</b></td><td class="num">'+totCnt+'</td><td class="num adj-total">₹'+fn(totAdj)+'</td><td class="num ob-total">₹'+fn(totOB)+'</td><td class="num" style="color:var(--em)">₹'+fn(totInf)+'</td><td class="num" style="color:var(--rs)">₹'+fn(totOut)+'</td><td class="num cb-total" style="color:'+(totCB>=0?'var(--em)':'var(--rs)')+'">₹'+fn(totCB)+'</td></tr></tbody></table></div></div>';
 // Spicemoney breakdown
 var smBreakdownTxns=TXS.filter(function(t){
@@ -2291,6 +2325,55 @@ html+='<div class="card" style="background:var(--input);border:1px solid var(--b
 document.getElementById('mrC').innerHTML=html;
 }
 
+function getOB(monthStr,acc){
+var key=monthStr+'_'+acc;
+if(OB.hasOwnProperty(key))return{value:OB[key],isAuto:false};
+
+var parts=monthStr.split('-');
+var year=parseInt(parts[0]);
+var month=parseInt(parts[1]);
+
+month--;
+if(month<1){month=12;year--}
+var prevMonth=year+'-'+String(month).padStart(2,'0');
+
+var SM_NO_CALC_CHECK=['Aeps-Refund','Internal-Topup','Aeps-Failed','Internal-Expense'];
+
+var prevFt=TXS.filter(function(t){return t.status==='Success'&&t.date.indexOf(prevMonth)===0});
+
+var hasPrevTxns=false;
+for(var c=0;c<prevFt.length;c++){
+if(prevFt[c].from===acc||prevFt[c].to===acc){hasPrevTxns=true;break}
+}
+
+var prevKey=prevMonth+'_'+acc;
+var hasPrevOB=OB.hasOwnProperty(prevKey);
+
+if(!hasPrevTxns&&!hasPrevOB){
+return{value:0,isAuto:false};
+}
+
+var prevOBData=getOB(prevMonth,acc);
+var prevOB=prevOBData.value;
+
+var prevAdjKey=prevMonth+'_'+acc+'_adj';
+var prevAdj=(acc==='AEPS'&&OB.hasOwnProperty(prevAdjKey))?OB[prevAdjKey]:0;
+
+var prevInf=0,prevOut=0;
+for(var i=0;i<prevFt.length;i++){
+var t=prevFt[i];
+if(t.from!==acc&&t.to!==acc)continue;
+var af=getAccountFlow(t,acc);
+if(!af)continue;
+var isExcluded=(acc==='AEPS'&&SM_NO_CALC_CHECK.indexOf(normalizeType(t.type))>=0);
+if(isExcluded)continue;
+if(af==='Inflow')prevInf+=t.amount;
+else if(af==='Outflow')prevOut+=t.amount;
+}
+
+var closing=prevAdj+prevOB+prevInf-prevOut;
+return{value:Math.round(closing*100)/100,isAuto:true};
+}
 function obKey(e,inp){if(e.key==='Enter'){e.preventDefault();obSave(inp);inp.blur()}}
 function obBlur(inp){obSave(inp)}
 function obSave(inp){
@@ -2349,6 +2432,8 @@ if(cbTot){
 cbTot.textContent='₹'+fn(totCB);
 cbTot.style.color=totCB>=0?'var(--em)':'var(--rs)';
 }}
+var autoTag=inp.parentElement.querySelector('.ob-auto-tag');
+if(autoTag)autoTag.remove();
 inp.classList.add('saved');
 setTimeout(function(){inp.classList.remove('saved')},800);
 if(inp.dataset.key.indexOf('_AEPS')>=0){updM()}
