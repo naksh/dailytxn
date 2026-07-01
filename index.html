@@ -826,7 +826,7 @@ function hideImportOverlay(){
 document.getElementById('importOverlay').classList.remove('sh');
 }
 
-var R=[{id:1,type:"Aeps-WD",from:"AEPS",to:"Cash",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:2,type:"Aeps-Deposit",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:3,type:"Aeps-Failed",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:4,type:"Aeps-Refund",from:"AEPS",to:"Cash",flow:"Inflow",biz:"Non-Business",bank:"Non-Bank"},{id:5,type:"Transfer-In",from:"Bank",to:"Cash",flow:"Inflow",biz:"Business",bank:"Bank"},{id:6,type:"Transfer-Out",from:"Cash",to:"Bank",flow:"Outflow",biz:"Business",bank:"Bank"},{id:7,type:"Transfer-In",from:"Phonepe-Wallet",to:"Cash",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:8,type:"Transfer-Out",from:"Cash",to:"Phonepe-Wallet",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:9,type:"Agent to Distributor",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:10,type:"Distributor To Agent",from:"AEPS",to:"Cash",flow:"Inflow",biz:"Non-Business",bank:"Non-Bank"},{id:11,type:"Internal-Investment",from:"Bank",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:12,type:"Internal-Settlement",from:"Phonepe-Business",to:"Bank",flow:"Inflow",biz:"Business",bank:"Bank"},{id:13,type:"Internal-Settlement",from:"AEPS",to:"Bank",flow:"Inflow",biz:"Non-Business",bank:"Bank"},{id:14,type:"Internal-Commission",from:"Bank",to:"Bank",flow:"Inflow",biz:"Non-Business",bank:"Bank"},{id:15,type:"Internal-Commission",from:"Phonepe-Wallet",to:"Phonepe-Wallet",flow:"Inflow",biz:"Non-Business",bank:"Non-Bank"},{id:16,type:"Internal-Expense",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:17,type:"Internal-Expense",from:"Phonepe-Wallet",to:"Phonepe-Wallet",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:18,type:"Internal-Expense",from:"Bank",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:19,type:"Internal-Transfer",from:"Cash",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:20,type:"Internal-Topup",from:"Bank",to:"Phonepe-Wallet",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:21,type:"Internal-Topup",from:"Bank",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:22,type:"Internal-ATM",from:"Bank",to:"Cash",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:23,type:"Service-Out",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:24,type:"Service-In",from:"Phonepe-Wallet",to:"Phonepe-Wallet",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:25,type:"Service-Out",from:"Cash",to:"Phonepe-Wallet",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:26,type:"Service-In",from:"Cash",to:"Cash",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:27,type:"Service-Out",from:"Bank",to:"Bank",flow:"Outflow",biz:"Business",bank:"Bank"},{id:28,type:"Service-In",from:"Bank",to:"Bank",flow:"Inflow",biz:"Business",bank:"Bank"},{id:29,type:"Service-Out",from:"Cash",to:"Bank",flow:"Outflow",biz:"Business",bank:"Bank"}];
+var R=[{id:1,type:"Aeps-WD",from:"AEPS",to:"Cash",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:2,type:"Aeps-Deposit",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:3,type:"Aeps-Failed",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:4,type:"Aeps-Refund",from:"AEPS",to:"Cash",flow:"Inflow",biz:"Non-Business",bank:"Non-Bank"},{id:5,type:"Transfer-In",from:"Bank",to:"Cash",flow:"Inflow",biz:"Business",bank:"Bank"},{id:6,type:"Transfer-Out",from:"Cash",to:"Bank",flow:"Outflow",biz:"Business",bank:"Bank"},{id:7,type:"Transfer-In",from:"Phonepe-Wallet",to:"Cash",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:8,type:"Transfer-Out",from:"Cash",to:"Phonepe-Wallet",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:9,type:"Agent to Distributor",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:10,type:"Distributor To Agent",from:"AEPS",to:"Cash",flow:"Inflow",biz:"Non-Business",bank:"Non-Bank"},{id:11,type:"Internal-Investment",from:"Bank",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:12,type:"Internal-Settlement",from:"Phonepe-Business",to:"Bank",flow:"Inflow",biz:"Business",bank:"Bank"},{id:13,type:"Internal-Settlement",from:"AEPS",to:"Bank",flow:"Inflow",biz:"Non-Business",bank:"Bank"},{id:14,type:"Internal-Commission",from:"Bank",to:"Bank",flow:"Inflow",biz:"Non-Business",bank:"Bank"},{id:15,type:"Internal-Commission",from:"Phonepe-Wallet",to:"Phonepe-Wallet",flow:"Inflow",biz:"Non-Business",bank:"Non-Bank"},{id:16,type:"Internal-Expense",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:17,type:"Internal-Expense",from:"Phonepe-Wallet",to:"Phonepe-Wallet",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:18,type:"Internal-Expense",from:"Bank",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:31,type:"Personal-Expense",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:32,type:"Personal-Expense",from:"Phonepe-Wallet",to:"Phonepe-Wallet",flow:"Outflow",biz:"Non-Business",bank:"Non-Bank"},{id:33,type:"Personal-Expense",from:"Bank",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:19,type:"Internal-Transfer",from:"Cash",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:30,type:"Internal-Transfer",from:"Bank",to:"Bank",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:20,type:"Internal-Topup",from:"Bank",to:"Phonepe-Wallet",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:21,type:"Internal-Topup",from:"Bank",to:"AEPS",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:22,type:"Internal-ATM",from:"Bank",to:"Cash",flow:"Outflow",biz:"Non-Business",bank:"Bank"},{id:23,type:"Service-Out",from:"Cash",to:"AEPS",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:24,type:"Service-In",from:"Phonepe-Wallet",to:"Phonepe-Wallet",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:25,type:"Service-Out",from:"Cash",to:"Phonepe-Wallet",flow:"Outflow",biz:"Business",bank:"Non-Bank"},{id:26,type:"Service-In",from:"Cash",to:"Cash",flow:"Inflow",biz:"Business",bank:"Non-Bank"},{id:27,type:"Service-Out",from:"Bank",to:"Bank",flow:"Outflow",biz:"Business",bank:"Bank"},{id:28,type:"Service-In",from:"Bank",to:"Bank",flow:"Inflow",biz:"Business",bank:"Bank"},{id:29,type:"Service-Out",from:"Cash",to:"Bank",flow:"Outflow",biz:"Business",bank:"Bank"}];
 var CT=['Transfer-Out','Transfer-In','Aeps-WD','Aeps-Deposit'];
 var AN={"AEPS":"Spicemoney","Cash":"Cash","Bank":"Bank","Phonepe-Wallet":"PhonePe-Wallet","Phonepe-Business":"PhonePe-Business"};
 var ACCS=["AEPS","Cash","Bank","Phonepe-Wallet","Phonepe-Business"];
@@ -835,8 +835,20 @@ var ACC_PRIORITY={"Bank":4,"AEPS":3,"Phonepe-Wallet":3,"Phonepe-Business":3,"Cas
 var TYPE_ALIASES={"aeps-agent to dist":"Agent to Distributor","aeps-dist to agent":"Distributor To Agent","agent to distributor":"Agent to Distributor","distributor to agent":"Distributor To Agent","agent to dist":"Agent to Distributor","dist to agent":"Distributor To Agent"};
 function normalizeType(t){if(!t)return t;var k=String(t).trim().toLowerCase();if(TYPE_ALIASES[k])return TYPE_ALIASES[k];return String(t).trim()}
 var SPICEMONEY_INFLOW_TYPES=['Aeps-WD','Distributor To Agent','Aeps-Refund','Internal-Topup'];
-var SPICEMONEY_OUTFLOW_TYPES=['Aeps-Deposit','Service-Out','Agent to Distributor','Internal-Settlement','Aeps-Failed','Internal-Expense'];
-function getAccountFlow(tx,acc){var f=normalizeFlow(tx.flow);if(!f)return null;if(tx.from===acc&&tx.to===acc)return f;if(tx.from!==acc&&tx.to!==acc)return null;var fromPri=ACC_PRIORITY[tx.from]||0;var toPri=ACC_PRIORITY[tx.to]||0;var higherPriAcc=fromPri>=toPri?tx.from:tx.to;if(acc===higherPriAcc)return f;return f==='Inflow'?'Outflow':'Inflow'}
+var SPICEMONEY_OUTFLOW_TYPES=['Aeps-Deposit','Service-Out','Agent to Distributor','Internal-Settlement','Personal-Expense','Internal-Expense','Aeps-Failed'];
+function getAccountFlow(tx,acc){
+var f=normalizeFlow(tx.flow);
+if(!f)return null;
+if(tx.from!==acc&&tx.to!==acc)return null;
+if(tx.from===acc&&tx.to===acc)return f;
+var CASH_EXCLUDE=['Internal-Expense','Personal-Expense'];
+if(acc==='Cash'&&CASH_EXCLUDE.indexOf(normalizeType(tx.type))>=0)return null;
+var fromPri=ACC_PRIORITY[tx.from]||0;
+var toPri=ACC_PRIORITY[tx.to]||0;
+var higherPriAcc=fromPri>=toPri?tx.from:tx.to;
+if(acc===higherPriAcc)return f;
+return f==='Inflow'?'Outflow':'Inflow';
+}
 var RULES_BY_TYPE_ROUTE={};for(var ri=0;ri<R.length;ri++){var key=R[ri].type+'|'+R[ri].from+'|'+R[ri].to;RULES_BY_TYPE_ROUTE[key]=R[ri]}
 var RULES_BY_TYPE={};for(var ri2=0;ri2<R.length;ri2++){if(!RULES_BY_TYPE[R[ri2].type])RULES_BY_TYPE[R[ri2].type]=R[ri2]}
 function normalizeFlow(val){if(!val)return null;var s=String(val).trim().toLowerCase();if(s==='inflow'||s==='in')return 'Inflow';if(s==='outflow'||s==='out')return 'Outflow';return null}
@@ -963,7 +975,7 @@ rb.title=redoStack.length?'Redo: '+redoStack[redoStack.length-1].action:'Nothing
 }
 
 var TXS=JSON.parse(localStorage.getItem('sm_t')||'[]'),OB=JSON.parse(localStorage.getItem('sm_ob')||'{}');
-var eId=null,selRule=null,compactView=false,msMode=false,selected=new Set(),pendingCSV=null,dateGroupCounts={},sbCollapsed=localStorage.getItem('sb_col')==='1';
+var eId=null,selRule=null,compactView=false,msMode=false,selected=new Set(),pendingCSV=null,dateGroupCounts={},sbCollapsed=localStorage.getItem('sb_col')==='1',dupMode=false;
 var monthList=[],monthIdx=0;
 var lastSkipped=[],skipFilterCat='All',_pendingConfirmAction=null;
 function sv(actionName){if(actionName){pushUndo(actionName);lastAction=actionName;}localStorage.setItem('sm_t',JSON.stringify(TXS));fbSave();}
@@ -1017,16 +1029,17 @@ function tSb(){document.getElementById('sb').classList.toggle('open');document.g
 function quickEntry(){
 eId=null;
 _editScrollTarget=null;
-goPg('newentry');
+dupMode=false;
+goPg('newentry',true);
 document.getElementById('nePage').textContent='+ New Transaction';
 document.getElementById('nePage').style.color='var(--em)';
 document.getElementById('neSubtitle').textContent='Add a new transaction entry';
-document.getElementById('addBtn').textContent='Add Transaction';
 document.getElementById('cancelBtn').style.display='none';
 document.getElementById('resetBtn').style.display='inline-flex';
 rstF();
 setDt();
 rTid();
+document.getElementById('addBtn').textContent='Add Transaction';
 }
 function goPg(p,skipInit){
 var comingFromTxn=document.getElementById('pg-transactions').classList.contains('act');
@@ -1109,7 +1122,7 @@ document.getElementById('fRefId').value=id;
 }
 function tNF(){var f=document.getElementById('nfCard');f.style.display='block';document.getElementById('nfTitle').textContent='+ New Transaction';document.getElementById('nfTitle').style.color='var(--em)';document.getElementById('addBtn').textContent='Add Transaction';document.getElementById('cancelBtn').style.display='none';eId=null;rstF();window.scrollTo({top:0,behavior:'auto'});}
 function closeNF(){document.getElementById('nfCard').style.display='none';if(_editScrollTarget){var scrollId=_editScrollTarget;_editScrollTarget=null;setTimeout(function(){var cards=document.querySelectorAll('.ti-n, .ti-c');for(var i=0;i<cards.length;i++){var te=cards[i].querySelector('[id^="te-"]');if(te&&te.id==='te-'+scrollId){cards[i].scrollIntoView({behavior:'auto',block:'center'});cards[i].style.boxShadow='0 0 0 2px var(--am)';setTimeout(function(){for(var j=0;j<cards.length;j++)cards[j].style.boxShadow=''},1500);break;}}},100);}eId=null;rstF();}
-function cancelEdit(){var scrollId=_editScrollTarget;_editScrollTarget=null;eId=null;rstF();/* Go back to transactions page*/goPg('transactions');/* Scroll to the transaction we were editing*/if(scrollId){setTimeout(function(){var cards=document.querySelectorAll('.ti-n, .ti-c');for(var i=0;i<cards.length;i++){var te=cards[i].querySelector('[id^="te-"]');if(te&&te.id==='te-'+scrollId){cards[i].scrollIntoView({behavior:'auto',block:'center'});cards[i].style.boxShadow='0 0 0 2px var(--am)';setTimeout(function(){for(var j=0;j<cards.length;j++)cards[j].style.boxShadow=''},1500);break;}}},150);}}
+function cancelEdit(){var scrollId=_editScrollTarget;_editScrollTarget=null;eId=null;dupMode=false;rstF();/* Go back to transactions page*/goPg('transactions');/* Scroll to the transaction we were editing*/if(scrollId){setTimeout(function(){var cards=document.querySelectorAll('.ti-n, .ti-c');for(var i=0;i<cards.length;i++){var te=cards[i].querySelector('[id^="te-"]');if(te&&te.id==='te-'+scrollId){cards[i].scrollIntoView({behavior:'auto',block:'center'});cards[i].style.boxShadow='0 0 0 2px var(--am)';setTimeout(function(){for(var j=0;j<cards.length;j++)cards[j].style.boxShadow=''},1500);break;}}},150);}}
 function rstF(){
 document.getElementById('fType').value='';
 document.getElementById('fTitle').value='';
@@ -1127,6 +1140,7 @@ document.getElementById('fMsg').style.display='none';
 selRule=null;
 }
 function resetForm(){
+dupMode=false;
 rstF();
 setDt();
 sMsg('✓ Form reset','s');
@@ -1199,11 +1213,26 @@ break;
 TXS.unshift(tx);
 sv('Add transaction');
 
-// New entry mode: stay on the same page, reset form for next entry
+if(dupMode){
+// Duplicate mode: only reset amount, commission, discount, txnId
+document.getElementById('fAmt').value='';
+document.getElementById('fCom').value='';
+document.getElementById('fDisc').value='0';
+document.getElementById('fTid').value='';
+document.getElementById('fNetComm').textContent='₹0';
+document.getElementById('fNetComm').style.color='var(--t3)';
+document.getElementById('commBar').style.display='none';
+rTid();
+document.getElementById('addBtn').textContent='Save & Next';
+sMsg('✓ Saved: '+tx.type+' • ₹'+fn(tx.amount)+' — Enter next amount','s');
+}else{
+// Normal new entry mode: full reset
 rstF();
 setDt();
 rTid();
+document.getElementById('addBtn').textContent='Add Transaction';
 sMsg('✓ Transaction saved: '+tx.type+' • ₹'+fn(tx.amount),'s');
+}
 }
 }
 
@@ -1592,14 +1621,13 @@ window.scrollTo({top:0,behavior:'auto'});
 function dupTx(id){
 var tx=TXS.find(function(t){return t.id===id});
 if(!tx)return;
-// Navigate to new entry page (NOT edit mode)
 eId=null;
 _editScrollTarget=null;
+dupMode=true;
 goPg('newentry',true);
 document.getElementById('nePage').textContent='+ Duplicate Transaction';
 document.getElementById('nePage').style.color='var(--em)';
 document.getElementById('neSubtitle').textContent='New entry based on: '+tx.type+' • ₹'+fn(tx.amount);
-document.getElementById('addBtn').textContent='Add Transaction';
 document.getElementById('cancelBtn').style.display='none';
 document.getElementById('resetBtn').style.display='inline-flex';
 setTimeout(function(){
@@ -1618,12 +1646,12 @@ document.getElementById('fTid').value='';
 rTid();
 updNetComm();
 calcComm();
-// Keep the user's original commission if they had one
 var existingComm=tx.commission||0;
 if(existingComm>0){
 document.getElementById('fCom').value=existingComm;
 updNetComm();
 }
+document.getElementById('addBtn').textContent='Save & Next';
 },50);
 },20);
 window.scrollTo({top:0,behavior:'auto'});
