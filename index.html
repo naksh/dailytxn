@@ -415,7 +415,7 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .qr-group-body{transition:max-height .25s ease;display:flex;flex-direction:column;gap:8px;padding-top:6px;position:relative}
 .qr-group-body.collapsed{max-height:0!important;overflow:hidden;padding-top:0;gap:0}
 .qr-group-body.collapsed{max-height:0!important;overflow:hidden}
-.modal-qr{max-width:520px;max-height:85vh;display:flex;flex-direction:column}
+.modal-qr{max-width:520px;max-height:90vh;display:flex;flex-direction:column}
 .modal-qr .mqr-body{overflow-y:auto;flex:1}
 .modal-qr .mqr-count{font-size:14px;font-weight:700;color:var(--am);margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .modal-qr .mqr-field{margin-bottom:12px}
@@ -436,6 +436,11 @@ body.sb-col .main{margin-left:var(--sb-cw)}
 .modal-qr .mqr-preview .mp-row:last-child{border:none}
 .modal-qr .mqr-preview .mp-row .mp-amt{font-weight:600;color:var(--t1)}
 .modal-qr .mqr-preview .mp-row .mp-comm{color:var(--am);font-weight:600}
+.modal-qr .mqr-fixed{flex-shrink:0;padding-bottom:12px;margin-bottom:8px;border-bottom:1px solid var(--bdr)}
+.modal-qr .mqr-body{padding:8px 8px 0 0}
+.modal-qr .mqr-toggle{margin-top:6px;margin-bottom:14px;box-sizing:border-box;max-width:100%}
+.modal-qr .mqr-field{margin-bottom:14px}
+.modal-qr .mqr-field:last-of-type{margin-bottom:8px}
 .undo-btn{padding:5px;border-radius:6px;background:transparent;border:1px solid var(--bdr);cursor:pointer;color:var(--t2);display:inline-flex;align-items:center;justify-content:center;transition:.2s}
 .undo-btn:hover:not(:disabled){border-color:var(--t2);color:var(--t1)}
 .undo-btn:disabled{opacity:.25;cursor:not-allowed}
@@ -660,9 +665,11 @@ Sign in with Google
 <h3 style="margin:0">⚡ Quick Review</h3>
 <button onclick="closeQrModal()" style="background:none;border:1px solid var(--bdr);border-radius:6px;padding:4px 8px;color:var(--t2);cursor:pointer;font-size:16px;line-height:1">✕</button>
 </div>
-<div class="mqr-body" style="overflow-y:auto;flex:1;min-height:0">
+<div class="mqr-fixed">
 <div class="mqr-count" id="qrCount">0 transactions selected</div>
-<div id="qrTypeInfo" style="display:none;background:var(--input);border:1px solid var(--bdr);border-radius:10px;padding:10px 0;display:grid;grid-template-columns:1fr 1fr 1fr;margin-bottom:14px"></div>
+<div id="qrTypeInfo" style="display:none;background:var(--input);border:1px solid var(--bdr);border-radius:10px;padding:10px 0;display:grid;grid-template-columns:1fr 1fr 1fr;margin-bottom:0"></div>
+</div>
+<div class="mqr-body" style="overflow-y:auto;flex:1;min-height:0">
 <div class="mqr-field">
 <label>Type</label>
 <select id="qrType" onchange="onQrTypeChange()"><option value="">— Keep existing —</option></select>
@@ -674,6 +681,10 @@ Sign in with Google
 <div class="mqr-toggle" onclick="toggleQrAutoComm()">
 <div class="mt-switch" id="qrAutoCommSwitch"></div>
 <div class="mt-label"><b>Auto Commission</b> — ₹10 per ₹1000 block</div>
+</div>
+<div class="mqr-field">
+<label>Title</label>
+<input type="text" id="qrTitle" placeholder="Enter title for all selected...">
 </div>
 <div class="mqr-field">
 <label>Note</label>
@@ -3570,6 +3581,7 @@ o.value=uTypes[j];o.textContent=uTypes[j];
 sel.appendChild(o);
 }
 document.getElementById('qrCount').textContent=qrSelected.size+' transactions selected';
+document.getElementById('qrTitle').value='';
 document.getElementById('qrNote').value='';
 document.getElementById('qrStatus').value='';
 document.getElementById('qrFlowC').style.display='none';
@@ -3708,6 +3720,7 @@ prev.innerHTML=html;
 
 function applyQuickReview(){
 var newType=document.getElementById('qrType').value;
+var newTitle=document.getElementById('qrTitle').value.trim();
 var newNote=document.getElementById('qrNote').value.trim();
 var newStatus=document.getElementById('qrStatus').value;
 var count=0;
@@ -3753,8 +3766,11 @@ var comm=calcSmartComm(tx);
 tx.commission=comm;
 tx.netCommission=Math.max(0,comm-(tx.discount||0));
 }
+if(newTitle){
+tx.title=newTitle;
+}
 if(newNote){
-tx.title=newNote;
+tx.note=newNote;
 }
 if(newStatus){
 tx.status=newStatus;
